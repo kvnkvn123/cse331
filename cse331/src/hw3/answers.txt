@@ -34,4 +34,9 @@ getFibTerm(n - 1) + getFibTerm(n - 2).
 
 Problem 7. 
 
-<replace this line with your answers>
+Changes made in Ball:
+(a) Changed volume method to assign argument value to this.volume
+so that the class field would be updates
+(b) Changed the return value in getVolume() from 0 to this.volume,
+so accurately return the volume of the ball
+
