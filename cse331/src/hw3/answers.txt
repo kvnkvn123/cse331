@@ -56,4 +56,36 @@ and cons; if the BallContainer is frequently changed and has
  I think that having an if statement in each of these methods is
   more efficient that computing the volume each time getVolume() 
   is called. 
+  
+ (c) Box design question
+ (1) I could think of a few different ways to implement
+ getBallsFromSmallest(). In many ways, I thought it would be most
+ efficient to do away with the use of BallContainer in Box, or at
+ least change the BallContainer set to a TreeSet or some other 
+ ordered collection. However, given the specification of not changing
+ these previous classes, I considered at first creating a parallel
+ data structure to the ballContainer which would store the balls in sorted order, 
+ such as a TreeSet. This would be similar to having the field totalVolume in 
+ BallContainer to avoid computing the total Volume every time get volume
+ is called. Since this field would only store references to Ball objects,
+ it would not take much space, and simple additions to the add and
+ remove method would allow the class to update this field in sync with
+ the ballContainer field.
+ 	The approach that I ultimately went with was to find the ordering
+ of the balls in the box every time the method getBallFromSmallest() 
+ is called. This approach involved using the iterator (for each loop)
+ to add all balls in bbox to a list, sort the list using the build in
+ sort method in the List interface and then return an iterator of this
+ list.
+ 	Both of these approaches required the use of a comparator class
+ to compare the volume of the Ball objects. 
+ 
+(2) Again, to answer which approach is better, it would be necessary to
+know how these classes are to be used. The first approach would probably
+have been more efficient in the long run, since it does not involve 
+creating new data structures and doing a sorting algorithm with
+every call of the getBallFromSmallest() method. However, I chose
+to go with the second method because it was easier to write, and
+it seemed that, given the specification, we were trying to make this
+class easy to write by recycling code. 
 
