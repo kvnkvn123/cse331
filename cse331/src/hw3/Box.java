@@ -3,8 +3,9 @@
  */
 package hw3;
 
-import java.lang.Iterable;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * This is a container can be used to contain Balls. The key
@@ -71,9 +72,12 @@ public class Box implements Iterable<Ball> {
      * ascending size.
      */
     public Iterator<Ball> getBallsFromSmallest() {
-    	
-        // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+    	List<Ball> list = new ArrayList<Ball>();
+    	for (Ball b : ballContainer) {
+    		list.add(b);
+    	}
+    	list.sort(new VolumeComparator());
+    	return list.iterator();
     }
 
     /**
