@@ -17,14 +17,17 @@ public class Box implements Iterable<Ball> {
      * ballContainer is used to internally store balls for this Box
      */
     private BallContainer ballContainer;
+    
+    // Total volume of balls that this box can contain
+    private double maxVolume;
 
     /**
      * Constructor that creates a new box.
      * @param maxVolume Total volume of balls that this box can contain.
      */
     public Box(double maxVolume) {
-        // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        ballContainer = new BallContainer();
+        this.maxVolume = maxVolume;
     }
 
     /**
@@ -52,8 +55,12 @@ public class Box implements Iterable<Ball> {
      * if the box is too full to contain the new ball.
      */
     public boolean add(Ball b) {
-        // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+    	if (ballContainer.getVolume() + b.getVolume() > maxVolume) {
+    		return false;
+    	} else {
+    		return ballContainer.add(b);
+    	}
+
     }
 
     /**
