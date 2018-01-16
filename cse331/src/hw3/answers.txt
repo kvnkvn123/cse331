@@ -34,9 +34,26 @@ getFibTerm(n - 1) + getFibTerm(n - 2).
 
 Problem 7. 
 
-Changes made in Ball:
-(a) Changed volume method to assign argument value to this.volume
+(a)Changes made in Ball:
+(1) Changed volume method to assign argument value to this.volume
 so that the class field would be updates
-(b) Changed the return value in getVolume() from 0 to this.volume,
+(2) Changed the return value in getVolume() from 0 to this.volume,
 so accurately return the volume of the ball
+
+(b)BallContainer design question:
+Of the two approaches to implementing getVolume(), I think there 
+would be a definite answer of which is better if we knew
+the way in which the class was going to be used. Both have pros
+and cons; if the BallContainer is frequently changed and has
+ small number of balls, having a getVolume() that computes the
+ volume each time it is called might be more efficient, while
+ if getVolume() is called frequently, or there are a large
+ number of balls in the container, the approach of having 
+ a separate volume is probably most efficient. As it is, I chose
+ the approach of having a private field storing the volume of
+ all balls, and this value being modified each time the container 
+ is added to, removed from, or cleared. With no more information, 
+ I think that having an if statement in each of these methods is
+  more efficient that computing the volume each time getVolume() 
+  is called. 
 
