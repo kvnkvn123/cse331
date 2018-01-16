@@ -71,6 +71,7 @@ public class Box implements Iterable<Ball> {
      * ascending size.
      */
     public Iterator<Ball> getBallsFromSmallest() {
+    	
         // Your code goes here.  Remove the exception after you're done.
         throw new RuntimeException("Method not implemented");
     }
