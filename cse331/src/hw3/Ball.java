@@ -3,13 +3,11 @@
  */
 package hw3;
 
-import java.util.comparator;
-
 /**
  * This is a simple object that has a volume.
  */
 // You may not make Ball implement the Comparable interface.
-public class Ball implements Comparator<Ball> {
+public class Ball {
 
     private double volume;
 
@@ -28,16 +26,5 @@ public class Ball implements Comparator<Ball> {
     public double getVolume() {
         return this.volume;
     }
-    
-    public int compare(Ball b1, Ball b2) {
-    	double diff = b1.volume - b2.volume;
-    	if (diff < 0) {
-    		return -1;
-    	} else if (diff > 0) {
-    		return 1;
-    	} else {
-    		return 0;
-    	}
-    }
-
 }
+
