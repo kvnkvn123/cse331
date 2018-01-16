@@ -14,19 +14,21 @@ the getFibTerm method from if (n <= 0) to if (n < 0).
 
 
 (b) Fibonacci failed the testBaseCase test because it threw
-an IllegalArgumentException for the base case zero. This 
+an IllegalArgumentException for the base case 0. This 
 was also fixed by the change mentioned in the answer about, by
 changing the IllegalArgumentException test of
-the getFibTerm method from if (n <= 0) to if (n < 0).
+the getFibTerm method from if (n <= 0) to if (n < 0). 
+(Base cases tested were 1 and 0)
 
 
-(c) Fibanacci failed the testInductiveCase test for a number
+(c) Fibonacci failed the testInductiveCase test for a number
 of reasons; it threw an exception for the 0th fibonacci
 number, it calculated 1 and 2 as the base cases, and its
 recursive definition was wrong (it subtracted instead of
 added the previous two fibonacci numbers. So, apart from the
 change mentioned in the previous two answers, I had to
 change the else if test (base cases) to else if (n < 2),
+(so that the base cases had index 0 and 1)
 and I needed to change the else test (recursive case) 
 from getFibTerm(n - 1) - getFibTerm(n - 2) to
 getFibTerm(n - 1) + getFibTerm(n - 2). 
@@ -38,7 +40,7 @@ Problem 7.
 (1) Changed volume method to assign argument value to this.volume
 so that the class field would be updates
 (2) Changed the return value in getVolume() from 0 to this.volume,
-so accurately return the volume of the ball
+to accurately return the volume of the ball
 
 (b)BallContainer design question:
 Of the two approaches to implementing getVolume(), I think there 
