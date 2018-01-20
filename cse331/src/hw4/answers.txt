@@ -90,13 +90,45 @@ Pseudocode:
 
 Problem 1.
 
-(a)
+(a) If the representation invariant was changed is mentioned:
+	1. The two argument constructor would not need to change,
+		but could change to omit finding the reduced form of given
+		arguments, leading so slightly less runtime and complexity,
+		and easir readability
+	2. checkRep() would have to change to no longer check for
+		reduced form. Reading to slightly less runtime and complexity
+	3. hashCode() method would need to have code to find the
+		reduced form of a the numer and denom and then create a 
+		hashcode from that to ensure equal fractions create equal
+		hashcodes. Slight increase in time and comlexity.
+	4. equals() method would need to have code to find the reduced
+		form of both this and the argument RatNum, so that
+		it could compare for equality if neither equal NaN. This
+		would increase complexity and runtime, and change code 
+		clarity slightly.
+	5. toString() would need to have code to compute the reduced
+		form of the RatNum to ensure that returned string is
+		in reduced form. Slightly less efficient
+	
+	All these methods could have the same code to reduce the RatNum
+	factored out into a private method, however, it seems easier
+	to keep the RepInvariant as it currently is.
 
 
-(b)
+(b) In the first case, this change would make the class mutable, which
+	is against the RatNum specification. In terms of the method specifications
+	none of these methods have a modifies clause, however for these
+	new implementations, they would all need a @requires this in the documentation.
+	
 
-
-(c)
+(c) Calls to checkRep() are only needed in the constructor because the 
+	RatNum class in immutable. Due to the fact that the fields are
+	final, the fields and themselves immutable, and
+	the client never gains access to the fields, and because
+	there are no mutator methods (methods either observe and report
+	RatNum conditions or create new RatNums) the only 
+	place where the repInvariant of the class could be violated is in
+	the constructor.
 
 
 Problem 2.
