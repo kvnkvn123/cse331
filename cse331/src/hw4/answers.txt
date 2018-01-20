@@ -5,7 +5,17 @@ Name:  <replace this with your name>
 
 Problem 0.
 
-(a)
+(a) Let the polynomial addition previously defined be represented by add(a, b) 
+where a and b are two polynomials (this function would return a new polynomial.
+Note that this addition is valid for adding a polyn
+Pseudocode:
+r = p * q:
+	set r = 0;
+	for each term t_p in p:
+		for each term t_q in q:
+			// note temp is a polynomial
+			set temp = t_p * t_ q;
+			r = add(r, temp);
 
 
 (b)
