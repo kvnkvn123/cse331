@@ -5,9 +5,9 @@ Name:  <replace this with your name>
 
 Problem 0.
 
-(a) Let the polynomial addition previously defined be represented by add(a, b) 
-where a and b are two polynomials (this function would return a new polynomial.
-Note that this addition is valid for adding a polyn
+(a) We use the polynomial addition previously defined in the example.
+(This addition returns a new polynomial)
+We also assume that we can set a polynomial equal to a given term
 Pseudocode:
 r = p * q:
 	set r = 0;
@@ -15,10 +15,19 @@ r = p * q:
 		for each term t_q in q:
 			// note temp is a polynomial
 			set temp = t_p * t_ q;
-			r = add(r, temp);
+			// this is polynomial addition
+			r = r + temp;
 
 
-(b)
+(b) Let degree(a) be a function that returns the degree of
+the polynomial a.
+Psuedocode:
+q = u / v:
+	set remainder = u by making a term by term copy of all terms in u
+	set q = 0;
+	while (degree(remainder) >= degree(v)):
+		set t1 = term with largest degree in remainder
+		set 
 
 
 (c)
