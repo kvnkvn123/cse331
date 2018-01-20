@@ -5,32 +5,87 @@ Name:  <replace this with your name>
 
 Problem 0.
 
-(a) We use the polynomial addition previously defined in the example.
-(This addition returns a new polynomial)
-We also assume that we can set a polynomial equal to a given term
+We define a method for adding polynomials to terms
+as defined by the following pseudocode:
+
+	// here t_p is a polynomial term, q is a polynomial
+    r = t_p + q:
+        set r = q by making a term-by-term copy of all terms in q to r
+        if any term, t_r, in r has the same degree as t_p,
+            then replace t_r in r with the sum of t_p and t_r
+        else insert t_p into r as a new term
+		return r;
+
+
+
+(a)
 Pseudocode:
-r = p * q:
-	set r = 0;
-	for each term t_p in p:
-		for each term t_q in q:
-			// note temp is a polynomial
-			set temp = t_p * t_ q;
-			// this is polynomial addition
-			r = r + temp;
+
+	r = p * q:
+		set r = 0;
+		for each term t_p in p:
+			for each term t_q in q:
+				// using addition of polynomial and terms defined above
+				r = r + (t_p * t_q);
 
 
-(b) Let degree(a) be a function that returns the degree of
-the polynomial a.
-Psuedocode:
-q = u / v:
-	set remainder = u by making a term by term copy of all terms in u
+(b) Note: we use polynomial addition and addition between
+		polynomials and terms as defined above and in
+		example 
+		
+Pseudocode:
+
+	q = u / v:
+		set rem = u by making a term by term copy of all terms in u
+		set q = 0;
+		while (degree of rem is >= degree of v):
+			set t_1 = term with largest degree in rem divided
+					 by term with largest degree in v;
+			set temp = 0;
+			foreach term t_v in v:
+				temp = temp + (t_1 * t_v * -1);
+			rem = rem + temp;
+			q = q + t_1;	;	
+
+
+(c) Illustration of (x^3+x-1) / (x+1) = x^2-x+2:
+
+	set rem = copy of u = (x^3+x-1);
 	set q = 0;
-	while (degree(remainder) >= degree(v)):
-		set t1 = term with largest degree in remainder
-		set 
-
-
-(c)
+	while (degree of rem >= degree of v) {
+		Iteration 1: passes test (3 >= 1)
+			set t_1 = x^3 / x = x^2;
+			set temp = 0;
+			for each term t_v in v:
+				Iteration 1: (x)
+					temp = 0 + (x^2 * x * -1) = -x^3;
+				Iteration 2: (1)
+					temp = -x^3 + (x^2 * 1 * -1) = (-x^3 - x^2);
+			rem = (x^3+x-1) + (-x^3 - x^2) = (-x^2 + x - 1);
+			q = 0 + x^2 = x^2;
+		Iteration 2: passes test (2 >= 1)
+			set t_1 = -x^2 / x = -x;
+			set temp = 0;
+			for each term t_v in v:
+				Iteration 1: (x)
+					temp = 0 + (-x * x * -1) = x^2;
+				Iteration 2: (1)
+					temp = x^2 + (-x * 1 * -1) = (x^2 + x);
+			rem = (-x^2 + x - 1 + (x^2 + x) = (2x - 1);
+			q = x^2 + (-x) = x^2 - x;
+		Iteration 3: passes test (1 >= 1)
+			set t_1 = 2x / x = 2;
+			set temp = 0;
+			for each term t_v in v:
+				Iteration 1: (x)
+					temp = 0 + (2 * x * -1) = -2x;
+				Iteration 2: (1)
+					temp = -2x + (2 * 1 * -1) = (-2x - 2);
+			rem = (2x - 1) + (-2x - 2) = -3;
+			q = (x^2 - x) + 2 = (x^2 - x + 2);
+		Iteration 4: fails test (0 !>= 1)
+		
+		we are done: q = (x^2 - x + 2)
 
 
 Problem 1.
