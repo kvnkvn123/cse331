@@ -134,17 +134,6 @@ public final class RatPoly {
   		}
   	}
   	return RatTerm.ZERO;
-/*  	int i = 0;
-  	int expt = deg + 1;
-  	while (i < terms.size() && expt >= deg) {
-  		RatTerm rt = terms.get(i);
-  		expt = rt.getExpt();
-  		if (expt == deg) {
-  			return rt;
-  		}
-  		i++;
-  	}
-  	return RatTerm.ZERO;*/
   }
 
   /**
@@ -160,38 +149,6 @@ public final class RatPoly {
   		}
   	}
   	return false;
-  }
-
-  /**
-   * Scales coefficients within 'lst' by 'scalar' (helper procedure).
-   *
-   * @param lst The RatTerms to be scaled.
-   * @param scalar the value by which to scale coefficients in lst.
-   * @requires lst, scalar != null
-   * @modifies lst
-   * @effects Forall i s.t. 0 <= i < lst.size(), if lst.get(i) = (C . E) then
-   *          lst_post.get(i) = (C*scalar . E)
-   * @see hw4.RatTerm regarding (C . E) notation
-   */
-  private static void scaleCoeff(List<RatTerm> lst, RatNum scalar) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->scaleCoeff() is not yet implemented");
-  }
-
-  /**
-   * Increments exponents within 'lst' by 'degree' (helper procedure).
-   *
-   * @param lst The RatTerms whose exponents are to be incremented.
-   * @param degree the value by which to increment exponents in lst.
-   * @requires lst != null
-   * @modifies lst
-   * @effects Forall i s.t. 0 <= i < lst.size(), if (C . E) = lst.get(i) then
-   *          lst_post.get(i) = (C . E+degree)
-   * @see hw4.RatTerm regarding (C . E) notation
-   */
-  private static void incremExpt(List<RatTerm> lst, int degree) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->incremExpt() is not yet implemented");
   }
 
   /**
@@ -218,6 +175,7 @@ public final class RatPoly {
    *          cofind(lst,newTerm.getExpt()) + newTerm.getCoeff())
    */
   private static void sortedInsert(List<RatTerm> lst, RatTerm newTerm) {
+  	// no change if newTerm is zero
   	if (!newTerm.isZero()) {
 	  	int expt = newTerm.getExpt();
 	  	if (lst.isEmpty() || lst.get(0).getExpt() < expt) {
@@ -229,6 +187,7 @@ public final class RatPoly {
 				}
 				if (i == lst.size()) {
 					lst.add(newTerm);
+				// if newTerm has same degree as existing term
 				} else if (lst.get(i).getExpt() == expt){
 					RatNum newCoeff = lst.get(i).getCoeff().add(newTerm.getCoeff());
 					if (newCoeff.equals(RatNum.ZERO)) {

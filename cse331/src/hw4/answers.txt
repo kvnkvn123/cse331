@@ -115,15 +115,15 @@ Problem 1.
 	to keep the RepInvariant as it currently is.
 
 
-(b) In the first case, this change would make the class mutable, which
-	is against the RatNum specification. In terms of the method specifications
-	none of these methods have a modifies clause, however for these
-	new implementations, they would all need a @requires this in the documentation.
+(b) These changes would fail to meet the class specification since they would
+	make RatNum mutable which is against the specification. These changed would
+	also not meet the method specifications because they modify this, but 
+	none of these methods have a modifies clause.
 	
 
 (c) Calls to checkRep() are only needed in the constructor because the 
-	RatNum class in immutable. Due to the fact that the fields are
-	final, the fields and themselves immutable, and
+	RatNum class is immutable. Due to the fact that the fields are
+	final, the fields are themselves immutable, and
 	the client never gains access to the fields, and because
 	there are no mutator methods (methods either observe and report
 	RatNum conditions or create new RatNums) the only 
@@ -134,15 +134,15 @@ Problem 1.
 Problem 2.
 
 (a) I placed a checkRep() method at the start of every public method. In
-my methods, it did not make sense to place it at the end, since either a
-constructor was called (which calls checkRep()) or there was no meaningful
-place to place checkRep(), since there is not point placing it after a return.
-These calls were placed as a precaution; many of my methods depended on the 
-repInvariant being true. In some cases, it seemed unnecessary, but was kept
-anyway.
+	my methods, it did not make sense to place it at the end, since either a
+	constructor was called (which calls checkRep()) or there was no meaningful
+	place to place checkRep(), since there is no point placing it after a return.
+	These calls were placed as a precaution; many of my methods depended on the 
+	repInvariant being true. In some cases, it seemed unnecessary, but was kept
+	anyway.
 
 
-(b)	1. The toString methods would have to be changed to return just 0 for
+(b)	1. The toString() method would have to be changed to return just 0 for
 	the zero RatTerm; currently this is tested under the if e == 0 test,
 	this would just require an extra test for if arg.isZero(), not much
 	complexity added.
@@ -157,7 +157,7 @@ anyway.
 
 
 (c) 1. The constructor would need to change, checking if the given
-	coeff is NaN, and setting expt to zero is so. This would add one test
+	coeff is NaN, and setting expt to zero if so. This would add one test
 	increasing complexity slightly
 	2. checkRep() would obviously need to change
 	
@@ -172,3 +172,5 @@ Problem 5.
 1. x^9+x^5+x^3-x^2
 2. x^5+x^3+x
 3. x^4+x^3-x^2-x+1
+4. NaN
+5. 0

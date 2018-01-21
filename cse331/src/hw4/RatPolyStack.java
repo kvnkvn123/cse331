@@ -58,6 +58,7 @@ public final class RatPolyStack implements Iterable<RatPoly> {
   public void push(RatPoly p) {
   	checkRep();
   	polys.push(p);
+  	checkRep();
   }
 
   /**
