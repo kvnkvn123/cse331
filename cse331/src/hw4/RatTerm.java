@@ -92,7 +92,7 @@ public final class RatTerm {
    * @return true if and only if this has NaN as a coefficient.
    */
   public boolean isNaN() {
-    return this.equals(NaN);
+    return this.coeff.isNaN();
   }
 
   /**
@@ -204,9 +204,11 @@ public final class RatTerm {
    */
   public RatTerm div(RatTerm arg) {
   	checkRep();
-  	if (arg.equals(ZERO))
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatTerm->div() is not yet implemented");
+  	if (arg.isNaN() || this.isNaN() || arg.equals(ZERO)) {
+  		return NaN;
+  	} else {
+  		return new RatTerm(this.coeff.div(arg.coeff), this.expt - arg.expt);
+  	}
   }
 
   /**
@@ -222,15 +224,21 @@ public final class RatTerm {
    *         invariant stating that b is never less than 0.)
    */
   public RatTerm differentiate() {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatTerm->differentiate() is not yet implemented");
+  	checkRep();
+  	if (this.isNaN()) {
+  		return NaN;
+  	} else if (this.expt == 0) {
+  		return ZERO;
+  	} else {
+  		return new RatTerm(this.coeff.mul(new RatNum(this.expt)), this.expt - 1);
+  	}
   }
 
   /**
    * Returns the antiderivative of this RatTerm.
    *
    * @return a RatTerm, q, such that dq/dx = this where the constant of
-   *         intergration is assumed to be 0. In other words, q is the
+   *         integration is assumed to be 0. In other words, q is the
    *         antiderivative of this. If this.isNaN(), then return some q such
    *         that q.isNaN()
    *         <p>
@@ -240,9 +248,13 @@ public final class RatTerm {
    *         stating that b is never less than 0.)
    */
   public RatTerm antiDifferentiate() {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException(
-        "RatTerm->antiDifferentiate() unimplemented!");
+  	checkRep();
+  	if (this.isNaN()) {
+  		return NaN;
+  	} else {
+  		return new RatTerm(this.coeff.div(new RatNum(this.expt + 1)), 
+  											 this.expt + 1);
+  	}
   }
 
   /**
