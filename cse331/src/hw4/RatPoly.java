@@ -73,7 +73,9 @@ public final class RatPoly {
    */
   public RatPoly(RatTerm rt) {
   	terms = new ArrayList<RatTerm>();
-  	terms.add(rt);
+  	if (!rt.getCoeff().equals(RatNum.ZERO)) {
+  		terms.add(rt);
+  	}
   	checkRep();
   }
 
@@ -126,7 +128,13 @@ public final class RatPoly {
    */
   public RatTerm getTerm(int deg) {
   	checkRep();
-  	int i = 0;
+  	for (RatTerm rt : terms) {
+  		if (rt.getExpt() == deg) {
+  			return rt;
+  		}
+  	}
+  	return RatTerm.ZERO;
+/*  	int i = 0;
   	int expt = deg + 1;
   	while (i < terms.size() && expt >= deg) {
   		RatTerm rt = terms.get(i);
@@ -136,7 +144,7 @@ public final class RatPoly {
   		}
   		i++;
   	}
-  	return RatTerm.ZERO;
+  	return RatTerm.ZERO;*/
   }
 
   /**
@@ -216,16 +224,19 @@ public final class RatPoly {
 	  		lst.add(0, newTerm);
 	  	} else {
 	  		int i = 0; 
-				while (i + 1 < lst.size()) {
-					if (expt < lst.get(i).getExpt()) {
-						i++;
-					}
+				while (i < lst.size() && expt < lst.get(i).getExpt()) {
+					i++;
 				}
-				RatTerm rt = lst.get(i);
-				if (rt.getExpt() == newTerm.getExpt()) {
-					RatNum newCoeff = rt.getCoeff().add(newTerm.getCoeff());
-					lst.set(i, new RatTerm(newCoeff, expt));
-				} else {  	// rt.getExpt() < expt
+				if (i == lst.size()) {
+					lst.add(newTerm);
+				} else if (lst.get(i).getExpt() == expt){
+					RatNum newCoeff = lst.get(i).getCoeff().add(newTerm.getCoeff());
+					if (newCoeff.equals(RatNum.ZERO)) {
+						lst.remove(i);
+					} else {
+						lst.set(i, new RatTerm(newCoeff, expt));
+					}
+				} else {
 					lst.add(i, newTerm);
 				}
 			}
@@ -349,19 +360,18 @@ public final class RatPoly {
   		return NaN;
   	} else {
   		RatPoly rem = new RatPoly(this.terms);
-  		List<RatTerm> ans = new ArrayList<RatTerm>();
+  		RatPoly ans = ZERO;
   		RatTerm rt1 = p.terms.get(0);
-  		while (rem.degree() >= p.degree()) {
-  			RatTerm rt2 = rem.terms.get(1).div(rt1);
-  			List<RatTerm> lst1 = new ArrayList<RatTerm>();
+  		while (!rem.equals(ZERO) && rem.degree() >= p.degree()) {
+  			RatTerm rt2 = rem.terms.get(0).div(rt1);
+  			RatPoly temp = ZERO;
   			for (RatTerm rt : p.terms) {
-  				sortedInsert(lst1, rt.mul(rt2));
+  				temp = temp.add(new RatPoly(rt.mul(rt2)));
   			}
-  			RatPoly rp1 = new RatPoly(lst1);
-  			rem = rem.sub(rp1);
-  			sortedInsert(ans, rt2);
+  			rem = rem.sub(temp);
+  			ans = ans.add(new RatPoly(rt2));
   		}
-  		return new RatPoly(ans);
+  		return ans;
   	}
   }
 
