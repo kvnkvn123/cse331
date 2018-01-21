@@ -210,8 +210,26 @@ public final class RatPoly {
    *          cofind(lst,newTerm.getExpt()) + newTerm.getCoeff())
    */
   private static void sortedInsert(List<RatTerm> lst, RatTerm newTerm) {
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->sortedInsert() is not yet implemented");
+  	if (!newTerm.isZero()) {
+	  	int expt = newTerm.getExpt();
+	  	if (lst.isEmpty() || lst.get(0).getExpt() < expt) {
+	  		lst.add(0, newTerm);
+	  	} else {
+	  		int i = 0; 
+				while (i + 1 < lst.size()) {
+					if (expt < lst.get(i).getExpt()) {
+						i++;
+					}
+				}
+				RatTerm rt = lst.get(i);
+				if (rt.getExpt() == newTerm.getExpt()) {
+					RatNum newCoeff = rt.getCoeff().add(newTerm.getCoeff());
+					lst.set(i, new RatTerm(newCoeff, expt));
+				} else {  	// rt.getExpt() < expt
+					lst.add(i, newTerm);
+				}
+			}
+  	}
   }
 
   /**
@@ -240,8 +258,18 @@ public final class RatPoly {
    */
   public RatPoly add(RatPoly p) {
   	checkRep();
-    // TODO: Fill in this method, then remove the RuntimeException
-    throw new RuntimeException("RatPoly->add() is not yet implemented");
+  	if (this.isNaN() || p.isNaN()) {
+  		return NaN;
+  	} else {
+  		List<RatTerm> newTerms = new ArrayList<RatTerm>();
+  		for (RatTerm rt : terms) {
+  			sortedInsert(newTerms, rt);
+  		}
+  		for (RatTerm rt : p.terms) {
+  			sortedInsert(newTerms, rt);
+  		}
+  		return new RatPoly(newTerms);
+  	}
   }
 
   /**
