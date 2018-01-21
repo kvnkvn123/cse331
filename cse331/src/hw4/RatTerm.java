@@ -74,6 +74,7 @@ public final class RatTerm {
    * @return the coefficient of this RatTerm.
    */
   public RatNum getCoeff() {
+  	checkRep();
   	return coeff;
   }
 
@@ -83,6 +84,7 @@ public final class RatTerm {
    * @return the exponent of this RatTerm.
    */
   public int getExpt() {
+  	checkRep();
   	return expt;
   }
 
@@ -92,6 +94,7 @@ public final class RatTerm {
    * @return true if and only if this has NaN as a coefficient.
    */
   public boolean isNaN() {
+  	checkRep();
     return this.coeff.isNaN();
   }
 
@@ -114,6 +117,7 @@ public final class RatTerm {
    *         Double.NaN
    */
   public double eval(double d) {
+  	checkRep();
   	if (this.isNaN()) {
   		return Double.NaN;
   	} else {
@@ -127,6 +131,7 @@ public final class RatTerm {
    * @return a RatTerm equals to (-this). If this is NaN, then returns NaN.
    */
   public RatTerm negate() {
+  	checkRep();
   	if (this.isNaN()) {
   		return NaN;
   	} else {
@@ -150,11 +155,11 @@ public final class RatTerm {
   	if (this.isNaN() || arg.isNaN()) {
   		return NaN;
   	}
-  	if (this.expt != arg.expt & coeff != RatNum.ZERO 
-  			& arg.coeff != RatNum.ZERO) {
+  	if (this.expt != arg.expt & !this.isZero() 
+  			& !arg.isZero()) {
   		throw new IllegalArgumentException();
   	}
-  	if (this.expt != 0) {
+  	if (!this.isZero()) {
   		return new RatTerm(coeff.add(arg.coeff), this.expt);
   	} else {
   		return new RatTerm(coeff.add(arg.coeff), arg.expt);
@@ -204,7 +209,7 @@ public final class RatTerm {
    */
   public RatTerm div(RatTerm arg) {
   	checkRep();
-  	if (arg.isNaN() || this.isNaN() || arg.equals(ZERO)) {
+  	if (arg.isNaN() || this.isNaN() || arg.isZero()) {
   		return NaN;
   	} else {
   		return new RatTerm(this.coeff.div(arg.coeff), this.expt - arg.expt);

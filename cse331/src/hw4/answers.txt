@@ -133,13 +133,39 @@ Problem 1.
 
 Problem 2.
 
-(a)
+(a) I placed a checkRep() method at the start of every public method. In
+my methods, it did not make sense to place it at the end, since either a
+constructor was called (which calls checkRep()) or there was no meaningful
+place to place checkRep(), since there is not point placing it after a return.
+These calls were placed as a precaution; many of my methods depended on the 
+repInvariant being true. In some cases, it seemed unnecessary, but was kept
+anyway.
 
 
-(b)
+(b)	1. The toString methods would have to be changed to return just 0 for
+	the zero RatTerm; currently this is tested under the if e == 0 test,
+	this would just require an extra test for if arg.isZero(), not much
+	complexity added.
+	2. The hashCode() method would need to be changed to accomodate for 
+	zero, since two zero RatNum's nay have different exponents. This is
+	a small change in complexity (requiring an if statement)
+	3. The equals() method would need to change, to have a case for 
+	two RatNums that equal zero; this would be a small change in complexity.
+	4. Obviously, checkRep() would need to change.
+	5. The constructor does not need to change, but could change to allow
+	for zero values to have different exponents.	
 
 
-(c)
-
+(c) 1. The constructor would need to change, checking if the given
+	coeff is NaN, and setting expt to zero is so. This would add one test
+	increasing complexity slightly
+	2. checkRep() would obviously need to change
+	
+	In all, there are not many changed, since most of the code tests
+	for isNaN(), and then returms the standard field NaN if so. I prefer the
+	representation invariant that doesn't require constraints on the 
+	exponent, since it allows for an easier constructor and there is no
+	other difference.
+	
 
 Problem 5.
