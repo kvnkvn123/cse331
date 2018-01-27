@@ -1,14 +1,36 @@
 CSE 331 Homework 5.  Answers to Written questions.
 Edit this file to supply your answers.
 
-Name:  <replace this with your name>
+Name:  Tushar Khurana
 
 Problem 1. (Written exercises)
 
-(a)
+(a) 1. IntQueue1
+	
+	Representation Invariant:
+		entries != null 
+		
+	Abstraction Function:
+		AF(r) represents a queue of integers q such that
+		if q is empty, r.entries = []
+		otherwise, for q = [n1, n2, ..., n_k] of size k
+		n_i = r.entries.get(i - 1)   for 0 < i <= k
 
 
-(b)
+(b) 2. IntQueue2
+
+	Representation Invariant:
+		entries != null &&
+		size >= 0 && size <= entries.length &&
+		front >= 0 && front < entries.length 
+		
+	Abstraction Function:
+		AF(r) represents a queue of integers q such that
+		size of the queue = r.size
+		for nonempty q = [n1, n2, ..., n_k] of size k
+		n_i = r.entries[(front+1)%(r.entries.length)]  for 0 < i <= k
+		
+		
 
 
 (c)
