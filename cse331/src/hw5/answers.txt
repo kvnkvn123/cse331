@@ -15,9 +15,8 @@ Problem 1. (Written exercises)
 		if q is empty, r.entries = []
 		otherwise, for q = [n1, n2, ..., n_k] of size k
 		n_i = r.entries.get(i - 1)   for 0 < i <= k
-
-
-(b) 2. IntQueue2
+		
+	2. IntQueue2
 
 	Representation Invariant:
 		entries != null &&
@@ -29,11 +28,34 @@ Problem 1. (Written exercises)
 		size of the queue = r.size
 		for nonempty q = [n1, n2, ..., n_k] of size k
 		n_i = r.entries[(front+1)%(r.entries.length)]  for 0 < i <= k
+
+
+(b)  1. (c), (f), are the same = [1, 2, 3] for client
+	 2. (a), (d), and (g) are the same = [1, 2] for client
+	 3. (b) and (h) are the same = [2, 3, 4] for client
+	 4. (e) = [1, 2, 3, 4] for client
+	 
 		
 		
 
 
-(c)
+(c) 1. No, since it returns an immutable data type. 
+	2. Yes, since it returns an array which may be part of the rep
+	invariant for this class. 
+	3. This method will probably not expose the rep invariant directly 
+	since it will only can be called within the class, however it does
+	return a Date, and if this Date is called or returned inside a
+	public method and is mutable, it might expose representation.
+	4. No. This method returns an immutable String.
+	5. Yes. This method returns an interator, and if this iterator
+	is that of a private field (as opposed to a copy or a wrapped
+	Unmodifiable version of the field), it could allow clients to
+	remove parts of the field.
+	6. Yes. This is a constructor, however, if the client already
+	has a reference to the given list and the list is made one
+	of the fields of the cards and used as fields without
+	creating copies, then the client might have the ability to change
+	these objects. 
 
 
 Problem 2.  (Graph interface/operations)
