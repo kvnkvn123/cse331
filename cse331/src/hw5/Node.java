@@ -60,14 +60,25 @@ public class Node implements Comparable<Node>{
 	}
 	
 	/**
+	 * Returns a string representation of this node. Returns
+	 * a string of the form "node=<i>nodeData</i>", where 
+	 * <i>nodeData</i> is the data stored by the node. 
+	 * 
+	 * @returns Returns a string representation of this node
+	 */
+	public String toString() {
+		return null;
+	}
+	
+	/**
    * Standard equality operation.
    *
    * @param obj The object to be compared for equality.
    * @return true iff 'obj' is an instance of a Node and 'this' and 'obj'
    *         represent Nodes containing the same data.
    */
-  @Override
-  public boolean equals(/*@Nullable*/ Object obj) {
+/*  @Override
+  public boolean equals(@Nullable Object obj) {
     if (obj instanceof Node) {
       Node test = (Node) obj;
       return (this.data.equals(test.data));
@@ -75,5 +86,5 @@ public class Node implements Comparable<Node>{
       return false;
     }
   }
-
+*/
 }

@@ -15,10 +15,10 @@ package hw5;
  */
 public class Edge {
 	
-	/** The parent node of the edge */
+	/** Node from which the edge extends */
   private final Node fromNode;
 
-  /** The child node of the edge */
+  /** Node to which the edge extends */
   private final Node toNode;
 
   /** The information associated with this edge */
@@ -27,7 +27,7 @@ public class Edge {
   // Representation Invariant:
   //  this.fromNode != null && this.toNode != null &&
   //	this.label != null &&
-  //	!this.fromNode.equals(this.toNode) 
+  //	!this.fromNode.getData().equals(this.toNode.getData()) 
   //
   // Abstraction Function:
   //	AF(r) = an edge, e such such that
@@ -73,6 +73,18 @@ public class Edge {
 	 * 
 	 */
 	public String getLabel() {
+		return null;
+	}
+	
+	/**
+	 * Returns a string representation of this edge. Returns
+	 * a string of the form:
+	 * "(<i>from-Node.data</i>, <i>label</i>, <i>to-Node.data</i>)"
+	 * (String does not contain quotation marks)
+	 * 
+	 * @returns Returns a string representation of this edge
+	 */
+	public String toString() {
 		return null;
 	}
 
