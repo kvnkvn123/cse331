@@ -1,7 +1,8 @@
 package hw5;
 /**
- * This immutable class represents the concept of an edge in a directed, 
- * labeled graph
+ * <b>Edge</b> is an immutable representation of an edge in a directed, 
+ * labeled graph. An edge originates from a node and leads to
+ * another node, creating a parent child relationship between nodes.
  * 
  * Specified fields: 
  * @specfield from-node : node	// node from which the edge extends
@@ -15,21 +16,24 @@ package hw5;
 public class Edge {
 	
 	/** The parent node of the edge */
-  private Node fromNode;
+  private final Node fromNode;
 
   /** The child node of the edge */
-  private Node toNode;
+  private final Node toNode;
 
   /** The information associated with this edge */
-  private String label;
+  private final String label;
 
   // Representation Invariant:
-  //  ! (startX == endX && startY == endY)
+  //  this.fromNode != null && this.toNode != null &&
+  //	this.label != null &&
+  //	!this.fromNode.equals(this.toNode) 
   //
   // Abstraction Function:
-  //  AF(r) = a line, l, such that
-  //   l.start-point = ⟨r.startX, r.startY⟩
-  //   l.end-point = ⟨r.endX, r.endY⟩
+  //	AF(r) = an edge, e such such that
+  //	r.toNode = e.to-Node
+  //	r.fromNode = e.from-Node
+  //	r.label = e.label
   
   /**
    * @param fromNode The parent node of the new edge
@@ -39,8 +43,10 @@ public class Edge {
    * @effects Constructs a new Edge from the node fromNode
    *  to the node toNode with the given label
    */
-	public Edge() {
-		// TODO Auto-generated constructor stub
+	public Edge(Node toNode, Node fromNode, String label) {
+		this.toNode = toNode;
+		this.fromNode = fromNode;
+		this.label = label;
 	}
 	
 	/**
@@ -58,6 +64,15 @@ public class Edge {
 	 * 
 	 */
 	public Node getToNode() {
+		return null;
+	}
+	
+	/**
+	 * @requires this != null
+	 * @return The label associated with this edge 
+	 * 
+	 */
+	public String getLabel() {
 		return null;
 	}
 
