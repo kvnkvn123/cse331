@@ -1,14 +1,11 @@
 package hw5;
 
-import hw4.RatTerm;
-
 /**
  * <b>Node</b> is an immutable representation of a node in a 
  * directed, labeled graph. A node is connected to other nodes
  * through edges, and can have parent-child relationships
  * with other nodes.
  *
- * Specification fields:
  *  @specfield data : string // the data associated with this node
  *
  */
@@ -77,9 +74,11 @@ public class Node implements Comparable<Node>{
    * @return true iff 'obj' is an instance of a Node and 'this' and 'obj'
    *         represent Nodes containing the same data.
    */
-/*  @Override
-  public boolean equals(@Nullable Object obj) {
-    if (obj instanceof Node) {
+  @Override
+  public boolean equals(/*@Nullable**/ Object obj) {
+  	return false;
+  }
+/*  if (obj instanceof Node) {
       Node test = (Node) obj;
       return (this.data.equals(test.data));
     } else {
@@ -87,4 +86,19 @@ public class Node implements Comparable<Node>{
     }
   }
 */
+  
+  /** Standard hashCode function.
+  @return an int that all objects equal to this will also
+  return.
+   */
+  @Override
+  public int hashCode() {
+  	return 0;
+  }/*
+  	// all instances that are NaN must return the same hashcode;
+  	if (this.isNaN()) {
+  		return 0;
+  	}
+  	return (this.numer*2) + (this.denom*3);
+  }*/
 }

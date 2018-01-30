@@ -1,16 +1,24 @@
 package hw5;
+
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
- * <b>Edge</b> is an immutable representation of an edge in a directed, 
- * labeled graph. An edge originates from a node and leads to
- * another node, creating a parent child relationship between nodes.
+ * <b>Edge</b> is an immutable representation of one or more edges
+ * in a directed, labeled graph that originate from a particular 
+ * node and leads to another particular node, 
+ * creating a parent child relationship between these nodes.
  * 
  * Specified fields: 
  * @specfield from-node : node	// node from which the edge extends
  * @specfield to-node : node // node to which the edge extends
- * @specfield label : string // information associated with the edge
+ * @specfield labels : list of strings // list of labels of each of 
+ * 																		// the edges this object represents
  * 
  * Abstract Invariant:
- * 	An edge's from-node must be different from its to-node
+ * 	An edge's from-node must be different from its to-node. Also, the
+ * labels list cannot be empty; in other words, an edge object must
+ * represent at least one edge in the graph
  *
  */
 public class Edge {
@@ -22,18 +30,19 @@ public class Edge {
   private final Node toNode;
 
   /** The information associated with this edge */
-  private final String label;
+  private final Set<String> label;
 
   // Representation Invariant:
   //  this.fromNode != null && this.toNode != null &&
-  //	this.label != null &&
+  //	this.label != null && this.label.size() > 0 &&
   //	!this.fromNode.getData().equals(this.toNode.getData()) 
   //
   // Abstraction Function:
-  //	AF(r) = an edge, e such such that
-  //	r.toNode = e.to-Node
-  //	r.fromNode = e.from-Node
-  //	r.label = e.label
+  //	AF(r) = one or more edges in a graph, such that
+  //	r.toNode = node to which the edge(s) extend
+  //	r.fromNode = node from which the edge(s) originate
+  //	r.label.size() = number of edge(s) from from-node
+  //									 to the to-node
   
   /**
    * @param fromNode The parent node of the new edge
