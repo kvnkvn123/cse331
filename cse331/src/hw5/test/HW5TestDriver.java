@@ -2,6 +2,7 @@ package hw5.test;
 
 import java.io.*;
 import java.util.*;
+import hw5.Graph;
 
 /**
  * This class implements a testing driver which reads test scripts
@@ -52,7 +53,7 @@ public class HW5TestDriver {
 
     /** String -> Graph: maps the names of graphs to the actual graph **/
     //TODO for the student: Parameterize the next line correctly.
-    //private final Map<String, _______> graphs = new HashMap<String, ________>();
+    private final Map<String, Graph> graphs = new HashMap<String, Graph>();
     private final PrintWriter output;
     private final BufferedReader input;
 
@@ -130,10 +131,12 @@ public class HW5TestDriver {
     }
 
     private void createGraph(String graphName) {
-        // Insert your code here.
-
-        // graphs.put(graphName, ___);
-        // output.println(...);
+    	if (graphs.containsKey(graphName)) {
+    		output.println(graphName + " already exists");
+    	} else {
+    		graphs.put(graphName, new Graph());
+    		output.println("created graph " + graphName);
+    	}
     }
 
     private void addNode(List<String> arguments) {
@@ -148,10 +151,11 @@ public class HW5TestDriver {
     }
 
     private void addNode(String graphName, String nodeName) {
-        // Insert your code here.
-
-        // ___ = graphs.get(graphName);
-        // output.println(...);
+    	if (!graphs.containsKey(graphName)) {
+    		throw new IllegalArgumentException();
+    	}
+    	graphs.get(graphName).addNode(nodeName);
+        output.println("added node " + nodeName + " to " + graphName);
     }
 
     private void addEdge(List<String> arguments) {
@@ -169,10 +173,12 @@ public class HW5TestDriver {
 
     private void addEdge(String graphName, String parentName, String childName,
             String edgeLabel) {
-        // Insert your code here.
-
-        // ___ = graphs.get(graphName);
-        // output.println(...);
+    	if (!graphs.containsKey(graphName)) {
+  			throw new IllegalArgumentException();
+  		}
+    	graphs.get(graphName).addEdge(parentName, childName, edgeLabel);
+        output.println("added edge " + edgeLabel + " from " + parentName + 
+        				" to " + childName + " in " + graphName);
     }
 
     private void listNodes(List<String> arguments) {
@@ -185,10 +191,15 @@ public class HW5TestDriver {
     }
 
     private void listNodes(String graphName) {
-        // Insert your code here.
-
-        // ___ = graphs.get(graphName);
-        // output.println(...);
+    	if (!graphs.containsKey(graphName)) {
+  			throw new IllegalArgumentException();
+  		}
+    	Set<String> nodes = graphs.get(graphName).getNodes();
+    	String result = graphName + " contains:";
+    	for (String node : nodes) {
+    		result += " " + node;
+    	}
+    	output.println(result);
     }
 
     private void listChildren(List<String> arguments) {
@@ -202,10 +213,16 @@ public class HW5TestDriver {
     }
 
     private void listChildren(String graphName, String parentName) {
-        // Insert your code here.
-
-        // ___ = graphs.get(graphName);
-        // output.println(...);
+    	if (!graphs.containsKey(graphName)) {
+  			throw new IllegalArgumentException();
+  		}
+    	Set<String> children = graphs.get(graphName).getEdgesFrom(parentName);
+    	String result = "the children of " + parentName + 
+    					" in " + graphName + " are:";
+    	for (String child : children) {
+    		result += " " + child;
+    	}
+    	output.println(result);
     }
 
     /**

@@ -3,7 +3,6 @@ package hw5;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -23,7 +22,7 @@ import java.util.TreeSet;
  *  identical labels.	
  *
  */
-public class Graph {
+public class Graph implements GeneralGraph {
 	
 	/** A map storing each node in the graph as a key and sets of
 	 *  edges	originating from each node as values */
@@ -116,7 +115,7 @@ public class Graph {
 	 * exist within the graph, adds such an edge to the graph. 
 	 */
 	public void addEdge(String fromNode, String toNode, 
-											String label) {
+						String label) {
 		if (!isNode(fromNode)) {
 			addNode(fromNode);
 		}
@@ -143,7 +142,7 @@ public class Graph {
 	 * 	false otherwise
 	 */
 	public boolean isEdgeBetween(String fromNode, String toNode, 
-														String label) {
+								String label) {
 		if (!isNode(fromNode) || !isNode(toNode)) {
 			return false;
 		}
@@ -169,8 +168,8 @@ public class Graph {
 	 * 	fromNode to toNode. Returns false otherwise
 	 */
 	public boolean isEdgeBetween(String fromNode, String toNode) {
-//		return isEdgeBetween(fromNode, toNode, null);
-		if (!isNode(fromNode) || !isNode(toNode)) {
+		return isEdgeBetween(fromNode, toNode, null);
+/*		if (!isNode(fromNode) || !isNode(toNode)) {
 			return false;
 		}
 		for (Edge e : adjacencyList.get(fromNode)) {
@@ -178,7 +177,7 @@ public class Graph {
 				return true;
 			}
 		}
-		return false;	
+		return false;*/	
 	}
 	
 	/**
