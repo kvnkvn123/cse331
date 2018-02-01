@@ -49,7 +49,7 @@ public class Graph implements GeneralGraph {
 			assert (n != null) : "node cannot be null";
 			for (Edge e : adjacencyList.get(n)) {
 				assert (e != null) : "edge in node " + n +
-															" cannot be null";
+							" cannot be null";
 			}
 		}
 	}
@@ -168,16 +168,7 @@ public class Graph implements GeneralGraph {
 	 * 	fromNode to toNode. Returns false otherwise
 	 */
 	public boolean isEdgeBetween(String fromNode, String toNode) {
-		//return isEdgeBetween(fromNode, toNode, null);
-		if (!isNode(fromNode) || !isNode(toNode)) {
-			return false;
-		}
-		for (Edge e : adjacencyList.get(fromNode)) {
-			if (e.getToNode().equals(toNode)) {
-				return true;
-			}
-		}
-		return false;
+		return isEdgeBetween(fromNode, toNode, null);
 	}
 	
 	/**
