@@ -27,7 +27,7 @@ public class Graph {
 	
 	/** A map storing each node in the graph as a key and sets of
 	 *  edges	originating from each node as values */
-	private final Map<String, Set<Edge>> adjacencyList;
+	private Map<String, Set<Edge>> adjacencyList;
 	
 	// Abstraction Function:
 	//  A graph consists of nodes and directed edges between nodes such 
@@ -123,9 +123,7 @@ public class Graph {
 		if (!isNode(toNode)) {
 			addNode(toNode);
 		}
-		if (!isEdgeBetween(fromNode, toNode)) {
-			adjacencyList.get(fromNode).add(new Edge(fromNode, toNode, label));
-		}
+		adjacencyList.get(fromNode).add(new Edge(fromNode, toNode, label));
 	}
 	
 	/**
@@ -171,7 +169,16 @@ public class Graph {
 	 * 	fromNode to toNode. Returns false otherwise
 	 */
 	public boolean isEdgeBetween(String fromNode, String toNode) {
-		return isEdgeBetween(fromNode, toNode, null);
+//		return isEdgeBetween(fromNode, toNode, null);
+		if (!isNode(fromNode) || !isNode(toNode)) {
+			return false;
+		}
+		for (Edge e : adjacencyList.get(fromNode)) {
+			if (e.getToNode().equals(toNode)) {
+				return true;
+			}
+		}
+		return false;	
 	}
 	
 	/**
@@ -289,13 +296,13 @@ public class Graph {
 	   * @effects Constructs a new Edge from the fromNode
 	   *  to the toNode with the given label
 	   */
-		public Edge(String toNode, String fromNode, String label) {
+		public Edge(String fromNode, String toNode, String label) {
 			if (label == null || toNode == null ||
 					fromNode == null) {
 				throw new IllegalArgumentException();
 			}
-			this.toNode = toNode;
 			this.fromNode = fromNode;
+			this.toNode = toNode;
 			this.label = label;
 			checkRep();
 		}
