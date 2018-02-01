@@ -1,0 +1,75 @@
+# Tests that a graph can be created, and edges can be
+# added between existing nodes and between previously
+# nonexistent nodes. Test adding the same edge (graph
+# should not change) and adding edges between nodes
+# that already have edges between them (edge should be
+# added.
+
+# Create a graph
+CreateGraph graph1
+
+# Add a node
+AddNode graph1 n1
+
+# Add another node
+AddNode graph1 n2
+
+# Print the nodes in the graph
+ListNodes graph1
+
+# Add an edge
+AddEdge graph1 n1 n2 e1
+
+# list children of n1
+ListChildren graph1 n1
+
+# list children of n2
+ListChildren graph1 n2
+
+# Print the nodes in the graph
+ListNodes graph1
+
+# Add an edge
+AddEdge graph1 n1 n2 e1
+
+# list children of n1
+ListChildren graph1 n1
+
+# list children of n2
+ListChildren graph1 n2
+
+# Print the nodes in the graph
+ListNodes graph1
+
+# Add an edge
+AddEdge graph1 n1 n2 e2
+
+# list children of n1
+ListChildren graph1 n1
+
+# list children of n2
+ListChildren graph1 n2
+
+# Print the nodes in the graph
+ListNodes graph1
+
+# Add an edge
+AddEdge graph1 n3 n4 e3
+
+# Print the nodes in the graph
+ListNodes graph1
+
+# list children of n1
+ListChildren graph1 n1
+
+# list children of n2
+ListChildren graph1 n2
+
+# list children of n3
+ListChildren graph1 n3
+
+# list children of n4
+ListChildren graph1 n4
+
+# Print the nodes in the graph
+ListNodes graph1

@@ -1,0 +1,15 @@
+# Tests that a graph can be created, a single node added and
+# a second node added. Then tests by adding the same node
+# (should not be added) 
+
+# Create a graph
+CreateGraph graph1
+
+# Add a node
+AddNode graph1 n1
+
+# Add another node
+AddNode graph1 n2
+
+# Add the same node as before
+AddNode graph1 n2

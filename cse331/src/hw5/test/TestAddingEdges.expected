@@ -1,0 +1,75 @@
+# Tests that a graph can be created, and edges can be
+# added between existing nodes and between previously
+# nonexistent nodes. Test adding the same edge (graph
+# should not change) and adding edges between nodes
+# that already have edges between them (edge should be
+# added.
+
+# Create a graph
+created graph graph1
+
+# Add a node
+added node n1 to graph1
+
+# Add another node
+added node n2 to graph1
+
+# Print the nodes in the graph
+graph1 contains: n1 n2
+
+# Add an edge
+added edge e1 from n1 to n2 in graph1
+
+# list children of n1
+the children of n1 in graph1 are: n2(e1)
+
+# list children of n2
+the children of n2 in graph1 are:
+
+# Print the nodes in the graph
+graph1 contains: n1 n2
+
+# Add an edge
+added edge e1 from n1 to n2 in graph1
+
+# list children of n1
+the children of n1 in graph1 are: n2(e1)
+
+# list children of n2
+the children of n2 in graph1 are:
+
+# Print the nodes in the graph
+graph1 contains: n1 n2
+
+# Add an edge
+added edge e2 from n1 to n2 in graph1
+
+# list children of n1
+the children of n1 in graph1 are: n2(e1) n2(e2)
+
+# list children of n2
+the children of n2 in graph1 are:
+
+# Print the nodes in the graph
+graph1 contains: n1 n2
+
+# Add an edge
+added edge e3 from n3 to n4 in graph1
+
+# Print the nodes in the graph
+graph1 contains: n1 n2 n3 n4
+
+# list children of n1
+the children of n1 in graph1 are: n2(e1) n2(e2)
+
+# list children of n2
+the children of n2 in graph1 are:
+
+# list children of n3
+the children of n3 in graph1 are: n4(e3)
+
+# list children of n4
+the children of n4 in graph1 are:
+
+# Print the nodes in the graph
+graph1 contains: n1 n2 n3 n4
