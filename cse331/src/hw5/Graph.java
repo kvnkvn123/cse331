@@ -168,8 +168,8 @@ public class Graph implements GeneralGraph {
 	 * 	fromNode to toNode. Returns false otherwise
 	 */
 	public boolean isEdgeBetween(String fromNode, String toNode) {
-		return isEdgeBetween(fromNode, toNode, null);
-/*		if (!isNode(fromNode) || !isNode(toNode)) {
+		//return isEdgeBetween(fromNode, toNode, null);
+		if (!isNode(fromNode) || !isNode(toNode)) {
 			return false;
 		}
 		for (Edge e : adjacencyList.get(fromNode)) {
@@ -177,7 +177,7 @@ public class Graph implements GeneralGraph {
 				return true;
 			}
 		}
-		return false;*/	
+		return false;
 	}
 	
 	/**
@@ -254,8 +254,7 @@ public class Graph implements GeneralGraph {
 	 * @specfield label : strings // labels of the edge
 	 * 
 	 * Abstract Invariant:
-	 * 	An edge's from-node must be different from its to-node. Also, no
-	 * edge from the same from-Node to to-Node can have the same label.  
+	 * 	No edge from the same from-Node to to-Node can have the same label.  
 	 *
 	 */
 	private final class Edge implements Comparable<Edge> {
@@ -271,8 +270,7 @@ public class Graph implements GeneralGraph {
 
 	  // Representation Invariant:
 	  //  this.fromNode != null && this.toNode != null &&
-	  //	this.label != null &&
-	  //	!this.fromNode.equals(this.toNode)
+	  //	this.label != null
 	  //
 	  // Abstraction Function:
 	  //	AF(r) = an in a graph, such that
@@ -396,7 +394,7 @@ public class Graph implements GeneralGraph {
 	  @Override
 	  public int hashCode() {
 	  	checkRep();
-	  	return 171 * fromNode.hashCode() + 13 * toNode.hashCode() + 
+	  	return 171 * fromNode.hashCode() + 19 * toNode.hashCode() + 
 	  			label.hashCode();
 	  }
 	}
