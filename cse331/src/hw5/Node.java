@@ -6,65 +6,69 @@ package hw5;
  * through edges, and can have parent-child relationships
  * with other nodes.
  *
- *  @specfield data : string // the data associated with this node
+ *  @specfield label : string // the label associated with this node
  *
  */
-public class Node implements Comparable<Node>{
+public final class Node implements Comparable<Node>{
 	
 	/** Data associated with this mode */
-	private final String data;
+	private final String label;
 	
 	// Representation Invariant:
-	//  this.data != null
+	//  this.label != null
 	//
 	// Abstraction Function:
 	//  AF(r) = a node, such that
-	//	r.data = data associated with the node
+	//	r.label = label of the node
 	
-	/**
-	 * @param data the data associated with this node
-	 * @requires data != null
-	 * @effects Constructs a new node containing the given
-	 *		data
-	 */
-	public Node(String data) {
-		this.data = data;
+	/** Checks the representation invariant */
+	private void checkRep() {
+		assert (this.label != null) : "Label in a Node cannot equal null";
 	}
 	
 	/**
-	 * Returns the data associated with this node
-	 * @return the data associated with this node
+	 * @param label the label of the node
+	 * @requires label != null
+	 * @effects Constructs a new node with the given label
 	 */
-	public String getData() {
-		return null;
+	public Node(String label) {
+		if (label == null) {
+			throw new IllegalArgumentException();
+		}
+		this.label = label;
+		checkRep();
+	}
+	
+	/**
+	 * Returns the label of this node
+	 * 
+	 * @return the label of this node
+	 */
+	public String getLabel() {
+		checkRep();
+		return label;
 	}
 	
 	/**
 	 * Compares this node to other according to the lexicographic
-	 * order of the data they store. Returns an integer based on
-	 * this comparison. 
+	 * order of the data they store. Returns a negative integer if
+	 * the label of this node precedes the other node's label
+	 * lexicographically, returns a negative integer if the label
+	 * of this node follows the other node's label lexicographically,
+	 * and returns zero if the this node's label is lexicographically
+	 * equal to the other node's label.
 	 * 
 	 * @requires other != null
 	 * @return Returns a negative integer if
-	 * the data stored in this node precedes the other node's data 
-	 * lexicographically, returns a negative integer if the data
-	 * the data stored in this node follows the other node's data,
-	 * and returns zero if the this node's data is lexicographically
-	 * equal to the other node's data.
+	 * the label of this node precedes the other node's label
+	 * lexicographically, returns a negative integer if the label
+	 * of this node follows the other node's label lexicographically,
+	 * and returns zero if the this node's label is lexicographically
+	 * equal to the other node's label.
 	 */
 	public int compareTo(Node other) {
-		return 0;
-	}
-	
-	/**
-	 * Returns a string representation of this node. Returns
-	 * a string of the form "node=<i>nodeData</i>", where 
-	 * <i>nodeData</i> is the data stored by the node. 
-	 * 
-	 * @returns Returns a string representation of this node
-	 */
-	public String toString() {
-		return null;
+		checkRep();
+		return label.compareTo(other.label);
 	}
 	
 	/**
@@ -72,20 +76,18 @@ public class Node implements Comparable<Node>{
    *
    * @param obj The object to be compared for equality.
    * @return true iff 'obj' is an instance of a Node and 'this' and 'obj'
-   *         represent Nodes containing the same data.
+   *         represent Nodes containing the same label.
    */
   @Override
-  public boolean equals(/*@Nullable**/ Object obj) {
-  	return false;
-  }
-/*  if (obj instanceof Node) {
+  public boolean equals(Object obj) {
+  	checkRep();
+  	if (obj instanceof Node) {
       Node test = (Node) obj;
-      return (this.data.equals(test.data));
+      return (this.label.equals(test.label));
     } else {
       return false;
     }
   }
-*/
   
   /** Standard hashCode function.
   @return an int that all objects equal to this will also
@@ -93,12 +95,7 @@ public class Node implements Comparable<Node>{
    */
   @Override
   public int hashCode() {
-  	return 0;
-  }/*
-  	// all instances that are NaN must return the same hashcode;
-  	if (this.isNaN()) {
-  		return 0;
-  	}
-  	return (this.numer*2) + (this.denom*3);
-  }*/
+  	checkRep();
+  	return 137 + this.label.hashCode();
+  }
 }

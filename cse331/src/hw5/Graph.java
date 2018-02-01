@@ -1,7 +1,6 @@
 package hw5;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -119,60 +118,13 @@ public class Graph {
 	public void addEdge(String fromNode, String toNode, 
 											String label) {
 		if (!isNode(fromNode)) {
-			adjacencyList.put(fromNode, new TreeSet<Edge>());
+			addNode(fromNode);
 		}
 		if (!isNode(toNode)) {
-			adjacencyList.put(toNode, new TreeSet<Edge>());
+			addNode(toNode);
 		}
-		// TODO
-	}
-	
-	/**
-	 * Returns true if there is an edge that extends from 
-	 * fromNode to toNode. Returns false otherwise
-	 * 
-	 * 
-	 * @requires fromNode != null && toNode != null &&
-	 * 	isNode(fromNode) && isNode(toNode)
-	 * @param fromNode node from which edge might extend
-	 * @param toNode the node to which edge might lead
-	 * @return Returns true if there is an edge that extends from 
-	 * 	fromNode to toNode. Returns false otherwise
-	 */
-	public boolean isEdgeBetween(String fromNode, String toNode) {
-		if (!isNode(fromNode) || !isNode(toNode)) {
-			return false;
-		}
-		for (Edge e : adjacencyList.get(fromNode)) {
-			if (e.getToNode().equals(toNode)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Returns a list of strings representing edges originating 
-	 * from the given fromNode, sorted alphabetically first
-	 * according to the nodes they extend to, and then according
-	 * to the labels of the edges (for multiple edges between the
-	 * nodes). Strings are of the form 
-	 * "<i>toNode</i>(<i>edgeLabel</i>)"
-	 * where toNode represents the node to which the edge extends
-	 * and edgeLabel represents the label of the edge
-	 * 
-	 * @requires fromNode != null && isNode(fromNode)
-	 * @param fromNode the node from which the edge(s) extend(s)
-	 * @return Returns a list of strings representing edges 
-	 * 	originating from the given fromNode
-	 */
-	public SortedSet<String> getEdgesFrom(String fromNode) {
-		if (!isNode(fromNode)) {
-			throw new IllegalArgumentException();
-		}
-		SortedSet<String> result = new TreeSet<String>();
-		for (Edge e : adjacencyList.get(fromNode)) {
-			
+		if (!isEdgeBetween(fromNode, toNode)) {
+			adjacencyList.get(fromNode).add(new Edge(fromNode, toNode, label));
 		}
 	}
 	
@@ -192,148 +144,97 @@ public class Graph {
 	 * 	fromNode to toNode with the given label. Returns 
 	 * 	false otherwise
 	 */
-	private boolean isEdgeBetween(String fromNode, String toNode, 
+	public boolean isEdgeBetween(String fromNode, String toNode, 
 														String label) {
-		return false;		
+		if (!isNode(fromNode) || !isNode(toNode)) {
+			return false;
+		}
+		for (Edge e : adjacencyList.get(fromNode)) {
+			if (e.getToNode().equals(toNode) && 
+					(label == null || e.getLabel().equals(label))) {
+				return true;
+			}
+		}
+		return false;	
 	}
 	
 	/**
-	 * Returns a set of strings representing nodes in the graph 
-	 * sorted according to the lexicographic order of their labels.
+	 * Returns true if there is an edge that extends from 
+	 * fromNode to toNode. Returns false otherwise
 	 * 
-	 * @return A sorted set of strings representing nodes in the graph
+	 * 
+	 * @requires fromNode != null && toNode != null &&
+	 * 	isNode(fromNode) && isNode(toNode)
+	 * @param fromNode node from which edge might extend
+	 * @param toNode the node to which edge might lead
+	 * @return Returns true if there is an edge that extends from 
+	 * 	fromNode to toNode. Returns false otherwise
 	 */
-	public SortedSet<String> getNodes() {
-		return null;		
+	public boolean isEdgeBetween(String fromNode, String toNode) {
+		return isEdgeBetween(fromNode, toNode, null);
 	}
 	
 	/**
-	 * Returns a list of strings representing edges of the graph, 
-	 * sorted alphabetically unmodifiable or read-only set of edges in the 
-	 * graph which originate from the given node. Any attempts to
-	 * modify this set will result in an UnsupportedOperationException.
+	 * Returns a list of strings representing edges originating 
+	 * from the given fromNode. The iterator of the set
+	 * returns them sorted alphabetically first
+	 * according to the nodes they extend to, and then according
+	 * to the labels of the edges. Strings are of the form 
+	 * "<i>toNode</i>(<i>edgeLabel</i>)"
+	 * where toNode represents the node to which the edge extends
+	 * and edgeLabel represents the label of the edge
 	 * 
-	 * @return An unmodifiable set of edges in the graph which
-	 * 	originate from the given node
-	 *//*
-	public Set<Edge> getEdges() {
-		return null;
-	}*/
+	 * @requires fromNode != null && isNode(fromNode)
+	 * @param fromNode the node from which the edge(s) extend(s)
+	 * @return Returns a list of strings representing edges 
+	 * 	originating from the given fromNode
+	 */
+	public Set<String> getEdgesFrom(String fromNode) {
+		if (!isNode(fromNode)) {
+			throw new IllegalArgumentException();
+		}
+		Set<String> result = new TreeSet<String>();
+		for (Edge e : adjacencyList.get(fromNode)) {
+			result.add(e.getToNode() + "(" + e.getLabel() + ")");
+		}
+		return result;
+	}
 	
 	/**
-	 * Returns an unmodifiable or read-only sorted set of nodes in the 
-	 * graph which are children of the given node. In other words
-	 * the nodes in the returned set have edges extending from the 
-	 * given node to them.Any attempts to modify this set will result
+	 * Returns an unmodifiable set of strings representing nodes in the graph. 
+	 * The set's iterator returns the nodes in ascending alphabetic order.
+	 * Any attempts to modify this set will result 
 	 * in an UnsupportedOperationException.
 	 * 
-	 * @requires node != null && isNode(node)
-	 * @return An unmodifiable sorted set of nodes in the graph are
-	 * 	children of the given node
+	 * @return A set of strings representing nodes in the graph
 	 */
-	public SortedSet<String> getChildren(String node) {
-		return null;
+	public Set<String> getNodes() {
+		return Collections.unmodifiableSet(adjacencyList.keySet());
 	}
 	
 	/**
-	 * <b>Node</b> is an immutable representation of a node in a 
-	 * directed, labeled graph. A node is connected to other nodes
-	 * through edges, and can have parent-child relationships
-	 * with other nodes.
-	 *
-	 *  @specfield label : string // the label associated with this node
-	 *
+	 * Returns a set of nodes in the 
+	 * graph which are children of the given node. In other words
+	 * the nodes in the returned set have edges extending from the 
+	 * given node to them. The set's iterator returns the nodes
+	 * in ascending alphabetic order
+	 * 
+	 * @requires node != null && isNode(node)
+	 * @param node the parent node form which we are getting
+	 * 	child nodes
+	 * @return An set of nodes in the graph that are
+	 * 	children of the given node
 	 */
-	private final class Node implements Comparable<Node>{
-		
-		/** Data associated with this mode */
-		private final String label;
-		
-		// Representation Invariant:
-		//  this.label != null
-		//
-		// Abstraction Function:
-		//  AF(r) = a node, such that
-		//	r.label = label of the node
-		
-		/** Checks the representation invariant */
-		private void checkRep() {
-			assert (this.label != null) : "Label in a Node cannot equal null";
+	public Set<String> getChildren(String node) {
+		if (!isNode(node)) {
+			throw new IllegalArgumentException();
 		}
-		
-		/**
-		 * @param label the label of the node
-		 * @requires label != null
-		 * @effects Constructs a new node with the given label
-		 */
-		public Node(String label) {
-			if (label == null) {
-				throw new IllegalArgumentException();
-			}
-			this.label = label;
-			checkRep();
+		Set<String> result = new TreeSet<String>();
+		for (Edge e : adjacencyList.get(node)) {
+			result.add(e.getToNode());
 		}
-		
-		/**
-		 * Returns the label of this node
-		 * 
-		 * @return the label of this node
-		 */
-		public String getLabel() {
-			checkRep();
-			return label;
-		}
-		
-		/**
-		 * Compares this node to other according to the lexicographic
-		 * order of the data they store. Returns a negative integer if
-		 * the label of this node precedes the other node's label
-		 * lexicographically, returns a negative integer if the label
-		 * of this node follows the other node's label lexicographically,
-		 * and returns zero if the this node's label is lexicographically
-		 * equal to the other node's label.
-		 * 
-		 * @requires other != null
-		 * @return Returns a negative integer if
-		 * the label of this node precedes the other node's label
-		 * lexicographically, returns a negative integer if the label
-		 * of this node follows the other node's label lexicographically,
-		 * and returns zero if the this node's label is lexicographically
-		 * equal to the other node's label.
-		 */
-		public int compareTo(Node other) {
-			checkRep();
-			return label.compareTo(other.label);
-		}
-		
-		/**
-	   * Standard equality operation.
-	   *
-	   * @param obj The object to be compared for equality.
-	   * @return true iff 'obj' is an instance of a Node and 'this' and 'obj'
-	   *         represent Nodes containing the same label.
-	   */
-	  @Override
-	  public boolean equals(Object obj) {
-	  	checkRep();
-	  	if (obj instanceof Node) {
-	      Node test = (Node) obj;
-	      return (this.label.equals(test.label));
-	    } else {
-	      return false;
-	    }
-	  }
-	  
-	  /** Standard hashCode function.
-	  @return an int that all objects equal to this will also
-	  return.
-	   */
-	  @Override
-	  public int hashCode() {
-	  	checkRep();
-	  	return 137 + this.label.hashCode();
-	  }
-	}
+		return result;
+	} 
 
 	/**
 	 * <b>Edge</b> is an immutable representation of an edge
@@ -351,7 +252,7 @@ public class Graph {
 	 * edge from the same from-Node to to-Node can have the same label.  
 	 *
 	 */
-	private class Edge {
+	private final class Edge implements Comparable<Edge> {
 		
 		/** Node from which the edge extends */
 	  private final String fromNode;
@@ -431,6 +332,34 @@ public class Graph {
 		}
 		
 		/**
+		 * Compares this Edge to other according to the alphabetic order
+		 * of first the from-Node, then the to-Node, then the label. 
+		 * Returns a negative integer if
+		 * the data of this edge precedes the other edge's data
+		 * lexicographically, returns a positive integer if the label
+		 * of this edge follows the other node's label lexicographically,
+		 * and returns zero if the this edge's data is lexicographically
+		 * equal to the other edge's data
+		 * 
+		 * @requires other != null
+		 * @return Returns a negative integer if
+		 * the data of this edge precedes the other edge's data
+		 * lexicographically, returns a positive integer if the label
+		 * of this edge follows the other node's label lexicographically,
+		 * and returns zero if the this edge's data is lexicographically
+		 * equal to the other edge's data
+		 */
+		public int compareTo(Edge other) {
+			if (!fromNode.equals(other.fromNode)) {
+				return fromNode.compareTo(other.fromNode);
+			} else if (!toNode.equals(other.toNode)) {
+				return toNode.compareTo(other.fromNode);
+			} else {
+				return label.compareTo(other.label);
+			}
+		}
+		
+		/**
 	   * Standard equality operation.
 	   *
 	   * @param obj The object to be compared for equality.
@@ -444,6 +373,7 @@ public class Graph {
 	      Edge edge = (Edge) obj;
 
 	      // Edges are equal if fromNode and toNode correspond
+	      // and label correspond
 	      return fromNode.equals(edge.fromNode) && 
 	      		toNode.equals(edge.fromNode) && 
 	      		label.equals(edge.label);
@@ -460,7 +390,7 @@ public class Graph {
 	  @Override
 	  public int hashCode() {
 	  	checkRep();
-	  	return 171 * fromNode.hashCode() + 13 *toNode.hashCode() + 
+	  	return 171 * fromNode.hashCode() + 13 * toNode.hashCode() + 
 	  			label.hashCode();
 	  }
 	}
