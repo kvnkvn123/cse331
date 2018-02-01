@@ -60,11 +60,103 @@ Problem 1. (Written exercises)
 
 Problem 2.  (Graph interface/operations)
 
+	For my graph, I chose to create a GeneralGraph Interface that could be 
+	used to represent a general concept of a grpah with labeled edges and nodes,
+	but not necessarily directed or a multigraph. It seems that there are a
+	number of implementations and also different classes that one might
+	want to create with this concept. The interface contains most of the functions
+	I use, which I think would be important for a GeneralGraph to have.
+		I also created a specific graph class for my implementation of a
+	directed, labeled graph. My implementation uses an adjaceny list concept,
+	where it stores a map of nodes, represented as strings, which map to sets
+	of edges directed away from them. The edges are represented by immutable
+	edge objects; making an Edge class made sense because edges have multiple 
+	pieces of information, and this would allow them to have qualitities such as
+	weights if that were to be added further along the line. The Edge class is
+	a private inner class in my implementation since there is no reason for any
+	other class or client to have access to it. The Graph class is the extent
+	of the public API.
+		The operations in Graph, with their specifics in graph, are as follows.
+	I think that these should be sufficient for clients to use a graph 
+	functionally.
+		
+	1. addNode: A method for adding a node; essential to a incrementally built
+	graph. This method does not allow duplicate nodes; I could not see why
+	this would be needed.
+	2. isNode : A method for seeing if a node exists in the graph, this
+	seemed automatically useful for clients using the graph
+	3. getNodes : a method used to see all nodes in the graph, also useful 
+	to clients. Graph returns a set which has an iterator returning nodes
+	in alphabetic order, which seemed useful for future assignments.
+	4. addEdge: method for adding an edge, again useful in incrementally building
+	the graph or updating it. Graph specifies this as a method for adding
+	a directed edge
+	5. isEdgeBetween: two methods, one for finding whether there is an
+	edge between, and one for determining if there is and edge between to
+	nodes with a specific label: I thought that both of these would be useful
+	in the context of using the graph, BFS, and determining connections. 
+	Graph specifies this as a method for returning whether there is a
+	a directed edge.
+	6. getEdgesFrom : used to find edges connected to the given node; useful
+	for clients of the graph to determine the connections, or BFS. 
+	Graph specifies this as a method for returning directed egdes from a 
+	node.
+
 
 
 Problem 3.  (Testing strategy)
+
+	There was not too much to test for this graph, since its functions were
+	quite basic. I first wrote larger specification tests to ensure that the
+	graph could be constructed, nodes could be added, codes could be viewed,
+	and then edges could also be added and viewed. Some of my specification 
+	tests are specific to my implementation of how these methods respond
+	to boundary cases such as adding an already existing edge, or adding
+	an edge between two nodes that no not yet exist. 
+		For the units tests, I tested every method separately to ensure that
+	it functions as designed. Though not included in the final test suite, 
+	I also tested for the defensive checks that I put in place to ensure
+	the method prerequisites were met.
+		In choosing test bases, I looked for basic cases (ex. adding a node)
+	and then boundary cases such as adding to empty graphs, adding a node
+	when another node already existed, adding an edge when an edge existed 
+	of a different label, or of the same label, adding multiple edges
+	with different directions, etc. I tried to use these different boundary
+	conditions in each test. 
+		In the process of implementing and running tests, I decided to change
+	around the internals a bit, and so my implementation tests changed
+	from what they were to accomodate the new graph implementation. The 
+	specification did not change much, however, so I did not need to make
+	much change to the specification tests. (other than debugging)
 
 
 
 Problem 4.  (Representation)
 
+	My implementation is based on having nodes represented as strings, a private
+	nested Edge class to represent edges, and an adjacency list (using a 
+	TreeMap) to represent edges directed away from nodes in the graph. The keys 
+	of the map are nodes contained in the graph; nodes not connected to edges
+	are mapped to empty sets of edges, while nodes connected to other nodes
+	are mapped to non empty sets of edges. Edges store information about the
+	nodes they connect and their label. This does create some redundancy; I
+	imagine that I could have created edges containing only one node information
+	for a directed graph, but it felt it may be useful to have this for
+	future changes. The adjacency map seemed simple enough to use for basic searches
+	such as finding all the nodes, or edges from a node, which seemed 
+	as though they would be necessary. it also seemed to be very intuitive to
+	work with this structure. This representation seemed good for building up
+	a graph with new nodes and edges, and having ordered outputs of nodes
+	and graphs. 
+		The collection of edges would have been a very mathematical and simple 
+	way of defining the class. It would have been very easy to construct and 
+	add to. On the downside, it is unclear how unconnected nodes would be
+	implemented, and searching and sorted would have required more creative
+	programming. 
+		An adjacency matrix would have been very useful for determining edges, 
+	nodes and directions, and it would have been fast at these operations, but
+	on the downside, it is not suited for incrementally building the graph, 
+	since each new matrix would have involved new expensive objects being created.
+	It would have been very useful if we were reading the graph from a file 
+	and constructing it at once. 
+	
