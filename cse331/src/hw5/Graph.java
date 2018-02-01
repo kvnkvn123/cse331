@@ -3,6 +3,7 @@ package hw5;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeMap;
 
 /**
@@ -88,14 +89,17 @@ public class Graph {
 	 * Adds an edge to the graph with the given from-node, to-node,
 	 * and label, provided that such an edge does not already
 	 * exist within the graph. Does nothing if such an edge exists.
+	 * If the given fromNode or toNode to not previously exist,
+	 * adds those nodes to the graph before adding the edge.
 	 * 
 	 * @requires fromNode != null && toNode != null && label != null
 	 * @param fromNode the node from which the new edge extends
 	 * @param toNode the node which the new edge leads to
 	 * @param label the label associated with the new edge
 	 * @modifies this
-	 * @effects if given edge does not already exist within the graph,
-	 *  adds such an edge to the graph. 
+	 * @effects If the given fromNode or toNode to not previously exist,
+	 * adds those nodes to the graph. if given edge does not already 
+	 * exist within the graph, adds such an edge to the graph. 
 	 */
 	public void addEdge(String fromNode, String toNode, 
 											String label) {
@@ -159,12 +163,12 @@ public class Graph {
 	}
 	
 	/**
-	 * Returns a list of strings representing nodes in the graph 
+	 * Returns a set of strings representing nodes in the graph 
 	 * sorted according to the lexicographic order of their labels.
 	 * 
-	 * @return A list of strings representing nodes in the graph
+	 * @return A sorted set of strings representing nodes in the graph
 	 */
-	public List<String> getNodes() {
+	public SortedSet<String> getNodes() {
 		return null;		
 	}
 	
@@ -192,7 +196,7 @@ public class Graph {
 	 * @return An unmodifiable sorted set of nodes in the graph are
 	 * 	children of the given node
 	 */
-	public List<String> getChildren(Node node) {
+	public SortedSet<String> getChildren(Node node) {
 		return null;
 	}
 	
@@ -205,7 +209,7 @@ public class Graph {
 	 *  @specfield label : string // the label associated with this node
 	 *
 	 */
-	private class Node implements Comparable<Node>{
+	private final class Node implements Comparable<Node>{
 		
 		/** Data associated with this mode */
 		private final String label;
