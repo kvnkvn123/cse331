@@ -49,7 +49,7 @@ public class Graph implements GeneralGraph {
 			assert (n != null) : "node cannot be null";
 			for (Edge e : adjacencyList.get(n)) {
 				assert (e != null) : "edge in node " + n +
-							" cannot be null";
+						" cannot be null";
 			}
 		}
 	}
