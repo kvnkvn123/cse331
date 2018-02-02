@@ -68,9 +68,9 @@ public class Graph implements GeneralGraph {
 	 * a node with the given label does not already exist within
 	 * the graph. Does nothing if such a node exists.
 	 * 
-	 * @requires label != null
 	 * @param label the label of the node to be added
 	 * @modifies this
+	 * @throws IllegalArgumentException if label == null
 	 * @effects if a node with the given label does not
 	 *  already exist within the graph, adds a new node with 
 	 *  the given label to this
@@ -78,6 +78,9 @@ public class Graph implements GeneralGraph {
 	 */
 	public void addNode(String label) {
 		checkRep();
+		if (label == null) {
+			throw new IllegalArgumentException();
+		}
 		adjacencyList.put(label, new TreeSet<Edge>());
 		checkRep();
 	}
@@ -86,15 +89,18 @@ public class Graph implements GeneralGraph {
 	 * Returns true if a node with the given label exists
 	 * within the graph
 	 * 
-	 * @requires label != null
 	 * @param label the label associated with the node whose existence
 	 * 	is being tested for
+	 * @throws IllegalArgumentException if label == null
 	 * @return true if a node with the given label exists
 	 * within the graph, returns false otherwise
 	 * 
 	 */
 	public boolean isNode(String label) {
 		checkRep();
+		if (label == null) {
+			throw new IllegalArgumentException();
+		}
 		return adjacencyList.containsKey(label);
 	}
 	
@@ -105,10 +111,11 @@ public class Graph implements GeneralGraph {
 	 * If the given fromNode or toNode does not previously exist,
 	 * adds those nodes to the graph before adding the edge.
 	 * 
-	 * @requires fromNode != null && toNode != null && label != null
 	 * @param fromNode the node from which the new edge extends
 	 * @param toNode the node which the new edge leads to
 	 * @param label the label associated with the new edge
+	 * @throws IllegalArgumentException if fromNode == null ||
+	 * 	toNode == null || label == null
 	 * @modifies this
 	 * @effects If the given fromNode or toNode to not previously exist,
 	 * adds those nodes to the graph. if given edge does not already 
@@ -116,6 +123,7 @@ public class Graph implements GeneralGraph {
 	 */
 	public void addEdge(String fromNode, String toNode, 
 						String label) {
+		checkRep();
 		if (!isNode(fromNode)) {
 			addNode(fromNode);
 		}
@@ -123,6 +131,7 @@ public class Graph implements GeneralGraph {
 			addNode(toNode);
 		}
 		adjacencyList.get(fromNode).add(new Edge(fromNode, toNode, label));
+		checkRep();
 	}
 	
 	/**
@@ -131,18 +140,19 @@ public class Graph implements GeneralGraph {
 	 * otherwise.
 	 * 
 	 * 
-	 * @requires fromNode != null && toNode != null &&
-	 * 	label != null &&	isNode(fromNode) && isNode(toNode)
 	 * @param fromNode the node from which the possible edge extends
 	 * @param toNode the node to which the possible edge leads to
 	 * @param label the label of the edge whose existence is
 	 * 	being determined
+	 * @throws IllegalArgumentException if !isNode(fromNode) || 
+	 * 	!isNode(toNode)
 	 * @return Returns true if there is an edge that extends from 
 	 * 	fromNode to toNode with the given label. Returns 
 	 * 	false otherwise
 	 */
 	public boolean isEdgeBetween(String fromNode, String toNode, 
 								String label) {
+		checkRep();
 		if (!isNode(fromNode) || !isNode(toNode)) {
 			return false;
 		}
@@ -160,10 +170,10 @@ public class Graph implements GeneralGraph {
 	 * fromNode to toNode. Returns false otherwise
 	 * 
 	 * 
-	 * @requires fromNode != null && toNode != null &&
-	 * 	isNode(fromNode) && isNode(toNode)
 	 * @param fromNode node from which edge might extend
 	 * @param toNode the node to which edge might lead
+	 * @throws IllegalArgumentException if !isNode(fromNode) || 
+	 * 	!isNode(toNode)
 	 * @return Returns true if there is an edge that extends from 
 	 * 	fromNode to toNode. Returns false otherwise
 	 */
@@ -181,12 +191,13 @@ public class Graph implements GeneralGraph {
 	 * where toNode represents the node to which the edge extends
 	 * and edgeLabel represents the label of the edge
 	 * 
-	 * @requires fromNode != null && isNode(fromNode)
 	 * @param fromNode the node from which the edge(s) extend(s)
+	 * @throws IllegalArgumentException if !isNode(fromNode)
 	 * @return Returns a list of strings representing edges 
 	 * 	originating from the given fromNode
 	 */
 	public Set<String> getEdgesFrom(String fromNode) {
+		checkRep();
 		if (!isNode(fromNode)) {
 			throw new IllegalArgumentException();
 		}
@@ -206,6 +217,7 @@ public class Graph implements GeneralGraph {
 	 * @return A set of strings representing nodes in the graph
 	 */
 	public Set<String> getNodes() {
+		checkRep();
 		return Collections.unmodifiableSet(adjacencyList.keySet());
 	}
 	
@@ -216,13 +228,14 @@ public class Graph implements GeneralGraph {
 	 * given node to them. The set's iterator returns the nodes
 	 * in ascending alphabetic order
 	 * 
-	 * @requires node != null && isNode(node)
 	 * @param node the parent node form which we are getting
 	 * 	child nodes
+	 * @throw IllegalArgumentException if !isNode(node)
 	 * @return An set of nodes in the graph that are
 	 * 	children of the given node
 	 */
 	public Set<String> getChildren(String node) {
+		checkRep();
 		if (!isNode(node)) {
 			throw new IllegalArgumentException();
 		}
@@ -280,7 +293,8 @@ public class Graph implements GeneralGraph {
 	   * @param fromNode The node from which the new edge extends
 	   * @param toNode The node to which the new edge extends
 	   * @param label The label associated with the new edge
-	   * @requires fromNode != null && toNode != null && label != null
+	   * @throws IllegalArgumentException if 
+	   * 	fromNode == null || toNode == null || label == null
 	   * @effects Constructs a new Edge from the fromNode
 	   *  to the toNode with the given label
 	   */
@@ -336,7 +350,7 @@ public class Graph implements GeneralGraph {
 		 * and returns zero if the this edge's data is lexicographically
 		 * equal to the other edge's data
 		 * 
-		 * @requires other != null
+		 * @throws IllegalArgumentException if other == null
 		 * @return Returns a negative integer if
 		 * the data of this edge precedes the other edge's data
 		 * lexicographically, returns a positive integer if the label
@@ -345,6 +359,10 @@ public class Graph implements GeneralGraph {
 		 * equal to the other edge's data
 		 */
 		public int compareTo(Edge other) {
+			checkRep();
+			if (other == null) {
+				throw new IllegalArgumentException();
+			}
 			if (!fromNode.equals(other.fromNode)) {
 				return fromNode.compareTo(other.fromNode);
 			} else if (!toNode.equals(other.toNode)) {

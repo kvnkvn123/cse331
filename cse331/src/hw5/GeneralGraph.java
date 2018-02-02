@@ -22,9 +22,9 @@ public interface GeneralGraph {
 	 * a node with the given label does not already exist within
 	 * the graph. Does nothing if such a node exists.
 	 * 
-	 * @requires label != null
 	 * @param label the label of the node to be added
 	 * @modifies this
+	 * @throws IllegalArgumentException if label == null
 	 * @effects if a node with the given label does not
 	 *  already exist within the graph, adds a new node with 
 	 *  the given label to this
@@ -36,9 +36,9 @@ public interface GeneralGraph {
 	 * Returns true if a node with the given label exists
 	 * within the graph
 	 * 
-	 * @requires label != null
 	 * @param label the label associated with the node whose existence
 	 * 	is being tested for
+	 * @throws IllegalArgumentException if label == null
 	 * @return true if a node with the given label exists
 	 * within the graph, returns false otherwise
 	 * 
@@ -51,10 +51,11 @@ public interface GeneralGraph {
 	 * already exists within the graph, or if the given nodes
 	 * do not exist.
 	 * 
-	 * @requires node1 != null && node2 != null && label != null
 	 * @param node1 the node from which the new edge extends
 	 * @param node1 the node which the new edge leads to
 	 * @param label the label associated with the new edge
+	 * @throws IllegalArgumentException if node1 == null ||
+	 * 	node2 == null || label == null
 	 * @modifies this
 	 * @effects Adds adds an edge to the graph, provided the
 	 * 	given nodes exist, and the edge does not already exist.
@@ -69,10 +70,10 @@ public interface GeneralGraph {
 	 * to node2.
 	 * 
 	 * 
-	 * @requires node1 != null && node2 != null &&
-	 * 	isNode(node1) && isNode(node2)
 	 * @param node1 node from which edge might extend
 	 * @param node2 the node to which edge might lead
+	 * @throws IllegalArgumentException if !isNode(node1) || 
+	 * 	!isNode(node2)
 	 * @return Returns true if there is an edge between node1 and node2. 
 	 * Returns false otherwise. If the instance is a directed 
 	 * graph, returns true only if the edge is directed from node1
@@ -88,12 +89,12 @@ public interface GeneralGraph {
 	 * directed from node1 to node2.
 	 * 
 	 * 
-	 * @requires node1 != null && node2 != null &&
-	 * 	isNode(node1) && isNode(node2) && label != null
 	 * @param node1 node from which edge might extend
 	 * @param node2 the node to which edge might lead
 	 * @param label the label of the edge whose existence is
 	 * 	being determined
+	 * @throws IllegalArgumentException if !isNode(node1) || 
+	 * 	!isNode(node2)
 	 * @return Returns true if there is an edge between node1 and 
 	 * node2 with the given label. Returns false otherwise. 
 	 * If the instance is a directed 
@@ -111,8 +112,8 @@ public interface GeneralGraph {
 	 * where toNode represents the node to which the edge extends
 	 * and edgeLabel represents the label of the edge
 	 * 
-	 * @requires fromNode != null && isNode(fromNode)
 	 * @param fromNode the node from which the edge(s) extend(s)
+	 * @throws IllegalArgumentException if !isNode(fromNode)
 	 * @return Returns a list of strings representing edges 
 	 * 	originating from the given fromNode
 	 */
