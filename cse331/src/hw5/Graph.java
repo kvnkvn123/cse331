@@ -28,6 +28,10 @@ public class Graph implements GeneralGraph {
 	 *  edges	originating from each node as values */
 	private Map<String, Set<Edge>> adjacencyList;
 	
+	/** Determines whether to perform a thorough check of the
+	 * representation invariant: set to true when debugging */
+	private static final boolean deepCheck = false;
+	
 	// Abstraction Function:
 	//  A graph consists of nodes and directed edges between nodes such 
 	//	that r.adjacencyList.keySet() is the set of strings which represent 
@@ -44,12 +48,14 @@ public class Graph implements GeneralGraph {
 	
 	/** Checks the representation invariant */
 	private void checkRep() {
-		assert (adjacencyList != null) : "adjacencyList cannot be null";
-		for (String n : adjacencyList.keySet()) {
-			assert (n != null) : "node cannot be null";
-			for (Edge e : adjacencyList.get(n)) {
-				assert (e != null) : "edge in node " + n +
-							" cannot be null";
+		if (deepCheck) {
+			assert (adjacencyList != null) : "adjacencyList cannot be null";
+			for (String n : adjacencyList.keySet()) {
+				assert (n != null) : "node cannot be null";
+				for (Edge e : adjacencyList.get(n)) {
+					assert (e != null) : "edge in node " + n +
+								" cannot be null";
+				}
 			}
 		}
 	}
