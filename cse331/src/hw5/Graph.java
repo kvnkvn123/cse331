@@ -409,8 +409,8 @@ public class Graph implements GeneralGraph {
 	  @Override
 	  public int hashCode() {
 	  	checkRep();
-	  	return ((((31 * fromNode.hashCode()) + toNode.hashCode()) * 31) + 
-	  			label.hashCode());
+	  	return (171 * fromNode.hashCode()) + (19 * toNode.hashCode()) + 
+	  			label.hashCode();
 	  }
 	}
 }
