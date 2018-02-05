@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * <b>Graph</> represents the concept of a directed, labeled multi-graph.
@@ -189,7 +192,7 @@ public class Graph implements GeneralGraph {
 	
 	/**
 	 * Returns a list of strings representing edges originating 
-	 * from the given fromNode. The iterator of the set
+	 * from the given fromNode. The iterator of the list
 	 * returns them sorted alphabetically first
 	 * according to the nodes they extend to, and then according
 	 * to the labels of the edges. Strings are of the form 
@@ -202,12 +205,12 @@ public class Graph implements GeneralGraph {
 	 * @return Returns a list of strings representing edges 
 	 * 	originating from the given fromNode
 	 */
-	public Set<String> getEdgesFrom(String fromNode) {
+	public List<String> getEdgesFrom(String fromNode) {
 		checkRep();
 		if (!isNode(fromNode)) {
 			throw new IllegalArgumentException();
 		}
-		Set<String> result = new TreeSet<String>();
+		List<String> result = new LinkedList<String>();
 		for (Edge e : adjacencyList.get(fromNode)) {
 			result.add(e.getToNode() + "(" + e.getLabel() + ")");
 		}
@@ -228,16 +231,16 @@ public class Graph implements GeneralGraph {
 	}
 	
 	/**
-	 * Returns a set of nodes in the 
+	 * Returns a list of nodes in the 
 	 * graph which are children of the given node. In other words
-	 * the nodes in the returned set have edges extending from the 
-	 * given node to them. The set's iterator returns the nodes
+	 * the nodes in the returned list have edges extending from the 
+	 * given node to them. The list's iterator returns the nodes
 	 * in ascending alphabetic order
 	 * 
 	 * @param node the parent node form which we are getting
 	 * 	child nodes
 	 * @throw IllegalArgumentException if !isNode(node)
-	 * @return An set of nodes in the graph that are
+	 * @return An list of nodes in the graph that are
 	 * 	children of the given node
 	 */
 	public Set<String> getChildren(String node) {

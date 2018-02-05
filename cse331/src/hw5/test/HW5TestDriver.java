@@ -216,7 +216,7 @@ public class HW5TestDriver {
     	if (!graphs.containsKey(graphName)) {
   			throw new IllegalArgumentException();
   		}
-    	Set<String> children = graphs.get(graphName).getEdgesFrom(parentName);
+    	List<String> children = graphs.get(graphName).getEdgesFrom(parentName);
     	String result = "the children of " + parentName + 
     					" in " + graphName + " are:";
     	for (String child : children) {

@@ -1,6 +1,6 @@
 package hw5;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -117,7 +117,7 @@ public interface GeneralGraph {
 	 * @return Returns a list of strings representing edges 
 	 * 	originating from the given fromNode
 	 */
-	public Set<String> getEdgesFrom(String fromNode);
+	public List<String> getEdgesFrom(String fromNode);
 	
 	/**
 	 * Returns a set of strings representing nodes in the graph. 
