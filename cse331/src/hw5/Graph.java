@@ -48,8 +48,8 @@ public class Graph implements GeneralGraph {
 	
 	/** Checks the representation invariant */
 	private void checkRep() {
+		assert (adjacencyList != null) : "adjacencyList cannot be null";
 		if (deepCheck) {
-			assert (adjacencyList != null) : "adjacencyList cannot be null";
 			for (String n : adjacencyList.keySet()) {
 				assert (n != null) : "node cannot be null";
 				for (Edge e : adjacencyList.get(n)) {
