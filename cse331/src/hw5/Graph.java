@@ -372,7 +372,7 @@ public class Graph implements GeneralGraph {
 			if (!fromNode.equals(other.fromNode)) {
 				return fromNode.compareTo(other.fromNode);
 			} else if (!toNode.equals(other.toNode)) {
-				return toNode.compareTo(other.fromNode);
+				return toNode.compareTo(other.toNode);
 			} else {
 				return label.compareTo(other.label);
 			}
@@ -394,7 +394,7 @@ public class Graph implements GeneralGraph {
 	      // Edges are equal if fromNode and toNode correspond
 	      // and label correspond
 	      return fromNode.equals(edge.fromNode) && 
-	      		toNode.equals(edge.fromNode) && 
+	      		toNode.equals(edge.toNode) && 
 	      		label.equals(edge.label);
 	    } else {
 	      return false;
@@ -409,8 +409,8 @@ public class Graph implements GeneralGraph {
 	  @Override
 	  public int hashCode() {
 	  	checkRep();
-	  	return 171 * fromNode.hashCode() + 19 * toNode.hashCode() + 
-	  			label.hashCode();
+	  	return ((((31 * fromNode.hashCode()) + toNode.hashCode()) * 31) + 
+	  			label.hashCode());
 	  }
 	}
 }

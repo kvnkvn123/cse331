@@ -92,15 +92,17 @@ public class GraphTest {
   @Test
   public void testIsEdgeBetween() {
   	Graph graph5 = new Graph();
-  	graph5.addEdge("a",  "b", "e1");
-  	graph5.addEdge("b",  "c", "e1"); 
-  	graph5.addEdge("a",  "a", "e1");
+  	graph5.addEdge("a", "b", "e1");
+  	graph5.addEdge("b", "c", "e1"); 
+  	graph5.addEdge("a", "a", "e1");
   	assertTrue(graph5.isEdgeBetween("a", "b"));
   	assertFalse(graph5.isEdgeBetween("b", "a"));
   	assertFalse(graph5.isEdgeBetween("c", "a"));
   	assertTrue(graph5.isEdgeBetween("b", "c"));
+  	assertTrue(graph5.isEdgeBetween("a", "a"));
   	assertTrue(graph5.isEdgeBetween("a", "b", "e1"));
   	assertTrue(graph5.isEdgeBetween("b", "c", "e1"));
+  	assertTrue(graph5.isEdgeBetween("a", "a", "e1"));
   	assertFalse(graph5.isEdgeBetween("a", "a", "e2"));
   	assertFalse(graph5.isEdgeBetween("a", "b", "e2"));
   }
@@ -112,12 +114,13 @@ public class GraphTest {
   public void testGetEdgesFrom() {
   	Graph graph6 = new Graph();
   	graph6.addEdge("a",  "a", "e1");
+  	graph6.addEdge("a",  "a", "e2");
   	graph6.addEdge("a",  "b", "e1");
   	graph6.addEdge("a",  "c", "e1");
   	graph6.addEdge("a",  "c", "e2");
   	graph6.addEdge("a",  "d", "e1");
   	graph6.addEdge("b",  "c", "e1"); 
-  	String[] edgesA = {"a(e1)", "b(e1)", "c(e1)", "c(e2)", "d(e1)"};
+  	String[] edgesA = {"a(e1)", "a(e2)", "b(e1)", "c(e1)", "c(e2)", "d(e1)"};
   	Iterator<String> itr = graph6.getEdgesFrom("a").iterator();
   	Iterator<String> itr2 = graph6.getEdgesFrom("b").iterator();
   	for (String s : edgesA) {
