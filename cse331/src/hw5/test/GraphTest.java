@@ -121,13 +121,13 @@ public class GraphTest {
   	graph6.addEdge("a",  "d", "e1");
   	graph6.addEdge("b",  "c", "e1"); 
   	String[] edgesA = {"a(e1)", "a(e2)", "b(e1)", "c(e1)", "c(e2)", "d(e1)"};
-  	Iterator<String> itr = graph6.getEdgesFrom("a").iterator();
-  	Iterator<String> itr2 = graph6.getEdgesFrom("b").iterator();
+  	Iterator<String> itr = graph6.getStringEdgesFrom("a").iterator();
+  	Iterator<String> itr2 = graph6.getStringEdgesFrom("b").iterator();
   	for (String s : edgesA) {
   		assertEquals(itr.next(), s);
   	}
   	assertEquals(itr2.next(), "c(e1)");
-  	assertEquals("should be empty", 0, graph6.getEdgesFrom("c").size());
+  	assertEquals("should be empty", 0, graph6.getStringEdgesFrom("c").size());
   }
   
   /**
@@ -142,7 +142,7 @@ public class GraphTest {
   	graph7.addEdge("a",  "c", "e2");
   	graph7.addEdge("a",  "d", "e3");
   	String[] edgesA = {"b(e2)", "b(e3)", "c(e2)", "d(e3)"};
-  	Iterator<String> itr = graph7.getEdgesFrom("a").iterator();
+  	Iterator<String> itr = graph7.getStringEdgesFrom("a").iterator();
   	for (String s : edgesA) {
   		assertEquals(itr.next(), s);
   	}
@@ -161,7 +161,7 @@ public class GraphTest {
   	graph8.addEdge("a",  "c", "e2");
   	graph8.addEdge("a",  "c", "e2");
   	String[] edgesA = {"b(e2)", "c(e2)"};
-  	Iterator<String> itr = graph8.getEdgesFrom("a").iterator();
+  	Iterator<String> itr = graph8.getStringEdgesFrom("a").iterator();
   	for (String s : edgesA) {
   		assertEquals(itr.next(), s);
   	}
@@ -196,11 +196,11 @@ public class GraphTest {
   	graph10.addEdge("a",  "c", "e2");
   	graph10.addEdge("a",  "d", "e3");
   	String[] children = {"b", "c", "d"};
-  	Iterator<String> itr = graph10.getChildren("a").iterator();
+  	Iterator<String> itr = graph10.getConnectedNodes("a").iterator();
   	for (String s : children) {
   		assertEquals(itr.next(), s);
   	}
-  	assertEquals(graph10.getChildren("b").size(), 1);
-  	assertEquals(graph10.getChildren("c").size(), 0);
+  	assertEquals(graph10.getConnectedNodes("b").size(), 1);
+  	assertEquals(graph10.getConnectedNodes("c").size(), 0);
   } 
 }

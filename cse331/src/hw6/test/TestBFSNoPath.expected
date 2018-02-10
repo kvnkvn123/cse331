@@ -1,0 +1,15 @@
+# Test the BFS on graphs with no paths
+
+loaded graph simple
+simple contains:
+unknown character aaa
+
+loaded graph simple2
+path from aaa to bbb:
+no path found
+path from aaa to ccc:
+no path found
+path from ddd to bbb:
+no path found
+path from ccc to bbb:
+no path found

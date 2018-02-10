@@ -1,0 +1,8 @@
+# Test the parser on a graph that contains several nodes
+
+LoadGraph sample1 sampleGraph1.tsv
+ListNodes sample1
+ListChildren sample1 aaa
+ListChildren sample1 bbb
+ListChildren sample1 ccc
+ListChildren sample1 ddd

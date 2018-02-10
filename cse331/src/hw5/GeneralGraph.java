@@ -105,6 +105,21 @@ public interface GeneralGraph {
 			String label);
 	
 	/**
+	 * Returns a list of nodes in the 
+	 * graph which are connected to the given node. In other words
+	 * the nodes in the returned list have edges connecting the 
+	 * given node directly to them. The list's iterator returns the nodes
+	 * in ascending alphabetic order
+	 * 
+	 * @param node the node from which we are getting
+	 * 	connected nodes
+	 * @throw IllegalArgumentException if !isNode(node)
+	 * @return An list of nodes in the graph that are
+	 * 	children of the given node
+	 */
+	public Set<String> getConnectedNodes(String node);
+	
+	/**
 	 * Returns a list of strings representing edges connected to
 	 * the given fromNode. If the instance is a directed graph
 	 * returns edges directed from fromNode. Strings are of the form 
@@ -117,7 +132,7 @@ public interface GeneralGraph {
 	 * @return Returns a list of strings representing edges 
 	 * 	originating from the given fromNode
 	 */
-	public List<String> getEdgesFrom(String fromNode);
+	//public List<String> getEdgesFrom(String fromNode);
 	
 	/**
 	 * Returns a set of strings representing nodes in the graph. 

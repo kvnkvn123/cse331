@@ -10,7 +10,10 @@ import java.io.Writer;
 import java.util.List;
 
 import hw5.Graph;
+import hw5.Graph.Edge;
 import hw5.test.HW5TestDriver;
+import hw6.MarvelPaths;
+import hw6.MarvelParser.MalformedDataException;
 
 
 /**
@@ -85,9 +88,11 @@ public class HW6TestDriver extends HW5TestDriver {
     }
 	
 	// TODO
-	private void loadGraph(List<String> arguments) {
+	private void loadGraph(List<String> arguments) 
+			throws MalformedDataException {
         if (arguments.size() != 2) {
-            throw new CommandException("Bad arguments to LoadGraph: " + arguments);
+            throw new CommandException("Bad arguments to LoadGraph: " 
+            		+ arguments);
         }
 
         String graphName = arguments.get(0);
@@ -96,13 +101,23 @@ public class HW6TestDriver extends HW5TestDriver {
     }
 
 	// TODO
-    private void loadGraph(String graphName, String fileName) {
+    private void loadGraph(String graphName, String fileName) 
+    		throws MalformedDataException {
+    	if (graphs.containsKey(graphName)) {
+    		output.println(graphName + " already exists");
+    	} else {
+    		Graph result = MarvelPaths.loadGraph("src/hw6/data/" + 
+    												fileName);
+    		graphs.put(graphName, result);
+    		output.println("loaded graph " + graphName);
+    	}
     }
     
     // TODO
     private void findPath(List<String> arguments) {
         if (arguments.size() != 3) {
-            throw new CommandException("Bad arguments to FindPath: " + arguments);
+            throw new CommandException("Bad arguments to FindPath: " + 
+            		arguments);
         }
 
         String graphName = arguments.get(0);
@@ -113,5 +128,27 @@ public class HW6TestDriver extends HW5TestDriver {
     
     // TODO
     private void findPath(String graphName, String fromNode, String toNode) {
+    	if (!graphs.containsKey(graphName)) {
+    		throw new IllegalArgumentException();
+    	}
+    	String start = fromNode.replace("_", " ");
+    	String dest = toNode.replace("_", " ");
+		Graph graph = graphs.get(graphName);
+		if (!graph.isNode(start)) {
+			output.println("unknown character " + start);
+		} else if (!graph.isNode(dest)) {
+			output.println("unknown character " + dest);
+		} else {
+			List<Edge> path = MarvelPaths.findPath(graph, fromNode, toNode);
+			output.println("path from " + start + " to " + dest + ":");
+			if (path == null) {
+				output.println("no path found");
+			} else {
+				for (Edge e : path) {
+					output.println(e.getFromNode() + " to " + e.getToNode() + 
+									" via " + e.getLabel());
+				}
+			}
+    	}
     }
 }

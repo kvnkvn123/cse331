@@ -84,6 +84,7 @@ public class Graph implements GeneralGraph {
 	 *  the given label to this
 	 * 
 	 */
+	@Override
 	public void addNode(String label) {
 		checkRep();
 		if (label == null) {
@@ -104,6 +105,7 @@ public class Graph implements GeneralGraph {
 	 * within the graph, returns false otherwise
 	 * 
 	 */
+	@Override
 	public boolean isNode(String label) {
 		checkRep();
 		if (label == null) {
@@ -129,6 +131,7 @@ public class Graph implements GeneralGraph {
 	 * adds those nodes to the graph. if given edge does not already 
 	 * exist within the graph, adds such an edge to the graph. 
 	 */
+	@Override
 	public void addEdge(String fromNode, String toNode, 
 						String label) {
 		checkRep();
@@ -158,6 +161,7 @@ public class Graph implements GeneralGraph {
 	 * 	fromNode to toNode with the given label. Returns 
 	 * 	false otherwise
 	 */
+	@Override
 	public boolean isEdgeBetween(String fromNode, String toNode, 
 								String label) {
 		checkRep();
@@ -185,8 +189,33 @@ public class Graph implements GeneralGraph {
 	 * @return Returns true if there is an edge that extends from 
 	 * 	fromNode to toNode. Returns false otherwise
 	 */
+	@Override
 	public boolean isEdgeBetween(String fromNode, String toNode) {
 		return isEdgeBetween(fromNode, toNode, null);
+	}
+	
+	/**
+	 * Returns a list of Edges representing edges originating 
+	 * from the given fromNode. The iterator of the list
+	 * returns them sorted alphabetically first
+	 * according to the nodes they extend to, and then according
+	 * to the labels of the edges. 
+	 * 
+	 * @param fromNode the node from which the edge(s) extend(s)
+	 * @throws IllegalArgumentException if !isNode(fromNode)
+	 * @return Returns a list of Edges representing edges 
+	 * 	originating from the given fromNode
+	 */
+	public List<Edge> getEdgesFrom(String fromNode) {
+		checkRep();
+		if (!isNode(fromNode)) {
+			throw new IllegalArgumentException();
+		}
+		List<Edge> result = new LinkedList<>();
+		for (Edge e : adjacencyList.get(fromNode)) {
+			result.add(e);
+		}
+		return result;
 	}
 	
 	/**
@@ -204,7 +233,7 @@ public class Graph implements GeneralGraph {
 	 * @return Returns a list of strings representing edges 
 	 * 	originating from the given fromNode
 	 */
-	public List<String> getEdgesFrom(String fromNode) {
+	public List<String> getStringEdgesFrom(String fromNode) {
 		checkRep();
 		if (!isNode(fromNode)) {
 			throw new IllegalArgumentException();
@@ -233,7 +262,7 @@ public class Graph implements GeneralGraph {
 	 * Returns a list of nodes in the 
 	 * graph which are children of the given node. In other words
 	 * the nodes in the returned list have edges extending from the 
-	 * given node to them. The list's iterator returns the nodes
+	 * given node directly to them. The list's iterator returns the nodes
 	 * in ascending alphabetic order
 	 * 
 	 * @param node the parent node form which we are getting
@@ -242,7 +271,8 @@ public class Graph implements GeneralGraph {
 	 * @return An list of nodes in the graph that are
 	 * 	children of the given node
 	 */
-	public Set<String> getChildren(String node) {
+	@Override
+	public Set<String> getConnectedNodes(String node) {
 		checkRep();
 		if (!isNode(node)) {
 			throw new IllegalArgumentException();
@@ -269,7 +299,7 @@ public class Graph implements GeneralGraph {
 	 * 	No edge from the same from-Node to to-Node can have the same label.  
 	 *
 	 */
-	private final class Edge implements Comparable<Edge> {
+	public final class Edge implements Comparable<Edge> {
 		
 		/** Node from which the edge extends */
 	  private final String fromNode;
@@ -306,7 +336,7 @@ public class Graph implements GeneralGraph {
 	   * @effects Constructs a new Edge from the fromNode
 	   *  to the toNode with the given label
 	   */
-		public Edge(String fromNode, String toNode, String label) {
+		private Edge(String fromNode, String toNode, String label) {
 			if (label == null || toNode == null ||
 					fromNode == null) {
 				throw new IllegalArgumentException();

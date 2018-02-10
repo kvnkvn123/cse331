@@ -1,0 +1,14 @@
+# Test the BFS on a graph with multiple paths
+
+LoadGraph simple simpleGraph3.tsv
+ListNodes simple
+
+FindPath simple a a
+FindPath simple a b
+FindPath simple b a
+FindPath simple a c
+FindPath simple c a
+FindPath simple a e
+FindPath simple g e
+FindPath simple a h
+FindPath simple g c

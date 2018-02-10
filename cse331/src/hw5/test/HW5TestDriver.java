@@ -52,7 +52,6 @@ public class HW5TestDriver {
     }
 
     /** String -> Graph: maps the names of graphs to the actual graph **/
-    //TODO for the student: Parameterize the next line correctly.
     protected final Map<String, Graph> graphs = new HashMap<String, Graph>();
     protected final PrintWriter output;
     protected final BufferedReader input;
@@ -216,7 +215,7 @@ public class HW5TestDriver {
     	if (!graphs.containsKey(graphName)) {
   			throw new IllegalArgumentException();
   		}
-    	List<String> children = graphs.get(graphName).getEdgesFrom(parentName);
+    	List<String> children = graphs.get(graphName).getStringEdgesFrom(parentName);
     	String result = "the children of " + parentName + 
     					" in " + graphName + " are:";
     	for (String child : children) {

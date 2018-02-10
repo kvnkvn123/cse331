@@ -1,0 +1,28 @@
+# Test the BFS on a graph with multiple paths
+
+loaded graph simple
+simple contains: a b c e f g h i
+
+path from a to a:
+path from a to b:
+a to b via 1
+path from b to a:
+b to a via 1
+path from a to c:
+a to c via 3
+path from c to a:
+c to a via 3
+path from a to e:
+a to b via 1
+b to e via 6
+path from g to e:
+g to f via 8
+f to b via 7
+b to e via 6
+path from a to h:
+no path found
+path from g to c:
+g to f via 8
+f to b via 7
+b to a via 1
+a to c via 3
