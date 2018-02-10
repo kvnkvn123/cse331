@@ -77,7 +77,7 @@ public class MarvelPaths {
 	 */
 	public static List<Edge> findPath(Graph graph, String start, String dest) {
 		if (graph == null || !(graph.isNode(start) && graph.isNode(dest))) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("graph does not exist");
 		}
 		Queue<String> queue = new LinkedList<>();
 		Map<String, List<Edge>> paths = new HashMap<>();

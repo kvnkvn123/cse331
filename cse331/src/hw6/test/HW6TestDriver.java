@@ -139,7 +139,7 @@ public class HW6TestDriver extends HW5TestDriver {
 		} else if (!graph.isNode(dest)) {
 			output.println("unknown character " + dest);
 		} else {
-			List<Edge> path = MarvelPaths.findPath(graph, fromNode, toNode);
+			List<Edge> path = MarvelPaths.findPath(graph, start, dest);
 			output.println("path from " + start + " to " + dest + ":");
 			if (path == null) {
 				output.println("no path found");
