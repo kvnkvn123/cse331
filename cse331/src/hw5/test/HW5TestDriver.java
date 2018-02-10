@@ -45,7 +45,7 @@ public class HW5TestDriver {
         }
     }
 
-    private static void printUsage() {
+    protected static void printUsage() {
         System.err.println("Usage:");
         System.err.println("to read from a file: java hw5.test.HW5TestDriver <name of input script>");
         System.err.println("to read from standard in: java hw5.test.HW5TestDriver");
@@ -53,9 +53,9 @@ public class HW5TestDriver {
 
     /** String -> Graph: maps the names of graphs to the actual graph **/
     //TODO for the student: Parameterize the next line correctly.
-    private final Map<String, Graph> graphs = new HashMap<String, Graph>();
-    private final PrintWriter output;
-    private final BufferedReader input;
+    protected final Map<String, Graph> graphs = new HashMap<String, Graph>();
+    protected final PrintWriter output;
+    protected final BufferedReader input;
 
     /**
      * @requires r != null && w != null
@@ -101,7 +101,7 @@ public class HW5TestDriver {
         }
     }
 
-    private void executeCommand(String command, List<String> arguments) {
+    protected void executeCommand(String command, List<String> arguments) {
         try {
             if (command.equals("CreateGraph")) {
                 createGraph(arguments);
@@ -228,7 +228,7 @@ public class HW5TestDriver {
     /**
      * This exception results when the input file cannot be parsed properly
      **/
-    static class CommandException extends RuntimeException {
+    protected static class CommandException extends RuntimeException {
 
         public CommandException() {
             super();
