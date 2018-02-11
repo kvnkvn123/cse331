@@ -6,3 +6,24 @@ Name:  <replace this with your name>
 Briefly describe any changes made to your Graph ADT from HW5 and why 
 those changes were made below.  (See the HW6 assignment for details.)
 
+1. Major change: I changed the public interface in a few different ways
+ 1: I changed the visibility of my edge objects from a private nexted class
+ 	to a protected nested class. The constructor is still private, so
+ 	egdes cannot be created outside the graph class, but i realized that 
+ 	having an immutable object
+ 	that represents edge data is useful for clients.
+ 	
+ 2. I changed some of the methods in the GeneralGraph interface (and Graph
+ 	class) I converted getChildren to getConnectedNodes(since this
+ 	interface could be used for a non-directed graph) and I included this
+ 	in the GeneralGraph interface since this seems to be a useful method
+ 
+ 3. I changed the getEdgesFrom() method in the interface to a method in
+ 	the graph implementation only. Then, I allowed this method to
+ 	return edges. I did not keep this as part of the interace since I
+ 	wanted the interface to allow implementations that do not use
+ 	edge objects.
+ 
+ 4. I changed the original geEdgesFrom method() to a getStringEdgesFrom()
+ 	method that returns the edges in string form, facilitating the
+ 	format specificed in the HW5 test driver.
