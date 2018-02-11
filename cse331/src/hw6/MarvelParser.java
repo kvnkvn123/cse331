@@ -71,7 +71,6 @@ public class MarvelParser {
             inputLine = inputLine.replace("\"", "");
             String[] tokens = inputLine.split("\t");
             if (tokens.length != 2) {
-            	System.out.println(tokens.length);
                 throw new MalformedDataException("Line should contain exactly one tab: "
                                                  + inputLine);
             }

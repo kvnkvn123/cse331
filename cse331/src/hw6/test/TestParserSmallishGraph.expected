@@ -6,3 +6,7 @@ the children of aaa in sample1 are: bbb(111) bbb(222) ccc(111)
 the children of bbb in sample1 are: aaa(111) aaa(222) ccc(111)
 the children of ccc in sample1 are: aaa(111) bbb(111) ddd(333)
 the children of ddd in sample1 are: ccc(333)
+
+sample1 already exists
+sample1 already exists
+garbage.tsv malformed

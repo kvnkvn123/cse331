@@ -12,3 +12,8 @@ FindPath simple a e
 FindPath simple g e
 FindPath simple a h
 FindPath simple g c
+FindPath simple a j
+FindPath simple l b
+FindPath simple x y
+FindPath simple b b
+FindPath simple v v

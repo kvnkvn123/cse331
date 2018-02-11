@@ -13,9 +13,14 @@ import hw5.Graph;
 import hw5.Graph.Edge;
 import hw6.MarvelParser.MalformedDataException;
 
-
+/**
+ * This class contains static methods that operate on
+ * graphs. It contains methods to construct a graph from
+ * data in a.tsv file, and a method to find paths between
+ * nodes in a graph using a breadth-first search algorithm
+ *
+ */
 public class MarvelPaths {
-	//private final Graph marvelGraph = new Graph();
 	
 	/**
 	 * Reads a .tsv file and constructs a graph representing this information.
@@ -66,18 +71,26 @@ public class MarvelPaths {
 	 * @param start the node from which the path should start
 	 * @param dest the node to which the must should lead
 	 * @return A list of edges representing the shortest path between
-	 * start and dest. If there are multiple paths of the same size, returns 
+	 * start and dest. Returns an empty list if start.equals(dest), and 
+	 * returns null if no path exists.
+	 * 	 If there are multiple paths of the same size, returns 
 	 * the shorted path lexicographically: it picks the lexicographically first 
 	 * node at each step in the path, and if those nodes have several 
-	 * edges between them,it returns the edge with the the lexicographically 
-	 * lowest label.
+	 * edges between them, it returns the edge with the the lexicographically 
+	 * lowest label. 
 	 * @throws IllegalArgumentException if !(graph.isNode(start) && graph.isNode(dest))
-	 * `or if graph == null
+	 * @throws NullPointerException if graph == null
 	 * 
 	 */
 	public static List<Edge> findPath(Graph graph, String start, String dest) {
-		if (graph == null || !(graph.isNode(start) && graph.isNode(dest))) {
-			throw new IllegalArgumentException("graph does not exist");
+		if (graph == null) {
+			throw new NullPointerException();
+		}
+		if (!graph.isNode(start)) {
+			throw new IllegalArgumentException(start);
+		}
+		if (!graph.isNode(dest)) {
+			throw new IllegalArgumentException(dest);
 		}
 		Queue<String> queue = new LinkedList<>();
 		Map<String, List<Edge>> paths = new HashMap<>();
@@ -87,13 +100,7 @@ public class MarvelPaths {
 		
 		while (!queue.isEmpty()) {
 			String next = queue.remove();
-			//System.out.println("now at: " + next);
 			List<Edge> currentPath = paths.get(next);
-			//System.out.print("Path: ");
-			//for (Edge e : currentPath) {
-			//	System.out.print(" " + e.getToNode());
-			//}
-			//System.out.println();
 			if (next.equals(dest)) {
 				return currentPath;
 			}

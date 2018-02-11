@@ -101,19 +101,22 @@ public class HW6TestDriver extends HW5TestDriver {
     }
 
 	// TODO
-    private void loadGraph(String graphName, String fileName) 
+    private void loadGraph(String graphName, String fileName)
     		throws MalformedDataException {
-    	if (graphs.containsKey(graphName)) {
-    		output.println(graphName + " already exists");
-    	} else {
-    		Graph result = MarvelPaths.loadGraph("src/hw6/data/" + 
-    												fileName);
-    		graphs.put(graphName, result);
-    		output.println("loaded graph " + graphName);
+    	try {
+	    	if (graphs.containsKey(graphName)) {
+	    		output.println(graphName + " already exists");
+	    	} else {
+	    		Graph result = MarvelPaths.loadGraph("src/hw6/data/" + 
+	    												fileName);
+	    		graphs.put(graphName, result);
+	    		output.println("loaded graph " + graphName);
+	    	}
+    	} catch (MalformedDataException e) {
+    		output.println(fileName + " malformed");
     	}
     }
     
-    // TODO
     private void findPath(List<String> arguments) {
         if (arguments.size() != 3) {
             throw new CommandException("Bad arguments to FindPath: " + 
@@ -126,19 +129,14 @@ public class HW6TestDriver extends HW5TestDriver {
         findPath(graphName, fromNode, toNode);
     }
     
-    // TODO
     private void findPath(String graphName, String fromNode, String toNode) {
     	if (!graphs.containsKey(graphName)) {
     		throw new IllegalArgumentException();
     	}
-    	String start = fromNode.replace("_", " ");
-    	String dest = toNode.replace("_", " ");
-		Graph graph = graphs.get(graphName);
-		if (!graph.isNode(start)) {
-			output.println("unknown character " + start);
-		} else if (!graph.isNode(dest)) {
-			output.println("unknown character " + dest);
-		} else {
+    	try {
+	    	String start = fromNode.replace("_", " ");
+	    	String dest = toNode.replace("_", " ");
+			Graph graph = graphs.get(graphName);
 			List<Edge> path = MarvelPaths.findPath(graph, start, dest);
 			output.println("path from " + start + " to " + dest + ":");
 			if (path == null) {
@@ -149,6 +147,8 @@ public class HW6TestDriver extends HW5TestDriver {
 									" via " + e.getLabel());
 				}
 			}
+    	} catch (IllegalArgumentException e) {
+    		output.println("unknown character " + e.getMessage());
     	}
     }
 }
