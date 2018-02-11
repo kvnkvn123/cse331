@@ -1,15 +1,15 @@
 CSE 331 Homework 6.  Answers to Written questions.
 Edit this file to supply your answers.
 
-Name:  <replace this with your name>
+Name:  Tushar Khurana
 
 Briefly describe any changes made to your Graph ADT from HW5 and why 
 those changes were made below.  (See the HW6 assignment for details.)
 
 1. Major change: I changed the public interface in a few different ways
- 1: I changed the visibility of my edge objects from a private nexted class
+ 1: I changed the visibility of my edge objects from a private nested class
  	to a protected nested class. The constructor is still private, so
- 	egdes cannot be created outside the graph class, but i realized that 
+ 	edges cannot be created outside the graph class, but i realized that 
  	having an immutable object
  	that represents edge data is useful for clients.
  	
@@ -20,10 +20,14 @@ those changes were made below.  (See the HW6 assignment for details.)
  
  3. I changed the getEdgesFrom() method in the interface to a method in
  	the graph implementation only. Then, I allowed this method to
- 	return edges. I did not keep this as part of the interace since I
+ 	return edges. I did not keep this as part of the interface since I
  	wanted the interface to allow implementations that do not use
  	edge objects.
  
  4. I changed the original geEdgesFrom method() to a getStringEdgesFrom()
  	method that returns the edges in string form, facilitating the
- 	format specificed in the HW5 test driver.
+ 	format specified in the HW5 test driver.
+ 	
+ Problem 3:
+ Note on testing: I created specification tests that test for edge cases
+ by catching exceptions, so i did not need to create implementation tests

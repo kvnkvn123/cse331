@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Scanner;
 import java.util.Set;
 
 import hw5.Graph;
@@ -21,6 +22,59 @@ import hw6.MarvelParser.MalformedDataException;
  *
  */
 public class MarvelPaths {
+	
+	// This class does not require an abstraction function
+	// or rep invariant since it does not represent an ADT
+	
+	/**
+	 * This main method constructs a graph using the marvel universe
+	 * information provided in marvel.tsv. It then allows a user
+	 * to input pairs of and then print to the console the path 
+	 * between those two pairs, if any
+	 */
+	public static void main(String[] args) throws MalformedDataException {
+		Scanner console = new Scanner(System.in);
+		Graph marvelGraph = loadGraph("src/hw6/data/marvel.tsv");
+		
+		String again = "yes";
+		while (!again.equals("n")) {
+			System.out.println("Find connections between characters");
+			System.out.println("in the marvel universe!");
+			System.out.println("Enter the names of any two marvel");
+			System.out.println("comic characters and see if they are");
+			System.out.println("connected by comic books.");
+			System.out.println("Type the name of the first character: ");
+			String char1 = console.next().toUpperCase();
+			System.out.println("Type the name of the second character: ");
+			String char2 = console.next().toUpperCase();
+			System.out.println();
+			System.out.println(char1 + " and " + char2);
+			System.out.println();
+			
+			try {
+				List<Edge> path = findPath(marvelGraph, char1, char2);
+				if (path == null) {
+					System.out.println("there is no path between " +
+										"these characters");
+				} else {
+					System.out.println("These characters are connected!");
+					for (Edge e : path) {
+						System.out.println(e.getFromNode() + " and " +
+								e.getToNode() + " appear in " + e.getLabel());
+					}
+				}
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage() + " is not a marvel character");
+			} finally {
+				System.out.println("Enter any letter to try again, " 
+								+ "enter \"n\" directly to quit");
+				again = console.next();
+			}
+			
+		}
+		
+		console.close();		
+	}
 	
 	/**
 	 * Reads a .tsv file and constructs a graph representing this information.
