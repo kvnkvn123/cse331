@@ -259,7 +259,7 @@ public class Graph implements GeneralGraph {
 	}
 	
 	/**
-	 * Returns a list of nodes in the 
+	 * Returns a set of nodes in the 
 	 * graph which are children of the given node. In other words
 	 * the nodes in the returned list have edges extending from the 
 	 * given node directly to them. The list's iterator returns the nodes

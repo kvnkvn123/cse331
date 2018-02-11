@@ -1,6 +1,5 @@
 package hw5;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -105,7 +104,7 @@ public interface GeneralGraph {
 			String label);
 	
 	/**
-	 * Returns a list of nodes in the 
+	 * Returns a set of nodes in the 
 	 * graph which are connected to the given node. In other words
 	 * the nodes in the returned list have edges connecting the 
 	 * given node directly to them. The list's iterator returns the nodes
@@ -118,21 +117,6 @@ public interface GeneralGraph {
 	 * 	children of the given node
 	 */
 	public Set<String> getConnectedNodes(String node);
-	
-	/**
-	 * Returns a list of strings representing edges connected to
-	 * the given fromNode. If the instance is a directed graph
-	 * returns edges directed from fromNode. Strings are of the form 
-	 * "<i>toNode</i>(<i>edgeLabel</i>)"
-	 * where toNode represents the node to which the edge extends
-	 * and edgeLabel represents the label of the edge
-	 * 
-	 * @param fromNode the node from which the edge(s) extend(s)
-	 * @throws IllegalArgumentException if !isNode(fromNode)
-	 * @return Returns a list of strings representing edges 
-	 * 	originating from the given fromNode
-	 */
-	//public List<String> getEdgesFrom(String fromNode);
 	
 	/**
 	 * Returns a set of strings representing nodes in the graph. 
