@@ -44,9 +44,9 @@ public class MarvelPaths {
 			System.out.println("comic characters and see if they are");
 			System.out.println("connected by comic books.");
 			System.out.println("Type the name of the first character: ");
-			String char1 = console.next().toUpperCase();
+			String char1 = console.next().toUpperCase().replace("_", " ");
 			System.out.println("Type the name of the second character: ");
-			String char2 = console.next().toUpperCase();
+			String char2 = console.next().toUpperCase().replace("_", " ");
 			System.out.println();
 			System.out.println(char1 + " and " + char2);
 			System.out.println();
@@ -58,6 +58,7 @@ public class MarvelPaths {
 										"these characters");
 				} else {
 					System.out.println("These characters are connected!");
+					System.out.println();
 					for (Edge e : path) {
 						System.out.println(e.getFromNode() + " and " +
 								e.getToNode() + " appear in " + e.getLabel());
@@ -66,6 +67,7 @@ public class MarvelPaths {
 			} catch (IllegalArgumentException e) {
 				System.out.println(e.getMessage() + " is not a marvel character");
 			} finally {
+				System.out.println();
 				System.out.println("Enter any letter to try again, " 
 								+ "enter \"n\" directly to quit");
 				again = console.next();
