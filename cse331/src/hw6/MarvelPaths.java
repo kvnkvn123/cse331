@@ -29,7 +29,7 @@ public class MarvelPaths {
 	/**
 	 * This main method constructs a graph using the marvel universe
 	 * information provided in marvel.tsv. It then allows a user
-	 * to input pairs of and then print to the console the path 
+	 * to input pairs of characters and then prints to the console the path 
 	 * between those two pairs, if any
 	 */
 	public static void main(String[] args) throws MalformedDataException {
