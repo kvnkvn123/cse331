@@ -32,7 +32,7 @@ public class Graph<T1,T2> implements GeneralGraph<T1, T2> {
 	
 	/** A map storing each node in the graph as a key and sets of
 	 *  edges originating from each node as values */
-	private Map<T1, Set<Edge<T1, T2>>> adjacencyList;
+	private final Map<T1, Set<Edge<T1, T2>>> adjacencyList;
 	
 	/** Determines whether to perform a thorough check of the
 	 * representation invariant: set to true when debugging */
@@ -213,9 +213,30 @@ public class Graph<T1,T2> implements GeneralGraph<T1, T2> {
 		if (!isNode(fromNode)) {
 			throw new IllegalArgumentException();
 		}
-		List<Edge<T1, T2>> result = 
-				new ArrayList<>(adjacencyList.get(fromNode));
-		return result;
+		return new ArrayList<>(adjacencyList.get(fromNode));
+	}
+	
+	/**
+	 * Returns an edge between fromNode and toNode, provided the
+	 * given edge exists. Returns null otherwise
+	 * @param fromNode the node from which the edge extends
+	 * @param toNode the node to which the edge extends
+	 * @throws IllegalArgumentException if fromNode == null ||
+	 * 	toNode == null || !isNode(fromNode)
+	 * @return Returns edge between fromNode and toNode, if the
+	 * given edge exists. Returns null otherwise
+	 */
+	public Edge<T1, T2> getEdgeBetween(T1 fromNode, T1 toNode) {
+		checkRep();
+		if (fromNode == null || toNode == null) {
+			throw new IllegalArgumentException();
+		}
+		for (Edge<T1, T2> edge : getEdgesFrom(fromNode)) {
+			if (toNode.equals(edge.getToNode())) {
+				return edge;
+			}
+		}
+		return null;
 	}
 	
 	/**

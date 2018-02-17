@@ -102,6 +102,10 @@ public class MarvelPaths {
 		for (String character : characters) {
 			result.addNode(character);
 		}
+		
+		// for every book in the dataset, create an edge
+		// between each pair of characters in both directions
+		// with the book name as the edge label
 		for (String book : books.keySet()) {
 			for (String character1 : books.get(book)) {
 				for (String character2 : books.get(book)) {
