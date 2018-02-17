@@ -4,10 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import hw5.Edge;
+import hw5.EdgeComparator;
 import hw5.Graph;
 
 public class GraphTest {
@@ -25,7 +31,7 @@ public class GraphTest {
    */
   @Test
   public void testConstructor() {
-  	new Graph();
+  	new Graph<String, String>();
   }
   
   /**
@@ -33,7 +39,7 @@ public class GraphTest {
    */
   @Test
   public void testAddingNodes() {
-  	Graph graph1 = new Graph();
+	Graph<String, String> graph1 = new Graph<>();
   	String[] nodes = {"a", "b", "d", "c", ""};
   	for (String label : nodes) {
   		graph1.addNode(label);
@@ -45,8 +51,8 @@ public class GraphTest {
    */
   @Test
   public void testIsNode() {
-  	Graph graph1 = new Graph();
-  	Graph graph2 = new Graph();
+	Graph<String, String> graph1 = new Graph<>();
+	Graph<String, String> graph2 = new Graph<>();
   	String[] nodes = {"a", "b", "d", "c", ""};
   	for (String label : nodes) {
   		graph1.addNode(label);
@@ -64,7 +70,7 @@ public class GraphTest {
    */
   @Test
   public void testGetNodes() {
-  	Graph graph1 = new Graph();
+	Graph<String, String> graph1 = new Graph<>();
   	String[] nodes = {"", "a", "b", "c", "d"};
   	for (String label : nodes) {
   		graph1.addNode(label);
@@ -81,7 +87,7 @@ public class GraphTest {
    */
   @Test
   public void testAddingOneEdge() {
-  	Graph graph1 = new Graph();
+	Graph<String, String> graph1 = new Graph<>();
   	graph1.addEdge("a",  "b", "e1");
   	graph1.addEdge("b",  "c", "e1"); 	
   }
@@ -91,7 +97,7 @@ public class GraphTest {
    */
   @Test
   public void testIsEdgeBetween() {
-  	Graph graph5 = new Graph();
+	Graph<String, String> graph5 = new Graph<>();
   	graph5.addEdge("a", "b", "e1");
   	graph5.addEdge("b", "c", "e1"); 
   	graph5.addEdge("a", "a", "e1");
@@ -112,7 +118,7 @@ public class GraphTest {
    */
   @Test
   public void testGetEdgesFrom() {
-  	Graph graph6 = new Graph();
+	Graph<String, String> graph6 = new Graph<>();
   	graph6.addEdge("a",  "a", "e1");
   	graph6.addEdge("a",  "a", "e2");
   	graph6.addEdge("a",  "b", "e1");
@@ -121,13 +127,23 @@ public class GraphTest {
   	graph6.addEdge("a",  "d", "e1");
   	graph6.addEdge("b",  "c", "e1"); 
   	String[] edgesA = {"a(e1)", "a(e2)", "b(e1)", "c(e1)", "c(e2)", "d(e1)"};
-  	Iterator<String> itr = graph6.getStringEdgesFrom("a").iterator();
-  	Iterator<String> itr2 = graph6.getStringEdgesFrom("b").iterator();
+  	Iterator<String> itr = getStringEdgesFrom(graph6, "a").iterator();
+  	Iterator<String> itr2 = getStringEdgesFrom(graph6, "b").iterator();
   	for (String s : edgesA) {
   		assertEquals(itr.next(), s);
   	}
   	assertEquals(itr2.next(), "c(e1)");
-  	assertEquals("should be empty", 0, graph6.getStringEdgesFrom("c").size());
+  	assertEquals("should be empty", 0, getStringEdgesFrom(graph6, "c").size());
+  }
+  
+  private List<String> getStringEdgesFrom(Graph<String, String> graph, String node) {
+	List<Edge<String, String>> edges = graph.getEdgesFrom(node);
+  	Collections.sort(edges, new EdgeComparator<String, String>());
+  	List<String> result = new ArrayList<String>();
+  	for (Edge<String, String> edge : edges) {
+  		result.add(edge.getToNode() + "(" + edge.getLabel() + ")");
+  	}
+  	return result;
   }
   
   /**
@@ -135,14 +151,14 @@ public class GraphTest {
    */
   @Test
   public void testAddingMultipleEdges() {
-  	Graph graph7 = new Graph();
+	Graph<String, String> graph7 = new Graph<>();
   	graph7.addEdge("a",  "b", "e2");
   	graph7.addEdge("a",  "b", "e3");
   	graph7.addEdge("b",  "a", "e1");
   	graph7.addEdge("a",  "c", "e2");
   	graph7.addEdge("a",  "d", "e3");
   	String[] edgesA = {"b(e2)", "b(e3)", "c(e2)", "d(e3)"};
-  	Iterator<String> itr = graph7.getStringEdgesFrom("a").iterator();
+  	Iterator<String> itr = getStringEdgesFrom(graph7, "a").iterator();
   	for (String s : edgesA) {
   		assertEquals(itr.next(), s);
   	}
@@ -154,14 +170,14 @@ public class GraphTest {
    */
   @Test
   public void testAddingExistingEdges() {
-  	Graph graph8 = new Graph();
+	Graph<String, String> graph8 = new Graph<>();
   	graph8.addEdge("a",  "b", "e2");
   	graph8.addEdge("a",  "b", "e2");
   	graph8.addEdge("b",  "a", "e1");
   	graph8.addEdge("a",  "c", "e2");
   	graph8.addEdge("a",  "c", "e2");
   	String[] edgesA = {"b(e2)", "c(e2)"};
-  	Iterator<String> itr = graph8.getStringEdgesFrom("a").iterator();
+  	Iterator<String> itr = getStringEdgesFrom(graph8, "a").iterator();
   	for (String s : edgesA) {
   		assertEquals(itr.next(), s);
   	}
@@ -173,7 +189,7 @@ public class GraphTest {
    */
   @Test
   public void testAddingEdgesWithNewNodes() {
-  	Graph graph9 = new Graph();
+	Graph<String, String> graph9 = new Graph<>();
   	graph9.addEdge("f",  "g", "e1");
   	graph9.addEdge("f",  "h", "e1"); 
   	String[] nodes = {"f", "g", "h"};
@@ -189,7 +205,7 @@ public class GraphTest {
    */
   @Test
   public void testGetChildren() {
-  	Graph graph10 = new Graph();
+	Graph<String, String> graph10 = new Graph<>();
   	graph10.addEdge("a",  "b", "e2");
   	graph10.addEdge("a",  "b", "e3");
   	graph10.addEdge("b",  "a", "e1");

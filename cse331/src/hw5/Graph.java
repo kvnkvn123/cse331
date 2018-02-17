@@ -3,10 +3,10 @@ package hw5;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  * <b>Graph</> represents the concept of a directed, labeled multi-graph.
@@ -15,6 +15,10 @@ import java.util.LinkedList;
  * that go from one node to another. Each edge has a label containing
  * information, and pairs of nodes can have multiple edges between them.
  * 
+ * Nodes are represented by their data (or labels). Nodes have labels 
+ * of type T1
+ * 
+ * Edges have labels of type T2
  *
  * Abstract Invariant:
  * 	No two nodes in the graph can be equal (no to nodes can have
@@ -24,11 +28,11 @@ import java.util.LinkedList;
  *  identical labels.	
  *
  */
-public class Graph implements GeneralGraph {
+public class Graph<T1,T2> implements GeneralGraph<T1, T2> {
 	
 	/** A map storing each node in the graph as a key and sets of
-	 *  edges	originating from each node as values */
-	private Map<String, Set<Edge>> adjacencyList;
+	 *  edges originating from each node as values */
+	private Map<T1, Set<Edge<T1, T2>>> adjacencyList;
 	
 	/** Determines whether to perform a thorough check of the
 	 * representation invariant: set to true when debugging */
@@ -36,9 +40,9 @@ public class Graph implements GeneralGraph {
 	
 	// Abstraction Function:
 	//  A graph consists of nodes and directed edges between nodes such 
-	//	that r.adjacencyList.keySet() is the set of strings which represent 
-	//	nodes in the graph (with the string being the node's label),
-	//	and if a node in the graph is represented by string n
+	//	that r.adjacencyList.keySet() is the set of T1s which represent 
+	//	nodes in the graph (with the T1 being the node's label),
+	//	and if a node in the graph is represented by T1 n
 	//	r.adjacencyList.get(n) is the list of Edge objects which represent
 	//	edges directed away from node n to other nodes in the graph.
 
@@ -52,9 +56,9 @@ public class Graph implements GeneralGraph {
 	private void checkRep() {
 		assert (adjacencyList != null) : "adjacencyList cannot be null";
 		if (deepCheck) {
-			for (String n : adjacencyList.keySet()) {
+			for (T1 n : adjacencyList.keySet()) {
 				assert (n != null) : "node cannot be null";
-				for (Edge e : adjacencyList.get(n)) {
+				for (Edge<T1, T2> e : adjacencyList.get(n)) {
 					assert (e != null) : "edge in node " + n +
 								" cannot be null";
 				}
@@ -67,7 +71,7 @@ public class Graph implements GeneralGraph {
 	 * @effects Constructs a new empty graph
 	 */
 	public Graph() {
-		adjacencyList = new TreeMap<String, Set<Edge>>();
+		adjacencyList = new HashMap<T1, Set<Edge<T1, T2>>>();
 		checkRep();
 	}
 	
@@ -85,12 +89,13 @@ public class Graph implements GeneralGraph {
 	 * 
 	 */
 	@Override
-	public void addNode(String label) {
+	public void addNode(T1 label) {
 		checkRep();
 		if (label == null) {
 			throw new IllegalArgumentException();
 		}
-		adjacencyList.put(label, new TreeSet<Edge>());
+		if (!adjacencyList.containsKey(label))
+			adjacencyList.put(label, new HashSet<Edge<T1, T2>>());
 		checkRep();
 	}
 	
@@ -106,7 +111,7 @@ public class Graph implements GeneralGraph {
 	 * 
 	 */
 	@Override
-	public boolean isNode(String label) {
+	public boolean isNode(T1 label) {
 		checkRep();
 		if (label == null) {
 			throw new IllegalArgumentException();
@@ -132,8 +137,8 @@ public class Graph implements GeneralGraph {
 	 * exist within the graph, adds such an edge to the graph. 
 	 */
 	@Override
-	public void addEdge(String fromNode, String toNode, 
-						String label) {
+	public void addEdge(T1 fromNode, T1 toNode, 
+						T2 label) {
 		checkRep();
 		if (!isNode(fromNode)) {
 			addNode(fromNode);
@@ -141,7 +146,7 @@ public class Graph implements GeneralGraph {
 		if (!isNode(toNode)) {
 			addNode(toNode);
 		}
-		adjacencyList.get(fromNode).add(new Edge(fromNode, toNode, label));
+		adjacencyList.get(fromNode).add(new Edge<T1, T2>(fromNode, toNode, label));
 		checkRep();
 	}
 	
@@ -162,13 +167,13 @@ public class Graph implements GeneralGraph {
 	 * 	false otherwise
 	 */
 	@Override
-	public boolean isEdgeBetween(String fromNode, String toNode, 
-								String label) {
+	public boolean isEdgeBetween(T1 fromNode, T1 toNode, 
+								T2 label) {
 		checkRep();
 		if (!isNode(fromNode) || !isNode(toNode)) {
 			return false;
 		}
-		for (Edge e : adjacencyList.get(fromNode)) {
+		for (Edge<T1, T2> e : adjacencyList.get(fromNode)) {
 			if (e.getToNode().equals(toNode) && 
 					(label == null || e.getLabel().equals(label))) {
 				return true;
@@ -190,70 +195,37 @@ public class Graph implements GeneralGraph {
 	 * 	fromNode to toNode. Returns false otherwise
 	 */
 	@Override
-	public boolean isEdgeBetween(String fromNode, String toNode) {
+	public boolean isEdgeBetween(T1 fromNode, T1 toNode) {
 		return isEdgeBetween(fromNode, toNode, null);
 	}
 	
 	/**
 	 * Returns a list of Edges representing edges originating 
-	 * from the given fromNode. The iterator of the list
-	 * returns them sorted alphabetically first
-	 * according to the nodes they extend to, and then according
-	 * to the labels of the edges. 
+	 * from the given fromNode.  
 	 * 
 	 * @param fromNode the node from which the edge(s) extend(s)
 	 * @throws IllegalArgumentException if !isNode(fromNode)
 	 * @return Returns a list of Edges representing edges 
 	 * 	originating from the given fromNode
 	 */
-	public List<Edge> getEdgesFrom(String fromNode) {
+	public List<Edge<T1, T2>> getEdgesFrom(T1 fromNode) {
 		checkRep();
 		if (!isNode(fromNode)) {
 			throw new IllegalArgumentException();
 		}
-		List<Edge> result = new LinkedList<>();
-		for (Edge e : adjacencyList.get(fromNode)) {
-			result.add(e);
-		}
+		List<Edge<T1, T2>> result = 
+				new ArrayList<>(adjacencyList.get(fromNode));
 		return result;
 	}
 	
 	/**
-	 * Returns a list of strings representing edges originating 
-	 * from the given fromNode. The iterator of the list
-	 * returns them sorted alphabetically first
-	 * according to the nodes they extend to, and then according
-	 * to the labels of the edges. Strings are of the form 
-	 * "<i>toNode</i>(<i>edgeLabel</i>)"
-	 * where toNode represents the node to which the edge extends
-	 * and edgeLabel represents the label of the edge
-	 * 
-	 * @param fromNode the node from which the edge(s) extend(s)
-	 * @throws IllegalArgumentException if !isNode(fromNode)
-	 * @return Returns a list of strings representing edges 
-	 * 	originating from the given fromNode
-	 */
-	public List<String> getStringEdgesFrom(String fromNode) {
-		checkRep();
-		if (!isNode(fromNode)) {
-			throw new IllegalArgumentException();
-		}
-		List<String> result = new LinkedList<String>();
-		for (Edge e : adjacencyList.get(fromNode)) {
-			result.add(e.getToNode() + "(" + e.getLabel() + ")");
-		}
-		return result;
-	}
-	
-	/**
-	 * Returns an unmodifiable set of strings representing nodes in the graph. 
-	 * The set's iterator returns the nodes in ascending alphabetic order.
+	 * Returns an unmodifiable set of nodes in the graph. 
 	 * Any attempts to modify this set will result 
 	 * in an UnsupportedOperationException.
 	 * 
-	 * @return A set of strings representing nodes in the graph
+	 * @return A set of T1s representing nodes in the graph
 	 */
-	public Set<String> getNodes() {
+	public Set<T1> getNodes() {
 		checkRep();
 		return Collections.unmodifiableSet(adjacencyList.keySet());
 	}
@@ -262,187 +234,24 @@ public class Graph implements GeneralGraph {
 	 * Returns a set of nodes in the 
 	 * graph which are children of the given node. In other words
 	 * the nodes in the returned list have edges extending from the 
-	 * given node directly to them. The list's iterator returns the nodes
-	 * in ascending alphabetic order
+	 * given node directly to them. 
 	 * 
 	 * @param node the parent node form which we are getting
 	 * 	child nodes
 	 * @throw IllegalArgumentException if !isNode(node)
-	 * @return An list of nodes in the graph that are
+	 * @return A set of nodes in the graph that are
 	 * 	children of the given node
 	 */
 	@Override
-	public Set<String> getConnectedNodes(String node) {
+	public Set<T1> getConnectedNodes(T1 node) {
 		checkRep();
 		if (!isNode(node)) {
 			throw new IllegalArgumentException();
 		}
-		Set<String> result = new TreeSet<String>();
-		for (Edge e : adjacencyList.get(node)) {
+		Set<T1> result = new HashSet<>();
+		for (Edge<T1, T2> e : adjacencyList.get(node)) {
 			result.add(e.getToNode());
 		}
 		return result;
 	} 
-
-	/**
-	 * <b>Edge</b> is an immutable representation of an edge
-	 * in a directed, labeled graph that originates from a particular 
-	 * node and leads to another particular node, 
-	 * creating a parent child relationship between these nodes.
-	 * 
-	 * Specified fields: 
-	 * @specfield from-node : string	// node from which the edge extends
-	 * @specfield to-node : string // node to which the edge extends
-	 * @specfield label : strings // labels of the edge
-	 * 
-	 * Abstract Invariant:
-	 * 	No edge from the same from-Node to to-Node can have the same label.  
-	 *
-	 */
-	public final class Edge implements Comparable<Edge> {
-		
-		/** Node from which the edge extends */
-	  private final String fromNode;
-
-	  /** Node to which the edge extends */
-	  private final String toNode;
-
-	  /** The information associated with this edge */
-	  private final String label;
-
-	  // Representation Invariant:
-	  //  this.fromNode != null && this.toNode != null &&
-	  //	this.label != null
-	  //
-	  // Abstraction Function:
-	  //	AF(r) = an in a graph, such that
-	  //	r.toNode = node to which the edge extends
-	  //	r.fromNode = node from which the edge originates
-	  //	r.label = label of the edge
-	  
-	  /** Checks the representation invariant */
-	  private void checkRep() {
-	  	assert (this.toNode != null) : "toNode cannot be null";
-	  	assert (this.fromNode != null) : "fromNode cannot be null";
-	  	assert (this.label != null) : "label cannot be null";
-	  }
-	  
-	  /**
-	   * @param fromNode The node from which the new edge extends
-	   * @param toNode The node to which the new edge extends
-	   * @param label The label associated with the new edge
-	   * @throws IllegalArgumentException if 
-	   * 	fromNode == null || toNode == null || label == null
-	   * @effects Constructs a new Edge from the fromNode
-	   *  to the toNode with the given label
-	   */
-		private Edge(String fromNode, String toNode, String label) {
-			if (label == null || toNode == null ||
-					fromNode == null) {
-				throw new IllegalArgumentException();
-			}
-			this.fromNode = fromNode;
-			this.toNode = toNode;
-			this.label = label;
-			checkRep();
-		}
-		
-		/**
-		 * @requires this != null
-		 * @return The node from which this edge originates
-		 * 
-		 */
-		public String getFromNode() {
-			checkRep();
-			return fromNode;
-		}
-		
-		/**
-		 * @requires this != null
-		 * @return The node to which this edge extends
-		 * 
-		 */
-		public String getToNode() {
-			checkRep();
-			return toNode;
-		}
-		
-		/**
-		 * Returns the label of this edge
-		 * 
-		 * @return The label associated with this edge
-		 * 
-		 */
-		public String getLabel() {
-			checkRep();
-			return label;
-		}
-		
-		/**
-		 * Compares this Edge to other according to the alphabetic order
-		 * of first the from-Node, then the to-Node, then the label. 
-		 * Returns a negative integer if
-		 * the data of this edge precedes the other edge's data
-		 * lexicographically, returns a positive integer if the label
-		 * of this edge follows the other node's label lexicographically,
-		 * and returns zero if the this edge's data is lexicographically
-		 * equal to the other edge's data
-		 * 
-		 * @throws IllegalArgumentException if other == null
-		 * @return Returns a negative integer if
-		 * the data of this edge precedes the other edge's data
-		 * lexicographically, returns a positive integer if the label
-		 * of this edge follows the other node's label lexicographically,
-		 * and returns zero if the this edge's data is lexicographically
-		 * equal to the other edge's data
-		 */
-		public int compareTo(Edge other) {
-			checkRep();
-			if (other == null) {
-				throw new IllegalArgumentException();
-			}
-			if (!fromNode.equals(other.fromNode)) {
-				return fromNode.compareTo(other.fromNode);
-			} else if (!toNode.equals(other.toNode)) {
-				return toNode.compareTo(other.toNode);
-			} else {
-				return label.compareTo(other.label);
-			}
-		}
-		
-		/**
-	   * Standard equality operation.
-	   *
-	   * @param obj The object to be compared for equality.
-	   * @return true iff 'obj' is an instance of an Edge and 
-	   * 	'this' and 'obj' have the same from-Node and to-Node.
-	   */
-	  @Override
-	  public boolean equals(Object obj) {
-	  	checkRep();
-	  	if (obj instanceof Edge) {
-	      Edge edge = (Edge) obj;
-
-	      // Edges are equal if fromNode and toNode correspond
-	      // and label correspond
-	      return fromNode.equals(edge.fromNode) && 
-	      		toNode.equals(edge.toNode) && 
-	      		label.equals(edge.label);
-	    } else {
-	      return false;
-	    }
-	  }
-	  
-	  /** 
-	   * Standard hashCode function.
-	   * @return an int that all objects equal to this will also
-	   * 	return.
-	   */
-	  @Override
-	  public int hashCode() {
-	  	checkRep();
-	  	return (171 * fromNode.hashCode()) + (19 * toNode.hashCode()) + 
-	  			label.hashCode();
-	  }
-	}
 }

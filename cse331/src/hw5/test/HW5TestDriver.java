@@ -3,6 +3,8 @@ package hw5.test;
 import java.io.*;
 import java.util.*;
 import hw5.Graph;
+import hw5.Edge;
+import hw5.EdgeComparator;
 
 /**
  * This class implements a testing driver which reads test scripts
@@ -52,7 +54,7 @@ public class HW5TestDriver {
     }
 
     /** String -> Graph: maps the names of graphs to the actual graph **/
-    protected final Map<String, Graph> graphs = new HashMap<String, Graph>();
+    protected final Map<String, Graph<String,String>> graphs = new HashMap<>();
     protected final PrintWriter output;
     protected final BufferedReader input;
 
@@ -133,7 +135,7 @@ public class HW5TestDriver {
     	if (graphs.containsKey(graphName)) {
     		output.println(graphName + " already exists");
     	} else {
-    		graphs.put(graphName, new Graph());
+    		graphs.put(graphName, new Graph<String, String>());
     		output.println("created graph " + graphName);
     	}
     }
@@ -193,9 +195,11 @@ public class HW5TestDriver {
     	if (!graphs.containsKey(graphName)) {
   			throw new IllegalArgumentException();
   		}
-    	Set<String> nodes = graphs.get(graphName).getNodes();
+    	// store nodes in sorted order
+    	Set<String> sortedNodes = new TreeSet<String>(graphs.get(graphName).getNodes());
+    		
     	String result = graphName + " contains:";
-    	for (String node : nodes) {
+    	for (String node : sortedNodes) {
     		result += " " + node;
     	}
     	output.println(result);
@@ -215,11 +219,12 @@ public class HW5TestDriver {
     	if (!graphs.containsKey(graphName)) {
   			throw new IllegalArgumentException();
   		}
-    	List<String> children = graphs.get(graphName).getStringEdgesFrom(parentName);
+    	List<Edge<String, String>> edges = graphs.get(graphName).getEdgesFrom(parentName);
+    	Collections.sort(edges, new EdgeComparator<String, String>());
     	String result = "the children of " + parentName + 
     					" in " + graphName + " are:";
-    	for (String child : children) {
-    		result += " " + child;
+    	for (Edge<String, String> edge : edges) {
+    		result += " " + edge.getToNode() + "(" + edge.getLabel() + ")";
     	}
     	output.println(result);
     }
