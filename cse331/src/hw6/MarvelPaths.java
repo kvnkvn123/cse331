@@ -11,7 +11,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import hw5.Graph;
-import hw5.Graph.Edge;
+import hw5.Edge;
 import hw6.MarvelParser.MalformedDataException;
 
 /**
@@ -34,7 +34,7 @@ public class MarvelPaths {
 	 */
 	public static void main(String[] args) throws MalformedDataException {
 		Scanner console = new Scanner(System.in);
-		Graph marvelGraph = loadGraph("src/hw6/data/marvel.tsv");
+		Graph<String, String> marvelGraph = loadGraph("src/hw6/data/marvel.tsv");
 		
 		String again = "yes";
 		while (!again.equals("n")) {
@@ -52,14 +52,14 @@ public class MarvelPaths {
 			System.out.println();
 			
 			try {
-				List<Edge> path = findPath(marvelGraph, char1, char2);
+				List<Edge<String, String>> path = findPath(marvelGraph, char1, char2);
 				if (path == null) {
 					System.out.println("there is no path between " +
 										"these characters");
 				} else {
 					System.out.println("These characters are connected!");
 					System.out.println();
-					for (Edge e : path) {
+					for (Edge<String, String> e : path) {
 						System.out.println(e.getFromNode() + " and " +
 								e.getToNode() + " appear in " + e.getLabel());
 					}
@@ -94,8 +94,8 @@ public class MarvelPaths {
 	 *          each line contains exactly two tokens separated by a tab,
 	 *          or else starting with a # symbol to indicate a comment line.
 	 */
-	public static Graph loadGraph(String file) throws MalformedDataException {
-		Graph result = new Graph();
+	public static Graph<String, String> loadGraph(String file) throws MalformedDataException {
+		Graph<String, String> result = new Graph<String, String>();
 		Set<String> characters = new HashSet<>();
 		Map<String, List<String>> books = new HashMap<>();
 		MarvelParser.parseData(file, characters, books);
@@ -138,7 +138,8 @@ public class MarvelPaths {
 	 * @throws NullPointerException if graph == null
 	 * 
 	 */
-	public static List<Edge> findPath(Graph graph, String start, String dest) {
+	public static List<Edge<String, String>> findPath(Graph<String, 
+			String> graph, String start, String dest) {
 		if (graph == null) {
 			throw new NullPointerException();
 		}
@@ -149,21 +150,21 @@ public class MarvelPaths {
 			throw new IllegalArgumentException(dest);
 		}
 		Queue<String> queue = new LinkedList<>();
-		Map<String, List<Edge>> paths = new HashMap<>();
+		Map<String, List<Edge<String, String>>> paths = new HashMap<>();
 		
 		queue.add(start);
-		paths.put(start, new ArrayList<Edge>());
+		paths.put(start, new ArrayList<Edge<String, String>>());
 		
 		while (!queue.isEmpty()) {
 			String next = queue.remove();
-			List<Edge> currentPath = paths.get(next);
+			List<Edge<String, String>> currentPath = paths.get(next);
 			if (next.equals(dest)) {
 				return currentPath;
 			}
-			for (Edge edge : graph.getEdgesFrom(next)) {
+			for (Edge<String, String> edge : graph.getEdgesFrom(next)) {
 				String toNode = edge.getToNode();
 				if (!paths.containsKey(toNode)) {
-					List<Edge> newPath = new ArrayList<>();
+					List<Edge<String, String>> newPath = new ArrayList<>();
 					newPath.addAll(currentPath);
 					newPath.add(edge);
 					paths.put(toNode, newPath);

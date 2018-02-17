@@ -10,7 +10,7 @@ import java.io.Writer;
 import java.util.List;
 
 import hw5.Graph;
-import hw5.Graph.Edge;
+import hw5.Edge;
 import hw5.test.HW5TestDriver;
 import hw6.MarvelPaths;
 import hw6.MarvelParser.MalformedDataException;
@@ -87,7 +87,6 @@ public class HW6TestDriver extends HW5TestDriver {
 		}
     }
 	
-	// TODO
 	private void loadGraph(List<String> arguments) 
 			throws MalformedDataException {
         if (arguments.size() != 2) {
@@ -100,14 +99,13 @@ public class HW6TestDriver extends HW5TestDriver {
         loadGraph(graphName, fileName);
     }
 
-	// TODO
     private void loadGraph(String graphName, String fileName)
     		throws MalformedDataException {
     	try {
 	    	if (graphs.containsKey(graphName)) {
 	    		output.println(graphName + " already exists");
 	    	} else {
-	    		Graph result = MarvelPaths.loadGraph("src/hw6/data/" + 
+	    		Graph<String, String> result = MarvelPaths.loadGraph("src/hw6/data/" + 
 	    												fileName);
 	    		graphs.put(graphName, result);
 	    		output.println("loaded graph " + graphName);
@@ -136,13 +134,13 @@ public class HW6TestDriver extends HW5TestDriver {
     	try {
 	    	String start = fromNode.replace("_", " ");
 	    	String dest = toNode.replace("_", " ");
-			Graph graph = graphs.get(graphName);
-			List<Edge> path = MarvelPaths.findPath(graph, start, dest);
+			Graph<String, String> graph = graphs.get(graphName);
+			List<Edge<String, String>> path = MarvelPaths.findPath(graph, start, dest);
 			output.println("path from " + start + " to " + dest + ":");
 			if (path == null) {
 				output.println("no path found");
 			} else {
-				for (Edge e : path) {
+				for (Edge<String, String> e : path) {
 					output.println(e.getFromNode() + " to " + e.getToNode() + 
 									" via " + e.getLabel());
 				}
