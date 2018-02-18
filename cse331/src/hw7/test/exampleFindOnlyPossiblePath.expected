@@ -6,6 +6,9 @@ added node HAWK to characters
 added node VENUS-II to characters
 added edge 1.000 from GORILLA-MAN to HAWK in characters
 added edge 1.500 from HAWK to VENUS-II in characters
+added edge 0.000 from GORILLA-MAN to GORILLA-MAN in characters
+added edge 0.000 from HAWK to HAWK in characters
+added edge 0.000 from VENUS-II to VENUS-II in characters
 
 path from GORILLA-MAN to VENUS-II:
 GORILLA-MAN to HAWK with weight 1.000

@@ -25,7 +25,8 @@ import java.lang.Iterable;
  * 	between nodes with no edge between them
  *
  */
-public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2>>, Cloneable {
+public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2>>,
+							Comparable<WeightedPath<T1, T2>>, Cloneable {
 	
 	/** Represents the path, with the first element
 	 * of the list being the starting edge of the path and
@@ -48,7 +49,7 @@ public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2
 	
 	/** Determines whether to perform a thorough check of the
 	 * representation invariant: set to true when debugging */
-	private static final boolean deepCheck = true;
+	private static final boolean deepCheck = false;
 	
 	// Representation Invariant:
 	//	start.equals(path.get(0).getFromNode()) &&
@@ -90,7 +91,7 @@ public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2
 			
 			// test that fields have correct values
 			assert (path != null) : "path cannot be null";
-			assert (size == path.size()) : "size is incorrect";
+			assert (size == path.size()) : "size = " + size + " path.size = " + path.size();
 			assert (size > 0) : "path must have at least one edge";
 			assert(start.equals(path.get(0).getFromNode())) 
 					: "start must be first node in path";
@@ -150,6 +151,7 @@ public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2
 	 * Constucts a new path from the given edge list
 	 * of edges
 	 * 
+	 * 
 	 * @param path the list of edges in the path to
 	 * 	be created
 	 * @throws IllegalArgumentException if newPath == null ||
@@ -167,7 +169,7 @@ public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2
 		// determine fields
 		start = path.get(0).getFromNode();
 		dest = path.get(path.size() - 1).getToNode();
-		size = path.size();
+		size = this.path.size();
 		cost = 0.0;
 		for (Edge<T1, T2> e : path) {
 			cost += (double) e.getLabel();
@@ -185,7 +187,7 @@ public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2
 	public void addEdge(Edge<T1, T2> edge) {
 		checkRep();
 		path.add(edge);
-		cost = cost + (double) edge.getLabel();
+		cost += (double) edge.getLabel();
 		dest = edge.getToNode();	
 		size++;
 		checkRep();
@@ -201,7 +203,8 @@ public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2
 	@Override
     public WeightedPath<T1, T2> clone() {
 		checkRep();
-		return new WeightedPath<T1, T2>(path);
+		List<Edge<T1, T2>> newPath = new ArrayList<>(path);
+		return new WeightedPath<T1, T2>(newPath);
     }
 	
 	/**

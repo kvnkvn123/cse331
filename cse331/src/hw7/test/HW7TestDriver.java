@@ -9,6 +9,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +19,6 @@ import hw5.Edge;
 import hw5.EdgeComparator;
 import hw5.Graph;
 import hw5.WeightedPath;
-import hw5.test.HW5TestDriver;
 import hw6.MarvelParser.MalformedDataException;
 import hw6.test.HW6TestDriver;
 import hw7.MarvelPaths2;
@@ -261,7 +261,12 @@ public class HW7TestDriver extends HW6TestDriver {
 			if (path == null) {
 				output.println("no path found");
 			} else {
-				for (Edge<String, Double> e : path) {
+				Iterator<Edge<String, Double>> itr = path.iterator();
+				if (!start.equals(dest)) {
+					itr.next();					
+				}
+				while (itr.hasNext()) {
+					Edge<String, Double> e = itr.next();
 					String weight = String.format("%.3f", e.getLabel());
 					output.println(e.getFromNode() + " to " + e.getToNode() + 
 									" with weight " + weight);

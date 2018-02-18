@@ -63,20 +63,24 @@ public class MarvelPaths2 {
 		// add edge between them
 		for (String character1 : characters) {
 			for (String character2 : characters) {
-				if (character1.equals(character2)) {
-					result.addEdge(character1, character2, 0.0);
-				} else {
-					int bookCount = 0;
-					for (String book : books.keySet()) {
-						List<String> appearances = books.get(book);
-						if (appearances.contains(character1) && 
-								appearances.contains(character2)) {
-							bookCount++;
+				if (!result.isEdgeBetween(character1, character2)) {
+					if (character1.equals(character2)) {
+						result.addEdge(character1, character2, 0.0);
+						result.addEdge(character2, character1, 0.0);
+					} else {
+						int bookCount = 0;
+						for (String book : books.keySet()) {
+							List<String> appearances = books.get(book);
+							if (appearances.contains(character1) && 
+									appearances.contains(character2)) {
+								bookCount++;
+							}
 						}
-					}
-					if (bookCount > 0) {
-						double weight = 1 / (double) bookCount;
-						result.addEdge(character1, character2, weight);
+						if (bookCount > 0) {
+							double weight = 1 / (double) bookCount;
+							result.addEdge(character1, character2, weight);
+							result.addEdge(character2, character1, weight);
+						}
 					}
 				}
 			}
@@ -107,11 +111,11 @@ public class MarvelPaths2 {
 		if (graph == null) {
 			throw new NullPointerException();
 		}
-		System.out.println("Start: " + graph.isNode(start));
+		//System.out.println("Start: " + graph.isNode(start));
 		if (!graph.isNode(start)) {
 			throw new IllegalArgumentException(start.toString());
 		}
-		System.out.println("dest: " + graph.isNode(dest));
+		//System.out.println("dest: " + graph.isNode(dest));
 		if (!graph.isNode(dest)) {
 			throw new IllegalArgumentException(dest.toString());
 		}
@@ -119,19 +123,26 @@ public class MarvelPaths2 {
 		// a priority queue representing paths to nodes to
 		// which the shorted path is not known yet
 		PriorityQueue<WeightedPath<T1, T2>> active = new PriorityQueue<>();
+		//System.out.println("fine");
 		
 		// A map of nodes to paths, with keys being nodes to which the
 		// shorted path is known, and values being the shorted path
 		Map<T1, WeightedPath<T1, T2>> finished = new HashMap<>();
+		//System.out.println("fine2");
 		
 		// add a path from start to start to active
+		Edge<T1, T2> e1 = graph.getEdgeBetween(start, start);
+		System.out.println("fine2.5");
+		System.out.println("edge toNode " + e1.getToNode() + " edge fromNode " + e1.getFromNode());
 		active.add(new WeightedPath<T1, T2>(graph.getEdgeBetween(start, start)));
-		System.out.println("fine");
+		System.out.println("fine3");
 		
 		while (!active.isEmpty()) {
 			
 			// lowest cost path in active
 			WeightedPath<T1, T2> minPath = active.remove();
+			System.out.println("minPathStart:" + minPath.getStart());
+			System.out.println("minPathDest:" + minPath.getDest());
 			
 			// destination of lowest cost path
 			T1 minDest = minPath.getDest();
@@ -146,7 +157,7 @@ public class MarvelPaths2 {
 					// if minimum path is not known, 
 					if (!finished.containsKey(edge.getToNode()) && 
 							!(edge.getToNode().equals(edge.getFromNode()))) {
-						WeightedPath<T1, T2> newPath  = minPath.clone();
+						WeightedPath<T1, T2> newPath = minPath.clone();
 						newPath.addEdge(edge);
 						active.add(newPath);
 					}

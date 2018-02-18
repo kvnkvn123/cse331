@@ -9,7 +9,15 @@ AddNode simple e
 AddNode simple f
 AddNode simple g
 AddNode simple h
-ListNodes simple
+
+AddEdge simple a a 0
+AddEdge simple b b 0
+AddEdge simple c c 0
+AddEdge simple d d 0
+AddEdge simple e e 0
+AddEdge simple f f 0
+AddEdge simple g g 0
+AddEdge simple h h 0
 AddEdge simple a b 2
 AddEdge simple a c 1
 AddEdge simple a d 4
@@ -26,7 +34,22 @@ AddEdge simple g e 3
 AddEdge simple g f 2
 AddEdge simple h g 1
 
+ListNodes simple
+
+ListChildren simple a
+ListChildren simple b
+ListChildren simple c
+ListChildren simple d
+ListChildren simple e
+ListChildren simple f
+ListChildren simple g
+ListChildren simple h
+
 FindPath simple a a
 FindPath simple a b
+FindPath simple a c
+FindPath simple a d
 FindPath simple a f
 FindPath simple a h
+FindPath simple a g
+FindPath simple a e

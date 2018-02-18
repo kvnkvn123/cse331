@@ -6,5 +6,8 @@ AddNode characters HAWK
 AddNode characters VENUS-II
 AddEdge characters GORILLA-MAN HAWK 1
 AddEdge characters HAWK VENUS-II 1.5
+AddEdge characters GORILLA-MAN GORILLA-MAN 0
+AddEdge characters HAWK HAWK 0
+AddEdge characters VENUS-II VENUS-II 0
 
 FindPath characters GORILLA-MAN VENUS-II
