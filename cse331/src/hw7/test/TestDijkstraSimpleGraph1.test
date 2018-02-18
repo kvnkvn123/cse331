@@ -1,0 +1,32 @@
+# Test Dijkstra's algorithm for a simple graph
+
+CreateGraph simple
+AddNode simple a
+AddNode simple b
+AddNode simple c
+AddNode simple d
+AddNode simple e
+AddNode simple f
+AddNode simple g
+AddNode simple h
+ListNodes simple
+AddEdge simple a b 2
+AddEdge simple a c 1
+AddEdge simple a d 4
+AddEdge simple b c 5
+AddEdge simple b e 10
+AddEdge simple b f 2
+AddEdge simple d c 2
+AddEdge simple c a 9
+AddEdge simple c e 11
+AddEdge simple e d 7
+AddEdge simple e g 1
+AddEdge simple f h 3
+AddEdge simple g e 3
+AddEdge simple g f 2
+AddEdge simple h g 1
+
+FindPath simple a a
+FindPath simple a b
+FindPath simple a f
+FindPath simple a h

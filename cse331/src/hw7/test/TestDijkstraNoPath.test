@@ -1,0 +1,11 @@
+# Test the BFS on graphs with no paths
+
+LoadGraph simple simpleGraph0.tsv
+ListNodes simple
+FindPath simple aaa bbb
+
+LoadGraph simple2 simpleGraph2.tsv
+FindPath simple2 aaa bbb
+FindPath simple2 aaa ccc
+FindPath simple2 ddd bbb
+FindPath simple2 ccc bbb

@@ -111,6 +111,12 @@ public class GraphTest {
   	assertTrue(graph5.isEdgeBetween("a", "a", "e1"));
   	assertFalse(graph5.isEdgeBetween("a", "a", "e2"));
   	assertFalse(graph5.isEdgeBetween("a", "b", "e2"));
+  	Edge<String, String> edge1 = graph5.getEdgeBetween("a", "b");
+  	Edge<String, String> edge2 = graph5.getEdgeBetween("a", "a");
+  	Edge<String, String> edge3 = graph5.getEdgeBetween("b", "c");
+  	assertTrue(edge1.equals(new Edge<String, String>("a", "b", "e1")));
+  	assertTrue(edge2.equals(new Edge<String, String>("a", "a", "e1")));
+  	assertEquals(edge3, new Edge<String, String>("b", "c", "e1"));
   }
   
   /**

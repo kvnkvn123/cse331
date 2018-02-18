@@ -13,7 +13,7 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 
 @RunWith(Suite.class)
-@SuiteClasses({ CheckAsserts.class, GraphTest.class })
+@SuiteClasses({ CheckAsserts.class, GraphTest.class, WeightedPathTest.class })
 public final class ImplementationTests
 {
   //this class is a placeholder for the suite, so it has no members.

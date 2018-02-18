@@ -1,0 +1,11 @@
+# Test the parser on a graph that contains several with no edges
+
+LoadGraph simple simpleGraph0.tsv
+ListNodes simple
+
+LoadGraph simple2 simpleGraph2.tsv
+ListNodes simple2
+ListChildren simple2 aaa
+ListChildren simple2 bbb
+ListChildren simple2 ccc
+ListChildren simple2 ddd

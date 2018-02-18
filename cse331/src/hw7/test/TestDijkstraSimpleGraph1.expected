@@ -1,0 +1,27 @@
+# Test Dijkstra's algorithm for a simple graph
+
+created graph simple
+added node a to simple
+added node b to simple
+added node c to simple
+added node d to simple
+added node e to simple
+added node f to simple
+added node g to simple
+added node h to simple
+simple contains: a b c d e f g h
+added edge 2.000 from a to b in simple
+added edge 1.000 from a to c in simple
+added edge 4.000 from a to d in simple
+added edge 5.000 from b to c in simple
+added edge 10.000 from b to e in simple
+added edge 2.000 from b to f in simple
+added edge 2.000 from d to c in simple
+added edge 9.000 from c to a in simple
+added edge 11.000 from c to e in simple
+added edge 7.000 from e to d in simple
+added edge 1.000 from e to g in simple
+added edge 3.000 from f to h in simple
+added edge 3.000 from g to e in simple
+added edge 2.000 from g to f in simple
+added edge 1.000 from h to g in simple

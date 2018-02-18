@@ -2,8 +2,10 @@ package hw5;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.lang.Iterable;
 
 /**
  * <b>WeightedPath</> represents a path between two nodes in a graph
@@ -23,7 +25,7 @@ import java.util.Set;
  * 	between nodes with no edge between them
  *
  */
-public class WeightedPath<T1, T2 extends Number> {
+public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2>>, Cloneable {
 	
 	/** Represents the path, with the first element
 	 * of the list being the starting edge of the path and
@@ -46,7 +48,7 @@ public class WeightedPath<T1, T2 extends Number> {
 	
 	/** Determines whether to perform a thorough check of the
 	 * representation invariant: set to true when debugging */
-	private static final boolean deepCheck = false;
+	private static final boolean deepCheck = true;
 	
 	// Representation Invariant:
 	//	start.equals(path.get(0).getFromNode()) &&
@@ -230,6 +232,17 @@ public class WeightedPath<T1, T2 extends Number> {
 	public double getCost() {
 		checkRep();
 		return cost;
+	}
+	
+	/**
+	 * Returns an iterator over the edges in
+	 * this. Iterator returns edges in order, 
+	 * from start to dest
+	 * 
+	 * @returns iterator over the edges in this path.
+	 */
+	public Iterator<Edge<T1, T2>> iterator() {
+		return path.iterator();
 	}
 	
 	/** Compares this path to other according to their costs

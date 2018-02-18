@@ -1,0 +1,11 @@
+# Test the parser on a graph that contains several with no edges
+
+loaded graph simple
+simple contains:
+
+loaded graph simple2
+simple2 contains: aaa bbb ccc ddd
+the children of aaa in simple2 are: aaa(0.000)
+the children of bbb in simple2 are: bbb(0.000)
+the children of ccc in simple2 are: ccc(0.000)
+the children of ddd in simple2 are: ddd(0.000)

@@ -1,0 +1,12 @@
+# Test the parser on a graph that contains several nodes
+
+loaded graph sample1
+sample1 contains: aaa bbb ccc ddd
+the children of aaa in sample1 are: aaa(0.000) bbb(0.500) ccc(1.000)
+the children of bbb in sample1 are: aaa(0.500) bbb(0.000) ccc(1.000)
+the children of ccc in sample1 are: aaa(1.000) bbb(1.000) ccc(0.000) ddd(1.000)
+the children of ddd in sample1 are: ccc(1.000) ddd(0.000)
+
+sample1 already exists
+sample1 already exists
+garbage.tsv malformed

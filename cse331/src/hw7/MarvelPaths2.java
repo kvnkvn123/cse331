@@ -74,7 +74,7 @@ public class MarvelPaths2 {
 							bookCount++;
 						}
 					}
-					if (bookCount >= 0) {
+					if (bookCount > 0) {
 						double weight = 1 / (double) bookCount;
 						result.addEdge(character1, character2, weight);
 					}
@@ -107,9 +107,11 @@ public class MarvelPaths2 {
 		if (graph == null) {
 			throw new NullPointerException();
 		}
+		System.out.println("Start: " + graph.isNode(start));
 		if (!graph.isNode(start)) {
 			throw new IllegalArgumentException(start.toString());
 		}
+		System.out.println("dest: " + graph.isNode(dest));
 		if (!graph.isNode(dest)) {
 			throw new IllegalArgumentException(dest.toString());
 		}
@@ -124,6 +126,7 @@ public class MarvelPaths2 {
 		
 		// add a path from start to start to active
 		active.add(new WeightedPath<T1, T2>(graph.getEdgeBetween(start, start)));
+		System.out.println("fine");
 		
 		while (!active.isEmpty()) {
 			
@@ -141,7 +144,8 @@ public class MarvelPaths2 {
 				// for each edge from minDest
 				for (Edge<T1, T2> edge : graph.getEdgesFrom(minDest)) {
 					// if minimum path is not known, 
-					if (!finished.containsKey(edge.getToNode())) {
+					if (!finished.containsKey(edge.getToNode()) && 
+							!(edge.getToNode().equals(edge.getFromNode()))) {
 						WeightedPath<T1, T2> newPath  = minPath.clone();
 						newPath.addEdge(edge);
 						active.add(newPath);
