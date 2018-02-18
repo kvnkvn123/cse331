@@ -102,7 +102,7 @@ public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2
 					: "dest must be last node in path";
 			double checkCost = 0.0;
 			for (Edge<T1, T2> e : path) {
-				checkCost += (double) e.getLabel();
+				checkCost += e.getLabel().doubleValue();
 				assert (e != null) : "edges cannot be null";
 			}
 			assert (cost == checkCost) 
@@ -190,7 +190,7 @@ public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2
 	public void addEdge(Edge<T1, T2> edge) {
 		checkRep();
 		path.add(edge);
-		cost += (double) edge.getLabel();
+		cost += edge.getLabel().doubleValue();
 		dest = edge.getToNode();	
 		size++;
 		checkRep();
