@@ -145,7 +145,7 @@ public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2
 		path.add(edge);
 		start = edge.getFromNode();
 		dest = edge.getToNode();
-		cost = (double) edge.getLabel();
+		cost = edge.getLabel().doubleValue();
 		size = 1;
 		checkRep();
 	}
@@ -175,7 +175,7 @@ public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2
 		size = this.path.size();
 		cost = 0.0;
 		for (Edge<T1, T2> e : path) {
-			cost += (double) e.getLabel();
+			cost += e.getLabel().doubleValue();
 		}
 		checkRep();
 	}
