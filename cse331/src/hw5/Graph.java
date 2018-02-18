@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * <b>Graph</> represents the concept of a directed, labeled multi-graph.
+ * <b>Graph<T1, T2></b> represents the concept of a directed, labeled multi-graph.
  * 
  * A graph consists of a collection of nodes that are connected by edges 
  * that go from one node to another. Each edge has a label containing

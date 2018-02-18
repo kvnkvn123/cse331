@@ -3,7 +3,7 @@ package hw5;
 import java.util.Set;
 
 /**
- * <b>General Graph</> represents the concept a graph.
+ * <b>General Graph<T1, T2></b> represents the concept a graph.
  * 
  * A graph consists of a collection of nodes that are connected by edges.
  * Each node and edge contains data; nodes consists of data of type T1 and are

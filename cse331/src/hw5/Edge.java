@@ -94,37 +94,6 @@ public final class Edge<T1,T2> {
 		return label;
 	}
 	
-/*		*//**
-	 * Compares this Edge to other according to the natural ordering
-	 * of its fields; first the from-Node, then the to-Node, then 
-	 * the label. Returns a negative integer if
-	 * the data of this edge precedes the other edge's data
-	 * returns a positive integer if the label
-	 * of this edge follows the other edge's data
-	 * and returns zero if the this edge's data is
-	 * equal to the other edge's data
-	 * 
-	 * @throws IllegalArgumentException if other == null
-	 * @return Returns a negative integer if the data of this 
-	 * 	edge precedes the other edge's data returns a positive 
-	 * 	integer if the label of this edge follows the other edge's 
-	 * 	data and returns zero if the this edge's data is
-	 * 	equal to the other edge's data
-	 *//*
-	public int compareTo(Edge<T1, T2> other) {
-		checkRep();
-		if (other == null) {
-			throw new IllegalArgumentException();
-		}
-		if (!fromNode.equals(other.fromNode)) {
-			return fromNode.compareTo(other.fromNode);
-		} else if (!toNode.equals(other.toNode)) {
-			return toNode.compareTo(other.toNode);
-		} else {
-			return label.compareTo(other.label);
-		}
-	}*/
-	
 	/**
 	 * Standard equality operation.
    	 *

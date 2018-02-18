@@ -19,8 +19,11 @@ AddEdge simple f f 0
 AddEdge simple g g 0
 AddEdge simple h h 0
 AddEdge simple a b 2
+AddEdge simple a b 10
 AddEdge simple a c 1
+AddEdge simple a c 10
 AddEdge simple a d 4
+AddEdge simple a d 10
 AddEdge simple b c 5
 AddEdge simple b e 10
 AddEdge simple b f 2

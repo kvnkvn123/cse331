@@ -1,11 +1,12 @@
 package hw7;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 import java.util.Set;
 
 import hw5.Edge;
@@ -25,6 +26,63 @@ public class MarvelPaths2 {
 
 	// This class does not require an abstraction function
 	// or rep invariant since it does not represent an ADT
+	
+	/**
+	 * This main method constructs a graph using the marvel universe
+	 * information provided in marvel.tsv. It then allows a user
+	 * to input pairs of characters and then prints to the console the path 
+	 * between those two pairs with least cost, if any
+	 */
+	public static void main(String[] args) throws MalformedDataException {
+		Scanner console = new Scanner(System.in);
+		Graph<String, Double> marvelGraph = loadGraph("src/hw7/data/marvel.tsv");
+		
+		String again = "yes";
+		while (!again.equals("n")) {
+			System.out.println("Find connections between characters");
+			System.out.println("in the marvel universe!");
+			System.out.println("Enter the names of any two marvel");
+			System.out.println("comic characters and see if they are");
+			System.out.println("connected by comic books.");
+			System.out.println("Type the name of the first character: ");
+			String char1 = console.next().toUpperCase().replace("_", " ");
+			System.out.println("Type the name of the second character: ");
+			String char2 = console.next().toUpperCase().replace("_", " ");
+			System.out.println();
+			System.out.println(char1 + " and " + char2);
+			System.out.println();
+			
+			try {
+				WeightedPath<String, Double> path = MarvelPaths2.findPath(marvelGraph, char1, char2);
+				System.out.println("path from " + char1 + " to " + char2 + ":");
+				if (path == null) {
+					System.out.println("no path found");
+				} else {
+					Iterator<Edge<String, Double>> itr = path.iterator();
+					// remove first empty path
+					itr.next();
+					while (itr.hasNext()) {
+						Edge<String, Double> e = itr.next();
+						String weight = String.format("%.3f", e.getLabel());
+						System.out.println(e.getFromNode() + " to " + e.getToNode() + 
+										" with weight " + weight);
+					}
+					String totalWeight = String.format("%.3f", path.getCost());
+					System.out.println("total cost: " + totalWeight);
+				}
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage() + " is not a marvel character");
+			} finally {
+				System.out.println();
+				System.out.println("Enter any letter to try again, " 
+								+ "enter \"n\" directly to quit");
+				again = console.next();
+			}
+			
+		}
+		
+		console.close();		
+	}
 	
 	/**
 	 * Reads a .tsv file and constructs a weighted graph with the
@@ -58,34 +116,46 @@ public class MarvelPaths2 {
 			result.addNode(character);
 		}
 		
-		// for each pair of character, find number of books
-		// the appear in together, calculate weight and
-		// add edge between them
-		for (String character1 : characters) {
-			for (String character2 : characters) {
-				if (!result.isEdgeBetween(character1, character2)) {
-					if (character1.equals(character2)) {
-						result.addEdge(character1, character2, 0.0);
-						result.addEdge(character2, character1, 0.0);
+		// create a dataset of books connecting each pair of 
+		// characters
+		Map<String, Map<String, Integer>> weightMap = new HashMap<>();
+		for (String book : books.keySet()) {
+			for (String char1 : books.get(book)) {
+				for (String char2 : books.get(book)) {
+					if (!weightMap.containsKey(char1)) {
+						weightMap.put(char1,  new HashMap<>());
+					}
+					Map<String, Integer> char1Map = weightMap.get(char1);
+					if (!char1Map.containsKey(char2)) {
+						char1Map.put(char2, 1);
 					} else {
-						int bookCount = 0;
-						for (String book : books.keySet()) {
-							List<String> appearances = books.get(book);
-							if (appearances.contains(character1) && 
-									appearances.contains(character2)) {
-								bookCount++;
-							}
-						}
-						if (bookCount > 0) {
-							double weight = 1 / (double) bookCount;
-							result.addEdge(character1, character2, weight);
-							result.addEdge(character2, character1, weight);
-						}
+						char1Map.put(char2, char1Map.get(char2) + 1);
 					}
 				}
 			}
 		}
-
+		
+		// add edges between characters based on numer
+		// of books. also adds an edge leading from each
+		// node to itself, with weight 0.0
+		for (String char1 : weightMap.keySet()) {
+			Map<String, Integer> char1Map = weightMap.get(char1);
+			for (String char2 : char1Map.keySet()) {
+				int bookCount = char1Map.get(char2);
+				if (bookCount > 0 && !result.isEdgeBetween(char1, char2)) {
+					if (char1.equals(char2)) {
+						result.addEdge(char1, char2, 0.0);
+						result.addEdge(char2, char1, 0.0);						
+					} else {
+						double weight = 1 / (double) bookCount;
+						result.addEdge(char1, char2, weight);
+						result.addEdge(char2, char1, weight);
+					}
+				}
+			}
+		}
+		
+		// return resulting graph
 		return result;
 	}
 	
@@ -111,11 +181,9 @@ public class MarvelPaths2 {
 		if (graph == null) {
 			throw new NullPointerException();
 		}
-		//System.out.println("Start: " + graph.isNode(start));
 		if (!graph.isNode(start)) {
 			throw new IllegalArgumentException(start.toString());
 		}
-		//System.out.println("dest: " + graph.isNode(dest));
 		if (!graph.isNode(dest)) {
 			throw new IllegalArgumentException(dest.toString());
 		}
@@ -123,26 +191,18 @@ public class MarvelPaths2 {
 		// a priority queue representing paths to nodes to
 		// which the shorted path is not known yet
 		PriorityQueue<WeightedPath<T1, T2>> active = new PriorityQueue<>();
-		//System.out.println("fine");
 		
 		// A map of nodes to paths, with keys being nodes to which the
 		// shorted path is known, and values being the shorted path
 		Map<T1, WeightedPath<T1, T2>> finished = new HashMap<>();
-		//System.out.println("fine2");
 		
 		// add a path from start to start to active
-		Edge<T1, T2> e1 = graph.getEdgeBetween(start, start);
-		System.out.println("fine2.5");
-		System.out.println("edge toNode " + e1.getToNode() + " edge fromNode " + e1.getFromNode());
 		active.add(new WeightedPath<T1, T2>(graph.getEdgeBetween(start, start)));
-		System.out.println("fine3");
 		
 		while (!active.isEmpty()) {
 			
 			// lowest cost path in active
 			WeightedPath<T1, T2> minPath = active.remove();
-			System.out.println("minPathStart:" + minPath.getStart());
-			System.out.println("minPathDest:" + minPath.getDest());
 			
 			// destination of lowest cost path
 			T1 minDest = minPath.getDest();

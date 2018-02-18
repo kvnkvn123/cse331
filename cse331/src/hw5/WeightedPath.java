@@ -8,13 +8,16 @@ import java.util.Set;
 import java.lang.Iterable;
 
 /**
- * <b>WeightedPath</> represents a path between two nodes in a graph
+ * <b>WeightedPath<T1, T2></> represents a path between two nodes in a graph
  * 	in which each edge has a weight. A path consists of a sequence
  * 	of edges in the graph between one node and another
  * 
+ *  WeightedPath<T1, T2> is a path between nodes of type T1 and edges
+ *  with labels of type T2
+ * 
  * Specification fields:
  *  @specfield start : T1 // The node at the start of the path
- *  @specfield dest : T2 // The node at the dest of the path
+ *  @specfield dest : T1 // The node at the dest of the path
  *  @specfield cost : double // The cost of the path, or the
  *  						// sum of weights of the path edges
  *

@@ -40,10 +40,10 @@ public class HW7TestDriver extends HW6TestDriver {
                 return;
             }
 
-            HW6TestDriver td;
+            HW7TestDriver td;
 
             if (args.length == 0) {
-                td = new HW6TestDriver(new InputStreamReader(System.in),
+                td = new HW7TestDriver(new InputStreamReader(System.in),
                                        new OutputStreamWriter(System.out));
             } else {
 
@@ -51,7 +51,7 @@ public class HW7TestDriver extends HW6TestDriver {
                 File tests = new File (fileName);
 
                 if (tests.exists() || tests.canRead()) {
-                    td = new HW6TestDriver(new FileReader(tests),
+                    td = new HW7TestDriver(new FileReader(tests),
                                            new OutputStreamWriter(System.out));
                 } else {
                     System.err.println("Cannot read from " + tests.toString());
@@ -198,6 +198,7 @@ public class HW7TestDriver extends HW6TestDriver {
     	Collections.sort(edges, new EdgeComparator<String, Double>());
     	String result = "the children of " + parentName + 
     					" in " + graphName + " are:";
+    	// round doubles to three digits
     	for (Edge<String, Double> edge : edges) {
     		String weight = String.format("%.3f", edge.getLabel());
     		result += " " + edge.getToNode() + "(" + weight + ")";
@@ -223,7 +224,7 @@ public class HW7TestDriver extends HW6TestDriver {
 	    	if (graphs.containsKey(graphName)) {
 	    		output.println(graphName + " already exists");
 	    	} else {
-	    		Graph<String, Double> result = MarvelPaths2.loadGraph("src/hw6/data/" + 
+	    		Graph<String, Double> result = MarvelPaths2.loadGraph("src/hw7/data/" + 
 	    												fileName);
 	    		graphs.put(graphName, result);
 	    		output.println("loaded graph " + graphName);
@@ -250,21 +251,20 @@ public class HW7TestDriver extends HW6TestDriver {
     		throw new IllegalArgumentException();
     	}
     	try {
-			System.out.println("from: " + fromNode + " to: " + toNode);
+    		// replace underscores with spaces
 	    	String start = fromNode.replace("_", " ");
 	    	String dest = toNode.replace("_", " ");
-	    	System.out.println("start: " + start + " dest: " + dest);
 			Graph<String, Double> graph = graphs.get(graphName);
+			
+			// use marvelpaths to find path
 			WeightedPath<String, Double> path = MarvelPaths2.findPath(graph, start, dest);
-			System.out.println("path: " + path);
 			output.println("path from " + start + " to " + dest + ":");
 			if (path == null) {
 				output.println("no path found");
 			} else {
 				Iterator<Edge<String, Double>> itr = path.iterator();
-				if (!start.equals(dest)) {
-					itr.next();					
-				}
+				// remove first empty path
+				itr.next();
 				while (itr.hasNext()) {
 					Edge<String, Double> e = itr.next();
 					String weight = String.format("%.3f", e.getLabel());
