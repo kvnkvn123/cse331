@@ -131,10 +131,10 @@ public class HW6TestDriver extends HW5TestDriver {
     	if (!graphs.containsKey(graphName)) {
     		throw new IllegalArgumentException();
     	}
+    	String start = fromNode.replace("_", " ");
+    	String dest = toNode.replace("_", " ");
+		Graph<String, String> graph = graphs.get(graphName);
     	try {
-	    	String start = fromNode.replace("_", " ");
-	    	String dest = toNode.replace("_", " ");
-			Graph<String, String> graph = graphs.get(graphName);
 			List<Edge<String, String>> path = MarvelPaths.findPath(graph, start, dest);
 			output.println("path from " + start + " to " + dest + ":");
 			if (path == null) {
@@ -146,7 +146,10 @@ public class HW6TestDriver extends HW5TestDriver {
 				}
 			}
     	} catch (IllegalArgumentException e) {
-    		output.println("unknown character " + e.getMessage());
+    		if (!graph.isNode(start))
+    			output.println("unknown character " + start);
+    		else if (!graph.isNode(dest))
+    			output.println("unknown character " + dest);
     	}
     }
 }

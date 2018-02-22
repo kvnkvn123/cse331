@@ -114,7 +114,7 @@ public class Graph<T1,T2> implements GeneralGraph<T1, T2> {
 	public boolean isNode(T1 label) {
 		checkRep();
 		if (label == null) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("null");
 		}
 		return adjacencyList.containsKey(label);
 	}
