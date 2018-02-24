@@ -112,9 +112,9 @@ public final class Building implements Comparable<Building> {
 
 			// Buildings are equal if shortName and longName correspond
 			// and location corresponds
-			return shortName.equals(b.shortName) && 
+			return shortName.equals(b.shortName); /*&& 
 					longName.equals(b.longName) &&
-					location.equals(b.location);
+					location.equals(b.location);*/
 		} else {
 			return false;
 		}
@@ -128,7 +128,7 @@ public final class Building implements Comparable<Building> {
 	@Override
 	public int hashCode() {
 		checkRep();
-		return (171 * shortName.hashCode()) + (19 * longName.hashCode()) + 
-  			location.hashCode();
+		return shortName.hashCode(); /*) + (19 * longName.hashCode()) + 
+  			location.hashCode();*/
 	}
 }

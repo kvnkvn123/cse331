@@ -166,6 +166,9 @@ public class MarvelPaths2 {
 	 * Edges representing the shortest path. If there are
 	 * multiple paths of the same cost, returns one such path.
 	 * 
+	 * For this algorithm to work, each node in the given graph must
+	 * have an edge to itself of weight 0
+	 * 
 	 * @requires all edge weights must be non-negative
 	 * @param graph the graph to be searched for the shortest path
 	 * @param start the node from which the path should start

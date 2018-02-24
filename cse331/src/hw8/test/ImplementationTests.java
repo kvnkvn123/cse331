@@ -5,6 +5,8 @@ import org.junit.runner.*;
 import org.junit.runners.*;
 import org.junit.runners.Suite.*;
 
+import hw5.test.CheckAsserts;
+
 /**
  * ImplementationTests is a test suite used to encapsulate all
  * tests specific to your implementation of this problem set.
@@ -14,7 +16,7 @@ import org.junit.runners.Suite.*;
  */
 
 @RunWith(Suite.class)
-@SuiteClasses({ /* list classes here */ })
+@SuiteClasses({CheckAsserts.class, BuildingTest.class, PointTest.class, CampusPathModelTest.class/* list classes here */ })
 
 public final class ImplementationTests
 {

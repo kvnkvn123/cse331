@@ -5,8 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import hw5.Edge;
@@ -21,7 +22,7 @@ public class CampusPathModel {
 	private Graph<Point<Double>, Double> campusPaths;
 	
 	/** Stores campus building information */
-	private Set<Building> buildings;
+	private Map<String, Building> buildings;
 	
 	/** determine whether to perform extensive repInv checks */
 	private static final boolean deepCheck = true;
@@ -37,10 +38,12 @@ public class CampusPathModel {
 	//	this.buildings != null &&
 	//	for each Building b in buildings:
 	//		b.getLocation() is a node in campusPaths
-	// && for any pair of nodes a and b in campusPaths, if
+	// 	&& for any pair of nodes a and b in campusPaths, if
 	//  there is an edge from a to b, there is only one 
 	//  such edge, and there is also an edge with the same
 	//	label from b to a
+	//	&& each node in campusPaths has an edge to itself of
+	//	weight zero
 	//
 	// Abstraction Function:
 	//	AF(r) models a campus, such that
@@ -57,9 +60,9 @@ public class CampusPathModel {
 		if (deepCheck) {
 			// check that the location of each building
 			// is in the graph
-			for (Building b : buildings) {
-				assert (campusPaths.isNode(b.getLocation())) :
-					"buildning " + b.getLongName() + " is not in graph";
+			for (String b : buildings.keySet()) {
+				assert (campusPaths.isNode(buildings.get(b).getLocation())) :
+					"building " + b + " is not in graph";
 			}
 			// check that each point in the graph has at most 
 			// one edge to any other point
@@ -82,6 +85,10 @@ public class CampusPathModel {
 							e.getFromNode(), e.getLabel())) : "edge " 
 								+ e + "does not have opposite";
 				}
+				
+				// check that each node has an edge to itself of weight 0
+				assert (campusPaths.isEdgeBetween(p, p, 0.0)) : 
+					"Nodes must have edge to themselves";
 			}
 		}
 	}
@@ -105,7 +112,7 @@ public class CampusPathModel {
 	 * 	well formed.
 	 */
 	public CampusPathModel()
-			throws MalformedDataException{
+			throws MalformedDataException {
 		buildings = parseBuildings(buildingFile);
 		campusPaths = parsePaths(pathFile);
 		checkRep();
@@ -117,7 +124,8 @@ public class CampusPathModel {
 	 * 
 	 * The .dat file should be well-formed: 
 	 * 	each line must contain exactly four tokens separated by tabs,
-	 *  two strings followed by two doubles
+	 *  two strings followed by two doubles. Also buildings should
+	 *  not repeat
 	 *  
 	 * @param filename the .dat file in the appropriate format to be
 	 * 	read
@@ -126,9 +134,9 @@ public class CampusPathModel {
 	 * 	each line doesn't contain exactly four tokens separated by tabs,
 	 *  two strings followed by two doubles
 	 */
-	private static Set<Building> parseBuildings(String filename)
+	private static Map<String, Building> parseBuildings(String filename)
 			throws MalformedDataException {
-		Set<Building> result = new TreeSet<Building>();
+		Map<String, Building> result = new TreeMap<>();
 		BufferedReader reader = null;
 		
 		try {
@@ -147,15 +155,21 @@ public class CampusPathModel {
 	            // an exception for malformed lines.
 	            String[] tokens = inputLine.split("\t");
 	            if (tokens.length != 4) {
-	                throw new MalformedDataException("Line should contain exactly one tab: "
-	                                                 + inputLine);
+	                throw new MalformedDataException(
+	                	"Line should contain exactly one tab: "
+	                            	+ inputLine);
 	            }
 	            
 	            String shortName = tokens[0];
 	            String longName = tokens[1];
 	            double x = Double.parseDouble(tokens[2]);
 	            double y = Double.parseDouble(tokens[3]);
-	            result.add(new Building(shortName, longName, x, y));
+	            if (result.containsKey(shortName)) {
+	            	throw new MalformedDataException(shortName +
+	            			" in duplcated in " + buildingFile);
+	            			
+	            }
+	            result.put(shortName, new Building(shortName, longName, x, y));
 	        }	        
         } catch (IOException e) {
             System.err.println(e.toString());
@@ -272,6 +286,11 @@ public class CampusPathModel {
 	        }
 	    }
 		
+		// add an edge from each node to itself
+		for (Point<Double> p : result.getNodes()) {
+			result.addEdge(p, p, 0.0);
+		}
+		
 		return result;
 	}
 	
@@ -284,7 +303,21 @@ public class CampusPathModel {
 	 */
 	public Set<Building> getBuildings() {
 		checkRep();
-		return Collections.unmodifiableSet(buildings);
+		// create an unmodifiable set of buildings in the map
+		return Collections.unmodifiableSet(
+				new TreeSet<Building>(buildings.values()));
+	}
+	
+	/**
+	 *  Returns true if the building is contained within
+	 *  the model, false otherwise
+	 *  
+	 * @param shortName
+	 * @return true if the building is contained within
+	 *  the model, false otherwise
+	 */
+	public boolean containsBuilding(String shortName) {
+		return buildings.containsKey(shortName);
 	}
 	
 	/**
@@ -299,7 +332,7 @@ public class CampusPathModel {
 	 *  abbreviated names)
 	 */
 	public WeightedPath<Point<Double>, Double> 
-			findShortestPath(String start, String dest) {
+			findPath(String start, String dest) {
 		
 		checkRep();
 		
@@ -324,11 +357,28 @@ public class CampusPathModel {
 	 */
 	private Point<Double> getLocation(String shortName) {
 		checkRep();
-		for (Building b : buildings) {
-			if (b.getShortName().equals(shortName)) {
-				return b.getLocation();
-			}
+		if (!buildings.containsKey(shortName)) {
+			return null;
 		}
-		return null;
+		return buildings.get(shortName).getLocation();
+	}
+	
+	/**
+	 *  Returns the longName of the building with the
+	 *  given shortName, returns null if such a building
+	 *  does not exist
+	 *  
+	 * @param shortName the abbreviated name of the building to
+	 *  whose location is to be determined
+	 * @return the longName of the building with the
+	 *  given shortName, null if such a building
+	 *  does not exist
+	 */
+	public String getLongName(String shortName) {
+		checkRep();
+		if (!buildings.containsKey(shortName)) {
+			return null;
+		}
+		return buildings.get(shortName).getLongName();
 	}
 }
