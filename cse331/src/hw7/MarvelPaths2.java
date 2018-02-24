@@ -104,7 +104,8 @@ public class MarvelPaths2 {
 	 *          each line contains exactly two tokens separated by a tab,
 	 *          or else starting with a # symbol to indicate a comment line.
 	 */
-	public static Graph<String, Double> loadGraph(String file) throws MalformedDataException {
+	public static Graph<String, Double> loadGraph(String file) 
+			throws MalformedDataException {
 		Graph<String, Double> result = new Graph<>();
 		Set<String> characters = new HashSet<>();
 		Map<String, List<String>> books = new HashMap<>();
