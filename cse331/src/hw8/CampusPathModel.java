@@ -16,6 +16,17 @@ import hw5.WeightedPath;
 import hw6.MarvelParser.MalformedDataException;
 import hw7.MarvelPaths2;
 
+/**
+ * This class stores information about buildings on
+ * the UW campus and the paths between them, and
+ * computes the shortest path between buildings on 
+ * campus
+ * 
+ * Abstract invariant: the class cannot store information
+ * about duplicate buildings, and each building must have
+ * some path to every other building on campus.
+ *
+ */
 public class CampusPathModel {
 	
 	/** Stores campus path data*/
@@ -94,22 +105,13 @@ public class CampusPathModel {
 	}
 	
 	/**
-	 *  Constructs a CampusPathModel from information in the
-	 *  given files. 
+	 *  Constructs a CampusPathModel from internal information
 	 *  
-	 *  Both files must be well formed .dat files:
-	 * 	each line  of buildingFile must contain exactly four 
-	 * 	tokens separated by tabs, two strings followed by 
-	 * 	two doubles
-	 * 	each line of pathFile must contain exactly two 
-	 * 	doubles separated by a comma,
-	 *  or else must start with a tab and two doubles separated 
-	 *  by a comma, followed by a ": " and another double
+	 * @effects creates a new model of paths and buildings
+	 *  on campus
 	 *  
-	 * @param buildingFile file with building data
-	 * @param pathFile file with path data
-	 * @throws MalformedDataException if either file is not
-	 * 	well formed.
+	 * @throws MalformedDataException if internal data is 
+	 * 	damaged
 	 */
 	public CampusPathModel()
 			throws MalformedDataException {

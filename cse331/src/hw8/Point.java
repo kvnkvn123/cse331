@@ -27,7 +27,7 @@ public final class Point<E> {
 	//  p.x = r.x
 	//  p.y = r.y
 	
-	// no checkRep since double
+	// no checkRep since
 	// repInvariant is true
 	
 	/**

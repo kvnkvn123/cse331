@@ -1,0 +1,9 @@
+# Verify that the program finds and correctly reverse output
+# of the previous test: the shortest path from
+# CSE to PAB.
+r
+PAB
+CSE
+
+# All of your test scripts should end with q to terminate the program.
+q

@@ -1,8 +1,38 @@
 CSE 331 Homework 8.  Answers to Written questions.
 Edit this file to supply your answers.
 
-Name:  <replace this with your name>
+Name:  Tushar Khurana
 
 Describe which parts of your code belong to the model, the view,
 the controller, or none of these.  (See the assignment for details.)
 
+Model:
+1. Point.java : to represent locations; java's built-in Point 
+	is poorly designed, not generic
+2. Building.java : used to represent buildings
+3. CampusPathModel.java : class of the model that manages graph
+4. Graph.java 
+5. Edge.java
+6. WeightedPath.java
+7. MarvelPath2.java implements Dijkstra's algorithm
+
+View / Controller : CampusPathCLI.java.
+Within this class, methods that implement view:
+1. printMenu
+2. printBuildings
+3. printPath (every part except line 112-113
+4. getDirection : while this class does do calculations, I argue
+	that it is used to transform model data into the appropriate view 
+	by determining directions. It could be argues that it should be
+	part of the model as well, it is slightly ambiguous
+5. main is also a part of the view, though it is mostly part of the controller
+
+Methods that implement controller:
+1. CampusCLI.main
+2. printPath (the part which communicated with model to find shortest path)
+	Line 112-113
+
+The classes WeightedPath, Building and Point<E> are used to convey information
+about paths and buildings and locations between the model, view and controller 
+and internally. I have listed them as part of the model, but they can be seen
+as connecting classes as well.

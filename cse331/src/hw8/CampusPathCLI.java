@@ -7,7 +7,18 @@ import hw5.Edge;
 import hw5.WeightedPath;
 import hw6.MarvelParser.MalformedDataException;
 
+/**
+ * This static class runs a command line interface
+ * for a campus path finder application; it helps
+ * users find the shortest path between different
+ * buildings on the University of Washington campus
+ * 
+ *
+ */
 public class CampusPathCLI {
+	
+	// This class is not an ADT; it contains only static methods
+	// and does not have a representation invariant
 	
 	/**
 	 * This main method interacts with the user through a command
@@ -31,7 +42,7 @@ public class CampusPathCLI {
 			System.out.print("Enter an option ('m' to see the menu): ");
 			String next = console.nextLine();
 			
-			// echo black lines or comments
+			// echo blank lines or comments
 			while (next.trim().equals("") || next.startsWith("#")) {
 				System.out.println(next);
 				next = console.nextLine();
@@ -45,7 +56,7 @@ public class CampusPathCLI {
 				String start = console.nextLine().replace("_", " ");
 				System.out.print("Abbreviated name of ending building: ");
 				String dest = console.nextLine().replace("_", " ");
-				printPaths(model, start, dest);
+				printPath(model, start, dest);
 			} else if (next.toLowerCase().equals("b")) {
 				printBuildings(model);
 			} else if (next.toLowerCase().equals("m")) {
@@ -73,15 +84,25 @@ public class CampusPathCLI {
 	 * alphabetical order of their short name, one per line
 	 * in the format 'shortName: longName'
 	 * 
-	 * @param model the model from which to retreive buildings
+	 * @param model the model from which to retrieve buildings
 	 */
 	private static void printBuildings(CampusPathModel model) {
+		System.out.println("Buildings:");
 		for (Building b : model.getBuildings()) {
-			System.out.println(b.getShortName() + ": " + b.getLongName());
+			System.out.println("\t" + b.getShortName() + 
+					": " + b.getLongName());
 		}
 	}
 	
-	private static void printPaths(CampusPathModel model, 
+	/**
+	 * Prints the shortest path between two buildings on
+	 * the UW campus.
+	 * 
+	 * @param model the model used to calculate shortest paths
+	 * @param start the building the path starts at
+	 * @param dest the building the path ends at
+	 */
+	private static void printPath(CampusPathModel model, 
 			String start, String dest) {
 		
 		boolean containsStart = model.containsBuilding(start);
@@ -92,6 +113,13 @@ public class CampusPathCLI {
 			// get shortest path
 			WeightedPath<Point<Double>, Double> path = 
 					model.findPath(start, dest);
+			
+			// throw IllegalArgumentException if no path exists
+			// between buildings, which is a model error
+			if (path == null) {
+				throw new IllegalArgumentException(
+						"no path between these buildings");
+			}
 			
 			// remove first empty path
 			Iterator<Edge<Point<Double>, Double>> itr = path.iterator();
@@ -135,7 +163,7 @@ public class CampusPathCLI {
 	 * @return a string abbreviation of the cardinal direction
 	 * 	of the path between the two points
 	 */
-	public static String getDirection(Point<Double> from, 
+	private static String getDirection(Point<Double> from, 
 				Point<Double> to) {
 		
 		// convert given points to equivalent points in a standard
@@ -171,5 +199,4 @@ public class CampusPathCLI {
 			return "error";
 		}
 	}
-
 }
