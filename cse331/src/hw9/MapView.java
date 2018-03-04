@@ -84,18 +84,20 @@ public class MapView extends JPanel {
         	Graphics2D g1 = (Graphics2D) copyOfImage.createGraphics();
         	g1.drawImage(temp, 0, 0, null);*/
         	if (newStart != null) {
-        		g1.setColor(Color.cyan);
+        		drawRectangle(g1, newStart.getLocation(), 80, 20, Color.cyan);
+        		/*g1.setColor(Color.cyan);
         		g1.setStroke(new BasicStroke(20));
         		int x = newStart.getLocation().getX().intValue();
         		int y = newStart.getLocation().getY().intValue();
-        		g1.draw(new Rectangle(x - 40, y - 40, 80, 80));
+        		g1.draw(new Rectangle(x - 40, y - 40, 80, 80));*/
         	}
         	if (newDest != null) {
-        		g1.setColor(Color.green);
+        		drawRectangle(g1, newDest.getLocation(), 80, 20, Color.green);
+        		/*g1.setColor(Color.green);
         		g1.setStroke(new BasicStroke(20));
         		int x = newDest.getLocation().getX().intValue();
         		int y = newDest.getLocation().getY().intValue();
-        		g1.draw(new Rectangle(x - 40, y - 40, 80, 80));
+        		g1.draw(new Rectangle(x - 40, y - 40, 80, 80));*/
         	}
         	//g1.setStroke(new BasicStroke(400));
         	//g1.fillRect(500, 500,  500,  500);
@@ -167,16 +169,26 @@ public class MapView extends JPanel {
         	//Graphics2D g1 = image.createGraphics();
         	
         	// show start selection in cyan
-        	g1.setColor(Color.cyan);
+        	drawRectangle(g1, start.getLocation(), 40, 10, Color.cyan);
+        	/*g1.setColor(Color.cyan);
     		g1.setStroke(new BasicStroke(20));
     		int u = newStart.getLocation().getX().intValue();
     		int w = newStart.getLocation().getY().intValue();
-    		g1.draw(new Rectangle(u - 40, w - 40, 80, 80));
+    		g1.draw(new Rectangle(u - 40, w - 40, 80, 80));*/
         	
+        	// show dest selection in green
+        	drawRectangle(g1, dest.getLocation(), 40, 10, Color.green);
         	
-        	g1.setStroke(new BasicStroke(30));
+        	// draw path
+        	g1.setStroke(new BasicStroke(10));
         	g1.setColor(Color.red);
         	g1.drawPolyline(x, y, x.length);
+        	
+        	// mark points
+        	g1.setColor(Color.yellow);
+        	for (int j = 0; j < x.length; j++) {
+        		g1.fillRect(x[j] - 5, y[j] - 5, 10, 10);
+        	}
         	
         	//Experiment with zooming
         	BufferedImage zoom = copyOfImage.getSubimage(minX, minY, maxX - minX, maxY - minY);
@@ -239,6 +251,25 @@ public class MapView extends JPanel {
         return new Dimension(960, 800);
     }
 	*/
+	
+	/**
+	 *  Draws a square of the given color, width and thickness
+	 *  centered around the given location on the given graphic
+	 *  
+	 * @param g graphic to draw on
+	 * @param location about which to draw
+	 * @param width of square to draw
+	 * @param thickness of square border to draw
+	 * @param color of the rectangle to draw
+	 */
+	private void drawRectangle(Graphics2D g, Point<Double> location, 
+			int width, int thickness, Color color) {
+		g.setColor(color);
+		g.setStroke(new BasicStroke(thickness));
+		int x = location.getX().intValue();
+		int y = location.getY().intValue();
+		g.draw(new Rectangle(x - (width / 2), y - (width / 2), width, width));
+	}
 	
 
 }
