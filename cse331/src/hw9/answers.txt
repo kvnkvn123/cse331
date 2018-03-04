@@ -21,4 +21,5 @@ hw9 GUI or "none" if no additional features.
 1. Map resizes to fit window. However, the menu does not always
  fit in all the buttons at small sizes, so its size needs to be 
  above a certain minimum. 
-2. Display the distance to the user on a label
+2. Map zooms in to path when user asks to find path
+3. Displays the distance to the user on a label

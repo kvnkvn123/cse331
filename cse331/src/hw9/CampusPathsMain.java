@@ -13,7 +13,7 @@ import hw8.CampusPathModel;
 public class CampusPathsMain {
 	
 	// this class is not an ADT and
-	// therefore has not rep invariant
+	// therefore has no rep invariant
 	
 	public static void main(String[] args) throws IOException, MalformedDataException {
 		
