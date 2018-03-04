@@ -128,4 +128,13 @@ public final class Building implements Comparable<Building> {
 		checkRep();
 		return shortName.hashCode();
 	}
+	
+	/**
+	 * Returns the string representation of the 
+	 * buildings's shortName
+	 */
+	@Override
+	public String toString() {
+		return shortName;
+	}
 }

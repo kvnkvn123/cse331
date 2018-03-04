@@ -241,6 +241,14 @@ public class WeightedPath<T1, T2 extends Number> implements Iterable<Edge<T1, T2
 	}
 	
 	/**
+	 * Returns the number of edges in 
+	 * the path
+	 */
+	public int size() {
+		return size;
+	}
+	
+	/**
 	 * Returns an iterator over the edges in
 	 * this. Iterator returns edges in order, 
 	 * from start to dest
